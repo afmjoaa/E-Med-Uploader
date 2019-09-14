@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="custom_window.SideMenuControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:custom_window"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Template>
+        <ControlTemplate TargetType="UserControl">
+            <Border Grid.Column="0" BorderThickness="0,0,1,0">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" Opacity="0.8">
+                        <GradientStop Color="{StaticResource White}" Offset="0.0" />
+                        <GradientStop Color="{StaticResource SideBarColor}" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+
+                <Border.BorderBrush>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" Opacity="0.5">
+                        <GradientStop Color="{StaticResource White}" Offset="0.0" />
+                        <GradientStop Color="{StaticResource SideBarDarkColor}" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- top info -->
+                    <Viewbox Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="400"
+                             MaxHeight="400">
+                        <StackPanel Margin="0 0 0 10" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                            <Ellipse Height="150" Width="150" Margin="34 14 34 10">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="../Images/BackGround/Hospital.png" />
+                                </Ellipse.Fill>
+                            </Ellipse>
+
+                            <TextBlock Margin="0 0 0 4"
+                                       Foreground="{StaticResource TextDarkBrush}"
+                                       FontSize="{StaticResource FontSizeEighteen}"
+                                       FontWeight="Regular" Text="Hospital Name"
+                                       HorizontalAlignment="Center" />
+                            <TextBlock Margin="0 0 0 4" TextWrapping="WrapWithOverflow"
+                                       Foreground="{StaticResource TextLightBrush}"
+                                       FontSize="{StaticResource FontSizeSixteen}"
+                                       FontWeight="Light" Text="Hospital Id"
+                                       HorizontalAlignment="Center" />
+
+                            <Separator Width="120" Background="DarkGray" />
+
+
+                        </StackPanel>
+                    </Viewbox>
+
+                    <ContentPresenter Grid.Row="1" />
+
+                </Grid>
+            </Border>
+        </ControlTemplate>
+    </UserControl.Template>
+</UserControl>

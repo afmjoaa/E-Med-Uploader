@@ -1,0 +1,137 @@
+﻿<customWindow:BasePage x:TypeArguments="core:LoginViewModel" x:Class="custom_window.Pages.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:customWindow="clr-namespace:custom_window"
+      xmlns:core="clr-namespace:custom_window.Core;assembly=Custom_Window.Core"
+      mc:Ignorable="d" 
+      x:Name="login_page"
+      Title="Login Page"
+      d:DesignHeight="500" d:DesignWidth="600">
+
+    <Grid Background="{StaticResource WhiteBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
+
+        <Viewbox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" MaxWidth="1200" MaxHeight="800">
+            <StackPanel Orientation="Vertical" >
+                <TextBlock Margin="0,6" Foreground="{StaticResource TextDarkBrush}"  FontSize="{StaticResource FontSizeTwentyTwo}" FontWeight="Medium" Text="About E-Med:"/>
+                <TextBlock TextWrapping="WrapWithOverflow" Foreground="{StaticResource TextLightBrush}" FontSize="{StaticResource FontSizeEighteen}" FontWeight="ExtraLight" Text="E-med is a online doctor and report delivery service. It helps you to consult doctor with all the info needed within the comfort of your home."/>
+            </StackPanel>
+        </Viewbox>
+
+        <Grid Grid.Row="2" Grid.ColumnSpan="3" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <!-- login form -->
+            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" Margin="30 24 30 30">
+                <Viewbox HorizontalAlignment="Left" VerticalAlignment="Top" MaxWidth="420" MaxHeight="280">
+                    <StackPanel Orientation="Vertical"  >
+                        <!-- welcome text -->
+                        <TextBlock Margin="0,6" Foreground="{StaticResource TextDarkBrush}"  FontSize="{StaticResource FontSizeTwentyTwo}" FontWeight="Medium" Text="Welcome to E-Med Uploader"/>
+                        <TextBlock Margin="0 0 0 20" TextWrapping="WrapWithOverflow" Foreground="{StaticResource TextLightBrush}" FontSize="{StaticResource FontSizeEighteen}" FontWeight="ExtraLight" Text="Please login to your account by using your cell no."/>
+                        <Grid Margin="0 0 0 20" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon x:Name="phone_Num_ico" Kind="Phone" Grid.Column="0" Foreground="{Binding ElementName=phone_number, Path=BorderBrush}" VerticalAlignment="Bottom" Margin=" 0 0 6 6"/>
+                            <TextBox x:Name="phone_number" Grid.Column="1" 
+                                 materialDesign:ValidationAssist.UsePopup="True" 
+                                 materialDesign:TextFieldAssist.TextFieldCornerRadius="10" 
+                                 materialDesign:HintAssist.IsFloating="True"
+                                 materialDesign:HintAssist.Hint="Phone Number" 
+                                 FontWeight="Regular"
+                                 GotFocus="Phone_number_GotFocus"
+                                 LostFocus="Phone_number_LostFocus"
+                                 FontSize="{StaticResource FontSizeSixteen}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 Text="{Binding PhoneNumber}"/>
+                        </Grid>
+
+                        <Grid Margin="0 0 0 20" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon x:Name="password_ico" Kind="Lock" Grid.Column="0" Foreground="{Binding ElementName=password, Path=BorderBrush}" VerticalAlignment="Bottom" Margin=" 0 0 6 6"/>
+                            <PasswordBox x:Name="password" Grid.Column="1" 
+                                 materialDesign:ValidationAssist.UsePopup="True" 
+                                 materialDesign:TextFieldAssist.TextFieldCornerRadius="10" 
+                                 materialDesign:HintAssist.IsFloating="True"
+                                 materialDesign:HintAssist.Hint="Code" 
+                                 FontWeight="Regular"
+                                 GotFocus="Password_GotFocus"
+                                 LostFocus="Password_LostFocus"
+                                 FontSize="{StaticResource FontSizeSixteen}"
+                                 Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+
+                        </Grid>
+                    </StackPanel>
+                </Viewbox>
+
+                <Viewbox HorizontalAlignment="Left" VerticalAlignment="Top" MaxWidth="420" MaxHeight="280">
+
+                    <StackPanel>
+                        <!-- Floating action btn -->
+                        <Button Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=login_page }" VerticalAlignment="Bottom" HorizontalAlignment="Right" Panel.ZIndex="2" Width="44" Height="44" Style="{DynamicResource MaterialDesignFloatingActionButton}">
+                            <Image Margin="11" Source="/Images/windowControl/RightArrow.png"/>
+                        </Button>
+
+                        <!-- other login -->
+                        <TextBlock Visibility="Hidden" Margin="0 0 0 4" TextWrapping="WrapWithOverflow" Foreground="{StaticResource TextLightBrush}" FontSize="{StaticResource FontSizeEighteen}" FontWeight="ExtraLight" Text="Please login to your account by using your cell no."/>
+                        <TextBlock Margin="0 0 0 20" TextWrapping="WrapWithOverflow" Foreground="{StaticResource TextLightBrush}" FontSize="{StaticResource FontSizeEighteen}" FontWeight="ExtraLight" Text="Or, you can Join with"/>
+
+                        <StackPanel Orientation="Horizontal">
+                            <Button Margin="0 0 15 0" 
+                                    BorderBrush="{StaticResource GoogleColorBrush}" 
+                                    Background="{StaticResource GoogleColorBrush}" 
+                                    VerticalAlignment="Bottom" 
+                                    HorizontalAlignment="Left" 
+                                    Panel.ZIndex="2" 
+                                    Width="36" 
+                                    Height="36" 
+                                    Command="{Binding RegisterCommand}"
+                                    Style="{DynamicResource MaterialDesignFloatingActionButton}">
+                                <materialDesign:PackIcon Width="21" Height="21" Kind="Google" Grid.Column="0"/>
+                            </Button>
+
+                            <Button Margin="0 0 15 0" BorderBrush="{StaticResource FaceBookColorBrush}" Background="{StaticResource FaceBookColorBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Panel.ZIndex="2" Width="36" Height="36" Style="{DynamicResource MaterialDesignFloatingActionButton}">
+                                <materialDesign:PackIcon Width="21" Height="21" Kind="Facebook" Grid.Column="0"/>
+                            </Button>
+
+                            <Button BorderBrush="{StaticResource TwitterColorBrush}" Background="{StaticResource TwitterColorBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Panel.ZIndex="2" Width="36" Height="36" Style="{DynamicResource MaterialDesignFloatingActionButton}">
+                                <materialDesign:PackIcon Width="21" Height="21" Kind="Twitter" Grid.Column="0"/>
+                            </Button>
+                        </StackPanel>
+
+                    </StackPanel>
+                </Viewbox>
+            </StackPanel>
+
+
+
+
+            <!-- just image -->
+            <Image HorizontalAlignment="Right" VerticalAlignment="Bottom"  Margin="0 14 25  0 " Grid.Column="1" Source="/Images/BackGround/SideBG.png" />
+
+        </Grid>
+    </Grid>
+</customWindow:BasePage>
