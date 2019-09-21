@@ -21,7 +21,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Window}">
                         <!-- outer border with the dorpshadow and margin -->
-                        <Border Margin="{Binding OuterMarginSizeThickness, FallbackValue=10}">
+                        <Border Padding="{Binding OuterMarginSizeThickness, FallbackValue=10}">
                             <!-- main window outline -->
                             <Grid>
 
@@ -72,12 +72,8 @@
                                             <StackPanel>
                                                 <TextBlock FontWeight="SemiBold"
                                                            FontFamily="{StaticResource DosisExtraLight}"
-                                                           FontSize="{StaticResource FontSizeTwenty}" Margin="0,0,0,-5">
-                                                    <Run Text="E" Foreground="{StaticResource RedDarkOneBrush}" />
-                                                    <Run Text="-" Foreground="{StaticResource RedDarkTwoBrush}" />
-                                                    <Run Text="M" Foreground="{StaticResource RedDarkThreeBrush}" />
-                                                    <Run Text="E" Foreground="{StaticResource RedDarkFourBrush}" />
-                                                    <Run Text="D" Foreground="{StaticResource RedDarkFiveBrush}" />
+                                                           FontSize="{StaticResource FontSizeTwenty}" Margin="0,0,0,-5" >
+                                                    <Run Text="E" Foreground="{StaticResource RedDarkOneBrush}" /><Run Text="-" Foreground="{StaticResource RedDarkTwoBrush}" /><Run Text="M" Foreground="{StaticResource RedDarkThreeBrush}" /><Run Text="E" Foreground="{StaticResource RedDarkFourBrush}" /><Run Text="D" Foreground="{StaticResource RedDarkFiveBrush}" />
                                                 </TextBlock>
                                                 <TextBlock FontWeight="ExtraLight" Text="uploader"
                                                            Foreground="{StaticResource ForegroundDarkBrush}"
@@ -160,6 +156,7 @@
         </local:SideMenuControl>
 
         <local:PageHost Grid.Column="1"
+                        ClipToBounds="True"
                d:DataContext=""
                DataContext="{Binding ApplicationViewModel.CurrentPage, 
                         Source={x:Static local:ViewModelLocator.Instance}, 

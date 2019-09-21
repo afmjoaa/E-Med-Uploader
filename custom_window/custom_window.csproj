@@ -44,6 +44,12 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.0.362, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\MahApps.Metro.1.6.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -56,6 +62,9 @@
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.6.0.325, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\MaterialDesignThemes.2.6.0\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Maps.MapControl.WPF, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Maps.MapControl.WPF.1.0.0.3\lib\net40-Client\Microsoft.Maps.MapControl.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Windows.Shell, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Windows.Shell.3.0.1.0\lib\net40\Microsoft.Windows.Shell.dll</HintPath>
     </Reference>
@@ -67,6 +76,12 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Reactive, Version=4.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>packages\System.Reactive.4.0.0\lib\net46\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\ControlzEx.3.0.2.4\lib\net462\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -95,6 +110,12 @@
     <Compile Include="AttachedProperties\BaseAttachedProperties.cs" />
     <Compile Include="AttachedProperties\AnimateSlideInFromLeftProperty.cs" />
     <Compile Include="AttachedProperties\NoFrameHistory.cs" />
+    <Compile Include="Controls\HistoryListView.xaml.cs">
+      <DependentUpon>HistoryListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\HistoryControl.xaml.cs">
+      <DependentUpon>HistoryControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ActionListControl.xaml.cs">
       <DependentUpon>ActionListControl.xaml</DependentUpon>
     </Compile>
@@ -107,7 +128,20 @@
     <Compile Include="Controls\SideMenuControl.xaml.cs">
       <DependentUpon>SideMenuControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HelperClasses\ToastClass.cs" />
     <Compile Include="Pages\BasePage.cs" />
+    <Compile Include="Pages\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Statistics.xaml.cs">
+      <DependentUpon>Statistics.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MySetting.xaml.cs">
+      <DependentUpon>MySetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\History.xaml.cs">
+      <DependentUpon>History.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -122,12 +156,24 @@
     <Compile Include="ValueConverters\ApplicationPageValueConverter.cs" />
     <Compile Include="ValueConverters\BaseValueConverter.cs" />
     <Compile Include="HelperClasses\WindowResizer.cs" />
+    <Compile Include="ViewModels\history\Design\HistoryItemDm.cs" />
+    <Compile Include="ViewModels\history\Design\HistoryListDm.cs" />
+    <Compile Include="ViewModels\history\HistoryItemVm.cs" />
+    <Compile Include="ViewModels\history\HistoryListVm.cs" />
     <Compile Include="ViewModels\side\Design\SideListDm.cs" />
     <Compile Include="ViewModels\side\Design\SideItemDm.cs" />
     <Compile Include="ViewModels\side\SideListVm.cs" />
     <Compile Include="ViewModels\side\SideItemVm.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="ViewModels\WindowVIewModel.cs" />
+    <Page Include="Controls\HistoryListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\HistoryControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\ActionListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -156,6 +202,22 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\About.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Statistics.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\MySetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\History.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -244,12 +306,15 @@
     <Resource Include="Images\windowControl\RightArrow.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Custom_Window.Core\Custom_Window.Core.csproj">
+    <ProjectReference Include="..\Custom_Window.Core\custom_window.Core.csproj">
       <Project>{8c59a0a7-82c8-4b4f-bcff-c12b35f85cb6}</Project>
-      <Name>Custom_Window.Core</Name>
+      <Name>custom_window.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\BackGround\cancel.png" />
+    <Resource Include="Images\BackGround\checked.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\BackGround\Hospital.png" />
   </ItemGroup>
@@ -263,6 +328,23 @@
     <Resource Include="Images\SideMenu\state.png" />
     <Resource Include="Images\SideMenu\home.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BackGround\add.png" />
+    <Resource Include="Images\BackGround\folderClose.png" />
+    <Resource Include="Images\BackGround\folderOpen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BackGround\change_pass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BackGround\logout.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BackGround\ai.png" />
+    <Resource Include="Images\BackGround\dcm.png" />
+    <Resource Include="Images\BackGround\pdf.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('packages\Fody.6.0.0\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

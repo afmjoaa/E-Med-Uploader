@@ -9,9 +9,26 @@ using System.Windows.Media.Imaging;
 
 namespace custom_window
 {
-    public class SideListDm : SideListVm
+    public sealed class SideListDm : SideListVm
     {
-        public static SideListDm Instance => new SideListDm();
+        private static SideListDm PrivateInstance { get; set; }
+        private static readonly object padlock = new object();
+
+        public static SideListDm Instance
+        {
+            get
+            {
+                lock (padlock)
+                {
+                    if (PrivateInstance == null)
+                    {
+                        PrivateInstance = new SideListDm();
+                    }
+                    return PrivateInstance;
+                }
+            }
+        }
+
 
         public SideListDm()
         {

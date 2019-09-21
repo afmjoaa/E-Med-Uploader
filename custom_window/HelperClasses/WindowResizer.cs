@@ -122,7 +122,7 @@ namespace custom_window
             MINMAXINFO lMmi = (MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(MINMAXINFO));
 
             
-            lMmi.ptMinTrackSize = new POINT(2400, 1600);
+            lMmi.ptMinTrackSize = new POINT(2600, 1600);
 
             if (lPrimaryScreen.Equals(lCurrentScreen) == true)
             {

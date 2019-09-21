@@ -1,8 +1,5 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.Security;
+﻿using System.Security;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace custom_window.Core
@@ -54,7 +51,7 @@ namespace custom_window.Core
             return;*/
 
             //todo got to the register page
-            IoC.Get<ApplicationViewModel>().CurrentPage = ApplicationPage.Register;
+            IoC.Get<ApplicationViewModel>().CurrentPage = ApplicationPage.Home;
             //((WindowViewModel) ((MainWindow) Application.Current.MainWindow).DataContext).CurrentPage = ApplicationPage.Register;
             await Task.Delay(1);
         }
@@ -77,7 +74,7 @@ namespace custom_window.Core
                 // IMPORTANT: Never store unsecure password in variable like this
                 var pass = (parameter as IHavePassword).SecurePassword.Unsecure();
 
-                IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Home);
+                IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Register);
             });
         }
     }

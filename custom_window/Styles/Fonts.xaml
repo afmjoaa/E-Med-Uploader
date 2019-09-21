@@ -23,9 +23,11 @@
 
     <system:Double x:Key="FontSizeTwenty">20</system:Double>
     <system:Double x:Key="FontSizeTwentyTwo">22</system:Double>
-    <system:Double x:Key="FontSizeForteen">14</system:Double>
     <system:Double x:Key="FontSizeEighteen">18</system:Double>
+    <system:Double x:Key="FontSizeSeventeen">17</system:Double>
     <system:Double x:Key="FontSizeSixteen">16</system:Double>
+    <system:Double x:Key="FontSizeFifteen">15</system:Double>
+    <system:Double x:Key="FontSizeForteen">14</system:Double>
     <system:Double x:Key="FontSizeThirty">30</system:Double>
 
 </ResourceDictionary>

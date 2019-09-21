@@ -25,6 +25,18 @@ namespace custom_window
                 case (ApplicationPage.Home):
                     return new Home();
 
+                case (ApplicationPage.History):
+                    return new History();
+
+                case (ApplicationPage.Statistics):
+                    return new Statistics();
+
+                case (ApplicationPage.About):
+                    return new About();
+
+                case (ApplicationPage.Settings):
+                    return new MySetting();
+
                 default:
                     Debugger.Break();
                     return null;

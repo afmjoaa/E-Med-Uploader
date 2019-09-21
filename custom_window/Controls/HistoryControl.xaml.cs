@@ -1,14 +1,13 @@
-﻿
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace custom_window
 {
     /// <summary>
     /// Interaction logic for ActionListControl.xaml
     /// </summary>
-    public partial class ActionListControl : UserControl
+    public partial class HistoryControl : UserControl
     {
-        public ActionListControl()
+        public HistoryControl()
         {
             InitializeComponent();
         }

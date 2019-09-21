@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "custom_window", "custom_window.csproj", "{5C918978-A35E-4FB4-A6F2-BC59AF49EFDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Custom_Window.Core", "..\Custom_Window.Core\Custom_Window.Core.csproj", "{8C59A0A7-82C8-4B4F-BCFF-C12B35F85CB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "custom_window.Core", "..\Custom_Window.Core\custom_window.Core.csproj", "{8C59A0A7-82C8-4B4F-BCFF-C12B35F85CB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

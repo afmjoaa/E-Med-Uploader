@@ -1,8 +1,8 @@
 ﻿using System;
-using PropertyChanged;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using PropertyChanged;
 
 namespace custom_window.Core
 {

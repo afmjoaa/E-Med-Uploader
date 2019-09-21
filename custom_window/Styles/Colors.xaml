@@ -83,4 +83,7 @@
     <Color x:Key="HoverColor">#747474</Color>
     <SolidColorBrush x:Key="HoverColorBrush" Color="{StaticResource HoverColor}" />
 
+    <Color x:Key="CardColor">#F8FAFB</Color>
+    <SolidColorBrush x:Key="CardColorBrush" Color="{StaticResource CardColor}" />
+
 </ResourceDictionary>

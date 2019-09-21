@@ -1,0 +1,94 @@
+﻿<customWindow:BasePage x:TypeArguments="core:AboutViewModel" x:Class="custom_window.Pages.About"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:local="clr-namespace:custom_window.Pages"
+                       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                       xmlns:customWindow="clr-namespace:custom_window"
+                       xmlns:core="clr-namespace:custom_window.Core;assembly=Custom_Window.Core"
+                       mc:Ignorable="d"
+                       d:DesignHeight="450" d:DesignWidth="800">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+        <Grid Background="{StaticResource WhiteBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="16" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="30" />
+            </Grid.ColumnDefinitions>
+
+            <Viewbox MaxWidth="1200"
+                     MaxHeight="800"
+                     Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Margin="0,6"
+                               Foreground="{StaticResource TextDarkBrush}"
+                               FontSize="{StaticResource FontSizeTwentyTwo}"
+                               FontWeight="Medium" Text="About E-Med:" />
+
+                    <TextBlock TextWrapping="WrapWithOverflow"
+                               Margin="0 0 0 6"
+                               Foreground="{StaticResource TextLightBrush}"
+                               FontSize="{StaticResource FontSizeEighteen}"
+                               FontWeight="ExtraLight"
+                               Text="E-med is a online doctor and report delivery service. It helps you to consult doctor with all the info needed within &#x0a;the comfort of your home." />
+
+                    <TextBlock TextWrapping="WrapWithOverflow"
+                               Foreground="{StaticResource TextActiveBrush}"
+                               FontSize="{StaticResource FontSizeEighteen}" FontWeight="Light"
+                               Text="Version : 0.0.1" />
+
+                    <TextBlock Margin="0 24 0 6"
+                               Foreground="{StaticResource TextDarkBrush}"
+                               FontSize="{StaticResource FontSizeTwentyTwo}"
+                               FontWeight="Medium" Text="E-Med Doctor:" />
+
+                    <TextBlock TextWrapping="WrapWithOverflow"
+                               Margin="0 0 0 6"
+                               Foreground="{StaticResource TextLightBrush}"
+                               FontSize="{StaticResource FontSizeEighteen}"
+                               FontWeight="ExtraLight"
+                               Text="E-Med Doc is made for doctors. Here doctor's can treat patient in a convenient way through remote network &#x0a;connectivity. Patient vital, present prescription, reports all are delivered to him in a organized way so that the &#x0a;doctor can manage his time properly and make the best use of it." />
+
+
+                    <TextBlock Margin="0 24 0 6"
+                               Foreground="{StaticResource TextDarkBrush}"
+                               FontSize="{StaticResource FontSizeTwentyTwo}"
+                               FontWeight="Medium" Text="E-Med Patient:" />
+
+                    <TextBlock TextWrapping="WrapWithOverflow"
+                               Margin="0 0 0 6"
+                               Foreground="{StaticResource TextLightBrush}"
+                               FontSize="{StaticResource FontSizeEighteen}"
+                               FontWeight="ExtraLight"
+                               Text="E-med Patient is the patient companion part of out system. Here patient can connect with the doctor he is in &#x0a;need and discuss his/her problem. With the proper audio visual connectivity the patient can also provide &#x0a;his vital physiological info along with all other medical reports form the comfort of his/her home." />
+
+
+                    <TextBlock Margin="0 24 0 6"
+                               Foreground="{StaticResource TextDarkBrush}"
+                               FontSize="{StaticResource FontSizeTwentyTwo}"
+                               FontWeight="Medium" Text="E-Med Report:" />
+
+                    <TextBlock TextWrapping="WrapWithOverflow"
+                               Margin="0 0 0 6"
+                               Foreground="{StaticResource TextLightBrush}"
+                               FontSize="{StaticResource FontSizeEighteen}"
+                               FontWeight="ExtraLight"
+                               Text="E-Med Report is a online report delivery system it collects all your medical report from our partner hospitals and &#x0a;store them to your personal E-Med database. It follows all medical ethical conducts and ensures that your &#x0a;info is secured and only delivered to the doctors you have given permission to. " />
+
+                </StackPanel>
+
+            </Viewbox>
+
+        </Grid>
+    </ScrollViewer>
+</customWindow:BasePage>

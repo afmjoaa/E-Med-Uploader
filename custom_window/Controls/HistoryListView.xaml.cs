@@ -12,9 +12,9 @@ namespace custom_window
     /// <summary>
     /// Interaction logic for ActionListView.xaml
     /// </summary>
-    public partial class ActionListView : UserControl
+    public partial class HistoryListView : UserControl
     {
-        public ActionListView()
+        public HistoryListView()
         {
             InitializeComponent();
         }
