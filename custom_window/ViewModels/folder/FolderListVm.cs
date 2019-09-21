@@ -27,17 +27,7 @@ namespace custom_window
 
         public FolderListVm()
         {
-            myItem = new ObservableCollection<FolderItemVm>()
-            {
-                new FolderItemVm()
-                {
-                    path = "C:\\Users\\temp"
-                },
-                new FolderItemVm()
-                {
-                    path = "C:\\Users\\User\\Desktop\\New Folder"
-                }
-            };
+            myItem = new ObservableCollection<FolderItemVm>();
         }
 
         public List<FolderItemVm> Items { get; set; }

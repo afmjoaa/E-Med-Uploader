@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Security.Permissions;
+using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -11,6 +16,8 @@ namespace custom_window
     public class FolderItemVm : BaseViewModel
     {
         public string path { get; set; }
+        private Dictionary<string, Watcher> watchers = new Dictionary<string, Watcher>();
+
 
         public BitmapImage FolderTypeImageSource { get; set; }
 
@@ -26,20 +33,36 @@ namespace custom_window
             ItemDeleteCommand = new RelayCommand(DeleteFolderWatching);
         }
 
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         private void PlayFolderWatching()
         {
             var Toast = new ToastClass();
-//            Toast.ShowNotification("Watching started", path, 100);
+           // Toast.ShowNotification("Watching started", path, 10);
+
+            Debug.WriteLine("started");
+
+            // var w = new Watcher(path);
+            // new Thread(w.watch).Start(); 
+            var wt = getWatcher(path);
+            new Thread(wt.watch).Start();
+        }
+
+        private void OnChanged(object sender, FileSystemEventArgs e)
+        {
+            Debug.WriteLine("changed");
         }
 
         private void PauseFolderWatching()
         {
             var Toast = new ToastClass();
 //            Toast.ShowNotification("Watching Paused", path, 300);
+
+            getWatcher(path).Dispose();
         }
 
         private void DeleteFolderWatching()
         {
+            getWatcher(path).Dispose();
             var Toast = new ToastClass();
 //            Toast.ShowNotification("Watching Deleted", path, 300);
 
@@ -60,5 +83,17 @@ namespace custom_window
                 FolderListVm.Instance.myItem.RemoveAt(idx);
             }
         }
+
+        private Watcher getWatcher(string path)
+        {
+
+            if (watchers.ContainsKey(path)) return watchers[path];
+
+            var ret = new Watcher(path);
+            watchers.Add(path,ret);
+            return ret;
+        }
+
+
     }
 }
