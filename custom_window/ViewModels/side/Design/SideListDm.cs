@@ -20,11 +20,7 @@ namespace custom_window
             {
                 lock (padlock)
                 {
-                    if (PrivateInstance == null)
-                    {
-                        PrivateInstance = new SideListDm();
-                    }
-                    return PrivateInstance;
+                    return PrivateInstance ?? (PrivateInstance = new SideListDm());
                 }
             }
         }

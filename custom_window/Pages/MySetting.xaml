@@ -44,237 +44,59 @@
                             <DropShadowEffect ShadowDepth="1" Opacity="0.3" />
                         </Border.Effect>
 
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
 
-                            <Grid Grid.Row="0">
+                        <customWindow:FolderListView />
 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                        <!-- <Separator Grid.Row="3" Background="LightGray" Margin="8 0 8 0" /> -->
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="180" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <Image Grid.Column="0"
-                                       Margin="20 10 30 10"
-                                       Source="../Images/BackGround/folderOpen.png"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Left"
-                                       Width="34"
-                                       Height="34" />
-
-                                <TextBlock Grid.Column="1"
-                                           Margin="0,6"
-                                           Foreground="{StaticResource WordBlueBrush}"
-                                           FontSize="{StaticResource FontSizeEighteen}"
-                                           FontWeight="Light"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           Text="C:\Program Files\Google" />
-
-
-                                <Button Grid.Column="4"
-                                        Margin="10 0"
-                                        IsEnabled="False"
-                                        DockPanel.Dock="Right"
-                                        HorizontalAlignment="Left"
-                                        Style="{StaticResource MaterialDesignRaisedButton}"
-                                        materialDesign:ButtonProgressAssist.Value="-1"
-                                        materialDesign:ButtonAssist.CornerRadius="16"
-                                        ToolTip="Proceed with the account registration"
-                                        BorderBrush="Transparent"
-                                        materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
-                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                                        materialDesign:ButtonProgressAssist.IsIndeterminate="False">
-                                    <StackPanel Orientation="Horizontal" Margin="8,0">
-                                        <materialDesign:PackIcon Margin="0 2 6 0" Kind="PlayCircleOutline" />
-                                        <TextBlock FontWeight="Regular"
-                                                   FontSize="{StaticResource FontSizeForteen}">
-                                            Play
-                                        </TextBlock>
-                                    </StackPanel>
-                                </Button>
-
-                                <Button Margin="10 0"
-                                        Grid.Column="5"
-                                        Style="{StaticResource MaterialDesignRaisedButton}"
-                                        materialDesign:ButtonProgressAssist.Value="-1"
-                                        materialDesign:ButtonAssist.CornerRadius="16"
-                                        ToolTip="Proceed with the account registration"
-                                        BorderBrush="Transparent"
-                                        materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
-                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                                        materialDesign:ButtonProgressAssist.IsIndeterminate="False">
-                                    <StackPanel Orientation="Horizontal" Margin="4,0">
-                                        <materialDesign:PackIcon Margin="0 2 6 0" Kind="PauseCircleOutline" />
-                                        <TextBlock FontWeight="Regular"
-                                                   FontSize="{StaticResource FontSizeForteen}">
-                                            Pause
-                                        </TextBlock>
-                                    </StackPanel>
-                                </Button>
-
-                                <Button Margin="10 0"
-                                        Grid.Column="6"
-                                        Style="{StaticResource MaterialDesignRaisedButton}"
-                                        materialDesign:ButtonProgressAssist.Value="-1"
-                                        materialDesign:ButtonAssist.CornerRadius="16"
-                                        ToolTip="Proceed with the account registration"
-                                        BorderBrush="Transparent"
-                                        materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
-                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                                        materialDesign:ButtonProgressAssist.IsIndeterminate="False">
-                                    <StackPanel Orientation="Horizontal" Margin="4,0">
-                                        <materialDesign:PackIcon Margin="0 2 6 0" Kind="DeleteCircleOutline" />
-                                        <TextBlock FontWeight="Regular"
-                                                   FontSize="{StaticResource FontSizeForteen}">
-                                            Delete
-                                        </TextBlock>
-                                    </StackPanel>
-                                </Button>
-
-                            </Grid>
-
-                            <Separator Grid.Row="1" Background="LightGray" Margin="8 0 8 0" />
-
-                            <Grid Grid.Row="2">
-
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <Image Grid.Column="0"
-                                       Margin="20 10 30 10"
-                                       Source="../Images/BackGround/folderClose.png"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Left"
-                                       Width="34"
-                                       Height="34" />
-
-                                <TextBlock Grid.Column="1"
-                                           Margin="0,6"
-                                           Foreground="{StaticResource WordBlueBrush}"
-                                           FontSize="{StaticResource FontSizeEighteen}"
-                                           FontWeight="Light"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           Text="C:\Program Files\Google" />
-
-
-                                <Button Grid.Column="3"
-                                        Margin="10 0"
-                                        IsEnabled="False"
-                                        DockPanel.Dock="Right"
-                                        HorizontalAlignment="Left"
-                                        Style="{StaticResource MaterialDesignRaisedButton}"
-                                        materialDesign:ButtonProgressAssist.Value="-1"
-                                        materialDesign:ButtonAssist.CornerRadius="16"
-                                        ToolTip="Proceed with the account registration"
-                                        BorderBrush="Transparent"
-                                        materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
-                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                                        materialDesign:ButtonProgressAssist.IsIndeterminate="False">
-                                    <StackPanel Orientation="Horizontal" Margin="8,0">
-                                        <materialDesign:PackIcon Margin="0 2 6 0" Kind="PlayCircleOutline" />
-                                        <TextBlock FontWeight="Regular"
-                                                   FontSize="{StaticResource FontSizeForteen}">
-                                            Play
-                                        </TextBlock>
-                                    </StackPanel>
-                                </Button>
-
-                                <Button Margin="10 0"
-                                        Grid.Column="4"
-                                        Style="{StaticResource MaterialDesignRaisedButton}"
-                                        materialDesign:ButtonProgressAssist.Value="-1"
-                                        materialDesign:ButtonAssist.CornerRadius="16"
-                                        ToolTip="Proceed with the account registration"
-                                        BorderBrush="Transparent"
-                                        materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
-                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                                        materialDesign:ButtonProgressAssist.IsIndeterminate="False">
-                                    <StackPanel Orientation="Horizontal" Margin="4,0">
-                                        <materialDesign:PackIcon Margin="0 2 6 0" Kind="PauseCircleOutline" />
-                                        <TextBlock FontWeight="Regular"
-                                                   FontSize="{StaticResource FontSizeForteen}">
-                                            Pause
-                                        </TextBlock>
-                                    </StackPanel>
-                                </Button>
-
-                                <Button Margin="10 0"
-                                        Grid.Column="5"
-                                        Style="{StaticResource MaterialDesignRaisedButton}"
-                                        materialDesign:ButtonProgressAssist.Value="-1"
-                                        materialDesign:ButtonAssist.CornerRadius="16"
-                                        ToolTip="Proceed with the account registration"
-                                        BorderBrush="Transparent"
-                                        materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
-                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                                        materialDesign:ButtonProgressAssist.IsIndeterminate="False">
-                                    <StackPanel Orientation="Horizontal" Margin="4,0">
-                                        <materialDesign:PackIcon Margin="0 2 6 0" Kind="DeleteCircleOutline" />
-                                        <TextBlock FontWeight="Regular"
-                                                   FontSize="{StaticResource FontSizeForteen}">
-                                            Delete
-                                        </TextBlock>
-                                    </StackPanel>
-                                </Button>
-
-                            </Grid>
-
-                            <Separator Grid.Row="3" Background="LightGray" Margin="8 0 8 0" />
-
-                            <StackPanel Grid.Row="4" Orientation="Horizontal">
-
-                                <Image Margin="20 10 30 10"
-                                       Source="../Images/BackGround/add.png"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Left"
-                                       Width="34"
-                                       Height="34" />
-
-                                <TextBlock Margin="0,6"
-                                           Foreground="{StaticResource TextDarkBrush}"
-                                           FontSize="{StaticResource FontSizeEighteen}"
-                                           FontWeight="Light"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           Text="Add new Folder to watch" />
-
-                            </StackPanel>
-
-                            <!--<StackPanel Grid.Row="7">
+                        <!--<StackPanel Grid.Row="7">
                             <Button Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Left"
                                     Margin="8 4 8 8">
                                 RESERVE
                             </Button>
                         </StackPanel>-->
+                    </Border>
+
+                    <Border CornerRadius="8"
+                            Background="{StaticResource CardColorBrush}"
+                            Margin="0 20 0 0"
+                            MouseLeftButtonUp="AddNewFolderToWatch">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="1" Opacity="0.3" />
+                        </Border.Effect>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="300" />
+                            </Grid.ColumnDefinitions>
+
+
+                            <Image Margin="20 10 30 10"
+                                   Source="../Images/BackGround/add.png"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   Width="34"
+                                   Grid.Row="0"
+                                   Grid.Column="0"
+                                   Height="34" />
+
+                            <TextBlock Margin="0,6"
+                                       Grid.Row="0"
+                                       Foreground="{StaticResource TextDarkBrush}"
+                                       FontSize="{StaticResource FontSizeEighteen}"
+                                       FontWeight="Light"
+                                       HorizontalAlignment="Left"
+                                       Grid.Column="1"
+                                       VerticalAlignment="Center"
+                                       Text="Add new Folder to watch" />
+
                         </Grid>
                     </Border>
 

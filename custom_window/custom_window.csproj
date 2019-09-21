@@ -110,6 +110,12 @@
     <Compile Include="AttachedProperties\BaseAttachedProperties.cs" />
     <Compile Include="AttachedProperties\AnimateSlideInFromLeftProperty.cs" />
     <Compile Include="AttachedProperties\NoFrameHistory.cs" />
+    <Compile Include="Controls\FolderListView.xaml.cs">
+      <DependentUpon>FolderListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FolderListControl.xaml.cs">
+      <DependentUpon>FolderListControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\HistoryListView.xaml.cs">
       <DependentUpon>HistoryListView.xaml</DependentUpon>
     </Compile>
@@ -156,6 +162,8 @@
     <Compile Include="ValueConverters\ApplicationPageValueConverter.cs" />
     <Compile Include="ValueConverters\BaseValueConverter.cs" />
     <Compile Include="HelperClasses\WindowResizer.cs" />
+    <Compile Include="ViewModels\folder\FolderItemVm.cs" />
+    <Compile Include="ViewModels\folder\FolderListVm.cs" />
     <Compile Include="ViewModels\history\Design\HistoryItemDm.cs" />
     <Compile Include="ViewModels\history\Design\HistoryListDm.cs" />
     <Compile Include="ViewModels\history\HistoryItemVm.cs" />
@@ -166,6 +174,14 @@
     <Compile Include="ViewModels\side\SideItemVm.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="ViewModels\WindowVIewModel.cs" />
+    <Page Include="Controls\FolderListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\FolderListControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\HistoryListView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

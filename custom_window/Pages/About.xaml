@@ -33,7 +33,8 @@
                     <TextBlock Margin="0,6"
                                Foreground="{StaticResource TextDarkBrush}"
                                FontSize="{StaticResource FontSizeTwentyTwo}"
-                               FontWeight="Medium" Text="About E-Med:" />
+                               FontWeight="Medium"
+                               Text="About E-Med:" />
 
                     <TextBlock TextWrapping="WrapWithOverflow"
                                Margin="0 0 0 6"

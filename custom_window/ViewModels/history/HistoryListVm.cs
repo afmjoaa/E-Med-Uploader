@@ -6,9 +6,8 @@ using custom_window.Core;
 
 namespace custom_window
 {
-    public class HistoryListVm :BaseViewModel
+    public class HistoryListVm : BaseViewModel
     {
-       public List<HistoryItemVm> Items { get; set; }
-        
+        public List<HistoryItemVm> Items { get; set; }
     }
 }
