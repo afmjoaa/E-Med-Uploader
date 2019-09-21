@@ -9,10 +9,13 @@ public class Watcher
 {
     private string path = null;
     private FileSystemWatcher _watcher = null;
+    private Service _service = null;
     public Watcher(string path)
     {
-        _watcher = new FileSystemWatcher();
+        this._watcher = new FileSystemWatcher();
         this.path = path;
+        this._service = new Service();
+
     }
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     public void watch()
@@ -49,11 +52,38 @@ public class Watcher
 
     }
 
-    // Define the event handlers.
-    public void OnChanged(object source, FileSystemEventArgs e)
+    
+    public async void OnChanged(object source, FileSystemEventArgs e)
     {
         // Specify what is done when a file is changed, created, or deleted.
-        Debug.WriteLine($"File: {e.Name} changed to {e.ChangeType}");
+        Debug.WriteLine($"File: {e.FullPath} changed to {e.ChangeType}");
+        if (e.ChangeType == WatcherChangeTypes.Created)
+        {
+
+            try
+            {
+                await this._service.UploadFile(new { name = e.Name }, e.FullPath);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+
+            }
+            
+        }
+        else if (e.ChangeType == WatcherChangeTypes.Deleted)
+        {
+            try
+            {
+                await this._service.deleteFile(e.Name);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                
+            }
+            
+        }
     }
 
 

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Security.Permissions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -34,7 +35,7 @@ namespace custom_window
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        private void PlayFolderWatching()
+        private async void PlayFolderWatching()
         {
             var Toast = new ToastClass();
            // Toast.ShowNotification("Watching started", path, 10);
@@ -83,6 +84,7 @@ namespace custom_window
                 FolderListVm.Instance.myItem.RemoveAt(idx);
             }
         }
+
 
         private Watcher getWatcher(string path)
         {
