@@ -61,7 +61,6 @@ namespace custom_window.HelperClasses
 
         public async Task UploadFile(object fileInfo,string path)
         {
-            
 
             var stream = File.Open(path, FileMode.Open);
             
@@ -71,8 +70,16 @@ namespace custom_window.HelperClasses
 
             task.Progress.ProgressChanged += (s, e) => Debug.WriteLine($"Progress: {e.Percentage} %");
 
-            var downloadUrl = await task;
-            Debug.WriteLine(downloadUrl);
+            try
+            {
+                var downloadUrl = await task;
+                Debug.WriteLine(downloadUrl);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+            }
+            
 
             // now save it to database along with all info
             // TODO
@@ -80,11 +87,19 @@ namespace custom_window.HelperClasses
 
         public async Task deleteFile(string fileName)
         {
-            var task = new FirebaseStorage("emed-4490e.appspot.com").Child(fileName).DeleteAsync();
-            await task;
+            try
+            {
+                Debug.WriteLine("File deleted: " + fileName);
+                var task = new FirebaseStorage("emed-4490e.appspot.com").Child(fileName).DeleteAsync();
+                await task;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error: "+e.ToString());
+
+            }
+            
         }
-
-
     }
 
     interface IFileModel

@@ -38,7 +38,7 @@ namespace custom_window
         private async void PlayFolderWatching()
         {
             var Toast = new ToastClass();
-           // Toast.ShowNotification("Watching started", path, 10);
+            // Toast.ShowNotification("Watching started", path, 10);
 
             Debug.WriteLine("started");
 
@@ -85,17 +85,13 @@ namespace custom_window
             }
         }
 
-
         private Watcher getWatcher(string path)
         {
-
             if (watchers.ContainsKey(path)) return watchers[path];
 
             var ret = new Watcher(path);
-            watchers.Add(path,ret);
+            watchers.Add(path, ret);
             return ret;
         }
-
-
     }
 }
