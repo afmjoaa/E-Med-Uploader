@@ -17,7 +17,7 @@ namespace custom_window
     public class FolderItemVm : BaseViewModel
     {
         public string path { get; set; }
-        private Dictionary<string, Watcher> watchers = new Dictionary<string, Watcher>();
+        private Dictionary<string, Watcher> _watchers = new Dictionary<string, Watcher>();
 
 
         public BitmapImage FolderTypeImageSource { get; set; }
@@ -37,60 +37,38 @@ namespace custom_window
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         private async void PlayFolderWatching()
         {
-            var Toast = new ToastClass();
-            // Toast.ShowNotification("Watching started", path, 10);
-
-            Debug.WriteLine("started");
-
             // var w = new Watcher(path);
             // new Thread(w.watch).Start(); 
-            var wt = getWatcher(path);
-            new Thread(wt.watch).Start();
-        }
 
-        private void OnChanged(object sender, FileSystemEventArgs e)
-        {
-            Debug.WriteLine("changed");
+            if (_watchers.ContainsKey(path) && _watchers[path].IsWatching)
+            {
+                Debug.WriteLine("Already watching this directory.");
+                return;
+            }
+
+            Debug.WriteLine("started watching: " + path);
+            var wt = GetWatcher(path);
+            new Thread(wt.watch).Start();
         }
 
         private void PauseFolderWatching()
         {
-            var Toast = new ToastClass();
-//            Toast.ShowNotification("Watching Paused", path, 300);
-
-            getWatcher(path).Dispose();
+            GetWatcher(path).Dispose();
+            _watchers.Remove(path);
         }
 
         private void DeleteFolderWatching()
         {
-            getWatcher(path).Dispose();
-            var Toast = new ToastClass();
-//            Toast.ShowNotification("Watching Deleted", path, 300);
-
-            var idx = -1;
-
-            for (var i = 0; i < FolderListVm.Instance.myItem.Count; i++)
-            {
-                if (FolderListVm.Instance.myItem[i].path == path)
-                {
-                    idx = i;
-                    break;
-                }
-            }
-
-            if (idx != -1)
-            {
-//                Toast.ShowNotification("Will delete:", idx.ToString(), 100);
-                FolderListVm.Instance.myItem.RemoveAt(idx);
-            }
+            GetWatcher(path).Dispose();
+            _watchers.Remove(path);
         }
 
-        private Watcher getWatcher(string path)
+        private Watcher GetWatcher(string path)
         {
-            if (watchers.ContainsKey(path)) return watchers[path];
-
+            if (path == null) throw new ArgumentNullException(nameof(path));
+            if (_watchers.ContainsKey(path)) return _watchers[path];
             var ret = new Watcher(path);
-            watchers.Add(path, ret);
+            _watchers.Add(path, ret);
             return ret;
         }
     }

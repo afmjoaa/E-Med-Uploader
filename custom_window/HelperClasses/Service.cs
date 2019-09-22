@@ -16,7 +16,7 @@ namespace custom_window.HelperClasses
 {
     class Service
     {
-        public async Task initApp()
+        public async Task InitApp()
         {
 
             FirestoreDb db = FirestoreDb.Create("emed-4490e");
