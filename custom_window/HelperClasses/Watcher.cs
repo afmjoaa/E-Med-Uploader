@@ -53,7 +53,6 @@ public class Watcher
         // while (true);
     }
 
-
     public async void OnChanged(object source, FileSystemEventArgs e)
     {
         // Specify what is done when a file is changed, created, or deleted.
@@ -62,9 +61,9 @@ public class Watcher
         if (e.ChangeType == WatcherChangeTypes.Created)
         {
             Debug.WriteLine($"File: {e.FullPath} created.");
-
             try
             {
+                WaitForFile(e.FullPath);
                 await this._service.UploadFile(new {name = e.Name}, e.FullPath);
             }
             catch (Exception exception)
@@ -100,5 +99,25 @@ public class Watcher
         _watcher.Deleted -= OnChanged;
         _watcher.Renamed -= OnRenamed;
         _watcher.Dispose();
+    }
+
+    private void WaitForFile(string fullPath)
+    {
+        Debug.WriteLine(fullPath);
+        while (true)
+        {
+            try
+            {
+                using (var stream = new StreamReader(fullPath))
+                {
+                    stream?.Close();
+                    break;
+                }
+            }
+            catch
+            {
+                Thread.Sleep(1000);
+            }
+        }
     }
 }
