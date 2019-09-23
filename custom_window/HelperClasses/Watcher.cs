@@ -24,10 +24,8 @@ public class Watcher
     public void watch()
     {
         // Create a new FileSystemWatcher and set its properties.
-
-
+        
         _watcher.Path = this.Path;
-
         // Watch for changes in LastAccess and LastWrite times, and
         // the renaming of files or directories.
         _watcher.NotifyFilter = NotifyFilters.LastAccess
