@@ -61,6 +61,22 @@ namespace custom_window
         {
             GetWatcher(path).Dispose();
             _watchers.Remove(path);
+
+
+            var itemIndex = 0;
+
+            foreach (var currentItem in FolderListVm.Instance.myItem)
+            {
+                if (currentItem.path == path)
+                {
+                    break;
+                }
+
+                itemIndex++;
+            }
+
+            FolderListVm.Instance.myItem.RemoveAt(itemIndex);
+
         }
 
         private Watcher GetWatcher(string path)

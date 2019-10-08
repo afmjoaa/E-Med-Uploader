@@ -14,18 +14,9 @@ namespace custom_window
     /// </summary>
     public partial class FolderListView : UserControl
     {
-        public List<FolderItemVm> MyFolderItemList { get; set; }
 
         public FolderListView()
         {
-            MyFolderItemList = new List<FolderItemVm>
-            {
-                new FolderItemVm()
-                {
-                    path = "hello World"
-                }
-            };
-
             InitializeComponent();
         }
     }

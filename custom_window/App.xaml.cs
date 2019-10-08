@@ -26,7 +26,8 @@ namespace custom_window
             // firebase storage
             FirebaseApp.Create(new AppOptions()
             {
-                Credential = GoogleCredential.FromFile(@"G:\emed\E-Med_Uploader\emed-4490e-ddff9c9b9237.json")
+                //Credential = GoogleCredential.FromFile(@"G:\emed\E-Med_Uploader\emed-4490e-ddff9c9b9237.json")
+                Credential = GoogleCredential.FromFile(@"D:\All_mine\VS_2019\emed-4490e-ddff9c9b9237.json")
             });
 
             //let the base application do what it needs 
