@@ -135,19 +135,10 @@
                 Margin="0 0 0 10">
 
                 <StackPanel Margin="0 0 0 10" Orientation="Vertical">
+                    <Button Click="InitButton">Init and Open</Button>
 
-                    <Ellipse Height="150" Width="150" Margin="34 14 34 10">
-                        <Ellipse.Fill>
-                            <ImageBrush ImageSource="../Images/BackGround/cancel.png" />
-                        </Ellipse.Fill>
-                    </Ellipse>
-
-                    <TextBlock Margin="0 0 0 4"
-                               Foreground="{StaticResource TextDarkBrush}"
-                               FontSize="{StaticResource FontSizeTwenty}"
-                               FontWeight="Regular" Text="Please set the folder direction"
-                               HorizontalAlignment="Center" />
-
+     
+                    <RichTextBox x:Name="fp_textblock"></RichTextBox>
                 </StackPanel>
             </Viewbox>
 

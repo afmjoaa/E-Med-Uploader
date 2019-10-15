@@ -42,21 +42,5 @@ namespace custom_window.Pages
                 FolderListVm.Instance.myItem.Add(new FolderItemVm() {path = fbd.SelectedPath});
             }
         }
-
-        public void AddNewFolder(string path)
-        {
-        }
-
-        public void RemoveFolder(string path)
-        {
-        }
-
-        public void StartUploading(string path)
-        {
-        }
-
-        public void StopUploading(string path)
-        {
-        }
     }
 }
