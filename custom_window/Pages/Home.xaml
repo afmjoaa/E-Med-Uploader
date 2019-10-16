@@ -137,8 +137,8 @@
                 <StackPanel Margin="0 0 0 10" Orientation="Vertical">
                     <Button Click="InitButton">Init and Open</Button>
 
-     
-                    <RichTextBox x:Name="fp_textblock"></RichTextBox>
+
+                    <RichTextBox x:Name="fp_textblock" />
                 </StackPanel>
             </Viewbox>
 

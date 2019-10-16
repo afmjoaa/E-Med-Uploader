@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -16,11 +17,10 @@ namespace custom_window.HelperClasses
 {
     class FingerprintHelper : zkfp2
     {
-
         private FingerprintHelper instance = null;
 
 
-        public delegate void OnCaptureCallBack(string template);
+        public delegate void OnCaptureCallBack(string strTemplate, byte[] template);
 
         public OnCaptureCallBack onCaptureCallBackEvents;
 
@@ -71,7 +71,7 @@ namespace custom_window.HelperClasses
             }
         }
 
-        public  void OpenDevice()
+        public void OpenDevice()
         {
             int ret = zkfp.ZKFP_ERR_OK;
             if (IntPtr.Zero == (mDevHandle = zkfp2.OpenDevice(0)))
@@ -129,7 +129,7 @@ namespace custom_window.HelperClasses
                 if (ret == zkfp.ZKFP_ERR_OK)
                 {
 //                    SendMessage(FormHandle, MESSAGE_CAPTURED_OK, IntPtr.Zero, IntPtr.Zero);
-                    Console.Write("Fingerprint captured!!");
+                    Console.WriteLine("Fingerprint captured!!");
                     // var get = ImageFromRawBgraArray(FPBuffer, mfpWidth, mfpHeight);
 
 /*        
@@ -147,7 +147,7 @@ namespace custom_window.HelperClasses
 */
                     var templateInBase64 = zkfp2.BlobToBase64(CapTmp, cbCapTmp);
 
-                    onCaptureCallBackEvents.Invoke(templateInBase64);
+                    onCaptureCallBackEvents.Invoke(templateInBase64, CapTmp);
 
                     //      Console.WriteLine(templateInBase64);
 //                    Dispatcher?.Invoke(() => { img_view.Source = bitmap; }, DispatcherPriority.Normal);
@@ -166,6 +166,11 @@ namespace custom_window.HelperClasses
             Marshal.Copy(arr, 0, ptr, arr.Length);
             output.UnlockBits(bmpData);
             return output;
+        }
+
+        public int CompareFingerPrint(byte[] stored, byte[] candidate)
+        {
+            return zkfp2.DBMatch(mDBHandle, candidate, stored);
         }
     }
 }
