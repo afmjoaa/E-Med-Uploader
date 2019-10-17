@@ -192,7 +192,7 @@
                         ToolTip="Proceed with the account registration"
                         materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                        materialDesign:ButtonProgressAssist.IsIndeterminate="False">
+                        materialDesign:ButtonProgressAssist.IsIndeterminate="False" Click="Register_Button_Click">
                         <StackPanel Orientation="Horizontal" Margin="8,0">
                             <TextBlock FontWeight="Regular"
                                    FontSize="{StaticResource FontSizeForteen}">

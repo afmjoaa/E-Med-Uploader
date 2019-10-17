@@ -334,8 +334,10 @@
     <Compile Include="Controls\SideMenuControl.xaml.cs">
       <DependentUpon>SideMenuControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HelperClasses\CloudFirestoreService.cs" />
+    <Compile Include="HelperClasses\DataModels\Hospital.cs" />
     <Compile Include="HelperClasses\FingerprintHelper.cs" />
-    <Compile Include="HelperClasses\Service.cs" />
+    <Compile Include="HelperClasses\FileUploadService.cs" />
     <Compile Include="HelperClasses\Watcher.cs" />
     <Compile Include="HelperClasses\ToastClass.cs" />
     <Compile Include="Pages\BasePage.cs" />
@@ -563,7 +565,6 @@
     <Resource Include="Images\BackGround\dcm.png" />
     <Resource Include="Images\BackGround\pdf.png" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('packages\Fody.6.0.0\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

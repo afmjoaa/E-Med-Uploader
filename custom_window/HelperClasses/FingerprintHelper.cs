@@ -11,14 +11,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using libzkfpcsharp;
+using libzkfpcsharp; // ZK Fingerprint Device library
 
 namespace custom_window.HelperClasses
 {
     class FingerprintHelper : zkfp2
     {
         private FingerprintHelper instance = null;
-
 
         public delegate void OnCaptureCallBack(string strTemplate, byte[] template);
 

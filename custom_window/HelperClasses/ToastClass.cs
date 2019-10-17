@@ -29,5 +29,16 @@ namespace custom_window.HelperClasses
             _notifyIcon.ShowBalloonTip(timeOut, title, msg, ToolTipIcon.Info);
         }
 
+        public static void NotifyMin(string title, string message)
+        {
+            var _notifyIcon = new NotifyIcon();
+
+            _notifyIcon.Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
+
+            _notifyIcon.BalloonTipClosed += (s, e) => _notifyIcon.Visible = false;
+            _notifyIcon.Visible = true;
+
+            _notifyIcon.ShowBalloonTip(0, title, message, ToolTipIcon.Info);
+        }
     }
 }
