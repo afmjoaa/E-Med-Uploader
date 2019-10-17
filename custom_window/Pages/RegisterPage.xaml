@@ -155,7 +155,7 @@
                                  materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
                                  materialDesign:HintAssist.IsFloating="True"
                                  materialDesign:HintAssist.Hint="Hospital Registration Number"
-                                 FontWeight="Regular"  
+                                 FontWeight="Regular"
                                  GotFocus="Hos_reg_number_OnGotFocus"
                                  LostFocus="Hos_reg_number_OnLostFocus"
                                  FontSize="{StaticResource FontSizeSixteen}"
@@ -164,39 +164,39 @@
                     </Grid>
                 </StackPanel>
 
-                <StackPanel  Orientation="Horizontal" Width="auto" Height="60" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal" Width="auto" Height="60" HorizontalAlignment="Right">
 
                     <Button Margin="10 0"
-                    Style="{StaticResource MaterialDesignRaisedButton}"
-                        materialDesign:ButtonProgressAssist.Value="-1"
-                        materialDesign:ButtonAssist.CornerRadius="16"
-                        ToolTip="Proceed with the account registration"
-                        BorderBrush="Transparent"
-                        materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
-                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                        materialDesign:ButtonProgressAssist.IsIndeterminate="False">
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            materialDesign:ButtonProgressAssist.Value="-1"
+                            materialDesign:ButtonAssist.CornerRadius="16"
+                            ToolTip="Proceed with the account registration"
+                            BorderBrush="Transparent"
+                            materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
+                            materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
+                            materialDesign:ButtonProgressAssist.IsIndeterminate="False" Click="Skip_Button_Click">
                         <StackPanel Orientation="Horizontal" Margin="8,0">
                             <TextBlock FontWeight="Regular"
-                                   FontSize="{StaticResource FontSizeForteen}">
-                            Skip
+                                       FontSize="{StaticResource FontSizeForteen}">
+                                Skip
                             </TextBlock>
                             <materialDesign:PackIcon Margin="6 2 0 0" Kind="Close" />
                         </StackPanel>
                     </Button>
 
-                    <Button  Margin="10 0 0 0" 
-                             Command="{Binding SigninCommand}" CommandParameter="{Binding ElementName=register_page }"
-                        Style="{StaticResource MaterialDesignRaisedButton}"
-                        materialDesign:ButtonProgressAssist.Value="-1"
-                        materialDesign:ButtonAssist.CornerRadius="16"
-                        ToolTip="Proceed with the account registration"
-                        materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
-                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                        materialDesign:ButtonProgressAssist.IsIndeterminate="False" Click="Register_Button_Click">
+                    <Button Margin="10 0 0 0"
+                            Command="{Binding SigninCommand}" CommandParameter="{Binding ElementName=register_page }"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            materialDesign:ButtonProgressAssist.Value="-1"
+                            materialDesign:ButtonAssist.CornerRadius="16"
+                            ToolTip="Proceed with the account registration"
+                            materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
+                            materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
+                            materialDesign:ButtonProgressAssist.IsIndeterminate="False" Click="Register_Button_Click">
                         <StackPanel Orientation="Horizontal" Margin="8,0">
                             <TextBlock FontWeight="Regular"
-                                   FontSize="{StaticResource FontSizeForteen}">
-                            Proceed
+                                       FontSize="{StaticResource FontSizeForteen}">
+                                Proceed
                             </TextBlock>
                             <materialDesign:PackIcon Margin="6 2 0 0" Kind="AccountArrowRight" />
                         </StackPanel>

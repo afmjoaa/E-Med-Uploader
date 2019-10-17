@@ -91,9 +91,24 @@ namespace custom_window.Pages
         private void Register_Button_Click(object sender, RoutedEventArgs e)
         {
             //proceed...
-            var hospital = new Hospital {hospital_name = hospital_name.Text};
+            var hospital = new Hospital
+            {
+                hospital_name = hospital_name.Text,
+                hospital_id = hospital_id.Text,
+                hospital_email = contact_mail.Text,
+                hospital_phone_number = contact_number.Text,
+                hospital_registration_num = hos_reg_number.Text,
+                hospital_pass = "123",
+                //ho
+            };
             _cloudFirestoreService.AddHospital(hospital);
             Debug.WriteLine(hospital_name.Text);
+            ToastClass.NotifyMin("Successfully Registered!!", "You may Login now using default password: 123 :(");
+        }
+
+        private void Skip_Button_Click(object sender, RoutedEventArgs e)
+        {
+            IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Login);
         }
     }
 }

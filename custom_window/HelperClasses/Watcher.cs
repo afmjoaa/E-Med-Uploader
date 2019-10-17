@@ -4,19 +4,21 @@ using System.IO;
 using System.Security.Permissions;
 using System.Threading;
 using custom_window.HelperClasses;
+using custom_window.HelperClasses.DataModels;
+using custom_window.Pages;
 
 public class Watcher
 {
     public bool IsWatching = false;
     private string Path = null;
     private FileSystemWatcher _watcher = null;
-    private Service _service = null;
+    private FileUploadService _fileUploadService = null;
 
     public Watcher(string path)
     {
         this._watcher = new FileSystemWatcher();
         this.Path = path;
-        this._service = new Service();
+        this._fileUploadService = new FileUploadService();
         this.IsWatching = true;
     }
 
@@ -24,7 +26,7 @@ public class Watcher
     public void watch()
     {
         // Create a new FileSystemWatcher and set its properties.
-        
+
         _watcher.Path = this.Path;
         // Watch for changes in LastAccess and LastWrite times, and
         // the renaming of files or directories.
@@ -62,7 +64,8 @@ public class Watcher
             try
             {
                 WaitForFile(e.FullPath);
-                await this._service.UploadFile(new {name = e.Name}, e.FullPath);
+//                await this._service.UploadFile(new {name = e.Name}, e.FullPath);
+                await _fileUploadService.UploadFileForPatient(e.FullPath);
             }
             catch (Exception exception)
             {
@@ -74,7 +77,7 @@ public class Watcher
             Debug.WriteLine($"File: {e.FullPath} Deleted.");
             try
             {
-                await this._service.deleteFile(e.Name);
+                await this._fileUploadService.deleteFile(e.Name);
             }
             catch (Exception exception)
             {

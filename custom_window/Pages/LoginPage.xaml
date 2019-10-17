@@ -91,7 +91,7 @@
 
                     <StackPanel>
                         <!-- Floating action btn -->
-                        <Button Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=login_page }" VerticalAlignment="Bottom" HorizontalAlignment="Right" Panel.ZIndex="2" Width="44" Height="44" Style="{DynamicResource MaterialDesignFloatingActionButton}">
+                        <Button Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=login_page }" VerticalAlignment="Bottom" HorizontalAlignment="Right" Panel.ZIndex="2" Width="44" Height="44" Style="{DynamicResource MaterialDesignFloatingActionButton}" Click="Login_Button_Click">
                             <Image Margin="11" Source="/Images/windowControl/RightArrow.png"/>
                         </Button>
 

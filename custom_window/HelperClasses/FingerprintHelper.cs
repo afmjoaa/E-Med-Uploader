@@ -17,7 +17,18 @@ namespace custom_window.HelperClasses
 {
     class FingerprintHelper : zkfp2
     {
-        private FingerprintHelper instance = null;
+        private static FingerprintHelper instance = null;
+
+        private FingerprintHelper()
+        {
+        }
+
+        public static FingerprintHelper GetInstance()
+        {
+            if (instance != null) return instance;
+            instance = new FingerprintHelper();
+            return instance;
+        }
 
         public delegate void OnCaptureCallBack(string strTemplate, byte[] template);
 

@@ -21,7 +21,7 @@ namespace custom_window.Pages
         public Home()
         {
             InitializeComponent();
-            fpDeviceHelper = new FingerprintHelper();
+            fpDeviceHelper =  FingerprintHelper.GetInstance();
             fpDeviceHelper.onCaptureCallBackEvents += OnFingerprintCaptured;
             _cfService = CloudFirestoreService.GetInstance();
         }
@@ -39,43 +39,28 @@ namespace custom_window.Pages
                 fp_textblock.Height = 500;
                 fp_textblock.Width = 400;
                 fp_textblock.Selection.Text = "\ntemplate: " + templateString;
+                Clipboard.SetText(templateString);
             });
             // add or check for existing patient having this fingerprint 
-            var matchedPatient = await FindPatientByFingerprint(templateString);
-
+            var matchedPatient = await _cfService.FindPatientByFingerprint(templateString);
             if (matchedPatient != null)
             {
+                FileUploadService._currentPatient = matchedPatient;
                 ToastClass.NotifyMin("Welcome " + matchedPatient.patient_name, "We have Identified you!");
             }
-        }
-
-        private async Task<Patient> FindPatientByFingerprint(string template)
-        {
-            if (_cfService == null) _cfService = CloudFirestoreService.GetInstance();
-
-            Patient ret = null;
-            var patients = await _cfService.getAllPatients();
-
-            var score = 0;
-            string bestTemplate = null;
-
-            var blob1 = Convert.FromBase64String(template);
-            byte[] blob2 = null;
-
-            foreach (var patient in patients)
+            else
             {
-                if (string.IsNullOrEmpty(patient.patient_fingerprint_template_right_thumb)) continue;
-                blob2 = Convert.FromBase64String(patient.patient_fingerprint_template_right_thumb);
-                var cScore = fpDeviceHelper.CompareFingerPrint(blob1, blob2);
-                if (cScore > score && cScore > 60)
-                {
-                    score = cScore;
-                    ret = patient;
-                    bestTemplate = patient.patient_fingerprint_template_right_thumb;
-                }
-            }
+                Debug.WriteLine("No such user having this fingerprint adding new user");
+                var pat = new Patient();
+                pat.patient_fingerprint_template_right_thumb = templateString;
+                var r = new Random();
+                pat.patient_id = "pt_" + r.Next().ToString();
+                Debug.WriteLine("Receptionist might ask about your contact info to complete registration!");
+                var patId = await _cfService.AddPatient(pat);
+                Debug.WriteLine("new patient added: " + patId+"\n\n");
 
-            return ret;
+                FileUploadService._currentPatient = pat;
+            }
         }
     }
 }

@@ -6,10 +6,11 @@ namespace custom_window.HelperClasses.DataModels
     [FirestoreData]
     public class Hospital
     {
-        [FirestoreProperty] public string hospitalId { get; set; }
+        [FirestoreProperty] public string hospital_id { get; set; }
+        [FirestoreProperty] public string hospital_pass { get; set; }
         [FirestoreProperty] public string hospital_name { get; set; }
         [FirestoreProperty] public string hospital_email { set; get; }
-        [FirestoreProperty] public string hospital_contact { get; set; }
+        [FirestoreProperty] public string hospital_phone_number { get; set; }
         [FirestoreProperty] public string hospital_registration_num { get; set; }
         [FirestoreProperty] public string hospital_location { get; set; }
     }
@@ -17,6 +18,7 @@ namespace custom_window.HelperClasses.DataModels
     [FirestoreData]
     public class Patient
     {
+        [FirestoreProperty] public string patient_id { get; set; }
         [FirestoreProperty] public string patient_name { get; set; }
         [FirestoreProperty] public string patient_age { get; set; }
         [FirestoreProperty] public string patient_phone { get; set; }
@@ -26,11 +28,12 @@ namespace custom_window.HelperClasses.DataModels
     }
 
     [FirestoreData]
-    public class File
+    public class ReportFile
     {
         [FirestoreProperty] public string file_name { get; set; }
         [FirestoreProperty] public string file_url { get; set; }
-        [FirestoreProperty] public string associated_patient { get; set; }
-        [FirestoreProperty] public DateTime file_creation_date { get; set; }
+        [FirestoreProperty] public string associated_patientId { get; set; }
+        [FirestoreProperty] public string associated_hospitalId { get; set; }
+        [FirestoreProperty] public Timestamp file_creation_date { get; set; }
     }
 }

@@ -335,6 +335,7 @@
       <DependentUpon>SideMenuControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="HelperClasses\CloudFirestoreService.cs" />
+    <Compile Include="HelperClasses\DataModels\Constants.cs" />
     <Compile Include="HelperClasses\DataModels\Hospital.cs" />
     <Compile Include="HelperClasses\FingerprintHelper.cs" />
     <Compile Include="HelperClasses\FileUploadService.cs" />
