@@ -566,10 +566,6 @@
     <Resource Include="Images\BackGround\dcm.png" />
     <Resource Include="Images\BackGround\pdf.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="zkfp_lib\x64\libzkfpcsharp.dll" />
-    <Content Include="zkfp_lib\x86\libzkfpcsharp.dll" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('packages\Fody.6.0.0\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

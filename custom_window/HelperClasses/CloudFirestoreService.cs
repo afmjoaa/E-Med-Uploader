@@ -67,9 +67,9 @@ namespace custom_window.HelperClasses
 
         private CloudFirestoreService()
         {
-            var filepath = "E:\\Projects\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json";  // zsumon -> desktop
+            var filepath = "E:\\Projects\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json"; // zsumon -> desktop
 
-           // var filepath = "G:\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json";  // zsumon -> laptop
+            // var filepath = "G:\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json";  // zsumon -> laptop
 
             //var filepath = "G:\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json";  // for joaa-> laptop
 

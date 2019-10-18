@@ -47,13 +47,7 @@ namespace custom_window.Core
 
         private async Task RegisterAsync()
         {
-            /*IoC.Get<ApplicationViewModel>().SideMenuVisible ^= true;
-            return;*/
-
-            //todo got to the register page
-            IoC.Get<ApplicationViewModel>().CurrentPage = ApplicationPage.Home;
-            //((WindowViewModel) ((MainWindow) Application.Current.MainWindow).DataContext).CurrentPage = ApplicationPage.Register;
-            await Task.Delay(1);
+           
         }
 
         #endregion
@@ -65,17 +59,6 @@ namespace custom_window.Core
         /// <returns></returns>
         public async Task LoginAsync(object parameter)
         {
-            await RunCommand(() => this.LoginIsRunning, async () =>
-            {
-                await Task.Delay(50);
-
-                var phoneNumber = this.PhoneNumber;
-
-                // IMPORTANT: Never store unsecure password in variable like this
-                var pass = (parameter as IHavePassword).SecurePassword.Unsecure();
-
-                IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Register);
-            });
         }
     }
 }
