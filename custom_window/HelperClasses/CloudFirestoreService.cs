@@ -65,13 +65,13 @@ namespace custom_window.HelperClasses
             return null;
         }
 
-        private CloudFirestoreService(string firebaseCredentialPath = "")
+        private CloudFirestoreService()
         {
-            var filepath = "G:\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json";
-            if (!string.IsNullOrEmpty(firebaseCredentialPath))
-            {
-                filepath = firebaseCredentialPath;
-            }
+            var filepath = "E:\\Projects\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json";  // zsumon -> desktop
+
+           // var filepath = "G:\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json";  // zsumon -> laptop
+
+            //var filepath = "G:\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json";  // for joaa-> laptop
 
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", filepath);
             projectId = "emed-4490e";
