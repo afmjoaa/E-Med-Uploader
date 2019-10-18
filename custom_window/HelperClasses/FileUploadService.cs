@@ -19,13 +19,13 @@ namespace custom_window.HelperClasses
 {
     class FileUploadService
     {
-        private CloudFirestoreService _cfService = CloudFirestoreService.GetInstance();
+        private readonly CloudFirestoreService _cfService = CloudFirestoreService.GetInstance();
 
-        public static Patient _currentPatient = null;
+        public static Patient CurrentPatient = null;
         // updated on each fingerprints or null
         // needs to be reseted after each upload
 
-        private Hospital _currentHospital = CloudFirestoreService.GetInstance().getLoggedInHospital();
+        private readonly Hospital _currentHospital = CloudFirestoreService.GetInstance().getLoggedInHospital();
 
         public async Task UploadFile(object fileInfo, string path)
         {
@@ -60,7 +60,7 @@ namespace custom_window.HelperClasses
 
         public async Task<string> UploadFileForPatient(string filePath)
         {
-            if (_currentPatient == null)
+            if (CurrentPatient == null)
             {
                 ToastClass.NotifyMin("No Patient is identifed But Files ared created!!",
                     "Please scan for fingerprint and then copy the report file to the listening directory");
@@ -83,11 +83,11 @@ namespace custom_window.HelperClasses
                 var reportFile = new ReportFile();
                 reportFile.file_name = Path.GetFileName(filePath);
                 reportFile.file_url = downloadUrl;
-                reportFile.associated_patientId = _currentPatient.patient_id;
+                reportFile.associated_patientId = CurrentPatient.patient_id;
                 reportFile.associated_hospitalId = _currentHospital.hospital_id;
                 var res = await _cfService.AddFile(reportFile);
                 ToastClass.NotifyMin("Uploaded & saved info to server", res);
-                _currentPatient = null;
+                CurrentPatient = null;
                 return res;
             }
             catch (Exception e)

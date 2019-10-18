@@ -69,7 +69,7 @@ public class Watcher
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception);
+                Debug.WriteLine("Waiting for file to be released. " + exception.ToString());
             }
         }
         else if (e.ChangeType == WatcherChangeTypes.Deleted)

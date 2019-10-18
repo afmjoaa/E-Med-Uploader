@@ -45,7 +45,7 @@ namespace custom_window.Pages
             var matchedPatient = await _cfService.FindPatientByFingerprint(templateString);
             if (matchedPatient != null)
             {
-                FileUploadService._currentPatient = matchedPatient;
+                FileUploadService.CurrentPatient = matchedPatient;
                 ToastClass.NotifyMin("Welcome " + matchedPatient.patient_name, "We have Identified you!");
             }
             else
@@ -59,7 +59,7 @@ namespace custom_window.Pages
                 var patId = await _cfService.AddPatient(pat);
                 Debug.WriteLine("new patient added: " + patId+"\n\n");
 
-                FileUploadService._currentPatient = pat;
+                FileUploadService.CurrentPatient = pat;
             }
         }
     }

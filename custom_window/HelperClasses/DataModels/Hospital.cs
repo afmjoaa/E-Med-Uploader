@@ -7,7 +7,7 @@ namespace custom_window.HelperClasses.DataModels
     public class Hospital
     {
         [FirestoreProperty] public string hospital_id { get; set; }
-        [FirestoreProperty] public string hospital_pass { get; set; }
+        [FirestoreProperty] public string hospital_hashed_pass { get; set; }
         [FirestoreProperty] public string hospital_name { get; set; }
         [FirestoreProperty] public string hospital_email { set; get; }
         [FirestoreProperty] public string hospital_phone_number { get; set; }
@@ -30,6 +30,7 @@ namespace custom_window.HelperClasses.DataModels
     [FirestoreData]
     public class ReportFile
     {
+        [FirestoreProperty] public string file_id { get; set; }
         [FirestoreProperty] public string file_name { get; set; }
         [FirestoreProperty] public string file_url { get; set; }
         [FirestoreProperty] public string associated_patientId { get; set; }

@@ -37,7 +37,7 @@ namespace custom_window.HelperClasses
                 // Do anything you'd normally do with a DocumentSnapshot
                 Hospital currentHospital = document.ConvertTo<Hospital>();
                 // we expect getting at most one hospital..
-                if (password == currentHospital.hospital_pass)
+                if (password == currentHospital.hospital_hashed_pass)
                 {
                     _loggedInHospitlal = currentHospital;
                     _isLoggedIn = true;
@@ -91,7 +91,7 @@ namespace custom_window.HelperClasses
             {
                 CollectionReference colRef = fireStoreDb.Collection("hospitals");
                 var retRef = await colRef.AddAsync(hospital);
-                ToastClass.NotifyMin("created! Hospital", retRef.Id);
+                // ToastClass.NotifyMin("created! Hospital", retRef.Id);
             }
             catch
             {
