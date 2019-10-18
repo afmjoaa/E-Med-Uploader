@@ -21,7 +21,7 @@ namespace custom_window.Pages
         public Home()
         {
             InitializeComponent();
-            fpDeviceHelper =  FingerprintHelper.GetInstance();
+            fpDeviceHelper = FingerprintHelper.GetInstance();
             fpDeviceHelper.onCaptureCallBackEvents += OnFingerprintCaptured;
             _cfService = CloudFirestoreService.GetInstance();
         }
@@ -56,8 +56,12 @@ namespace custom_window.Pages
                 var r = new Random();
                 pat.patient_id = "pt_" + r.Next().ToString();
                 Debug.WriteLine("Receptionist might ask about your contact info to complete registration!");
+                var patInfoPrompt = Prompt.ShowDialog("Enter Patient Name:", "Patient's' Info");
+                
+                pat.patient_name = patInfoPrompt;
+
                 var patId = await _cfService.AddPatient(pat);
-                Debug.WriteLine("new patient added: " + patId+"\n\n");
+                Debug.WriteLine("new patient added: " + patId + "\n\n");
 
                 FileUploadService.CurrentPatient = pat;
             }

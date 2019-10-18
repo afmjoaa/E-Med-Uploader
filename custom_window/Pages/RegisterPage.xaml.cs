@@ -98,7 +98,7 @@ namespace custom_window.Pages
                 hospital_email = contact_mail.Text,
                 hospital_phone_number = contact_number.Text,
                 hospital_registration_num = hos_reg_number.Text,
-                hospital_hashed_pass = "123",
+                hospital_pass = "123",
                 //ho
             };
             _cloudFirestoreService.AddHospital(hospital);

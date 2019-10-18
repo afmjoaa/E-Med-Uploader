@@ -37,7 +37,7 @@ namespace custom_window.HelperClasses
                 // Do anything you'd normally do with a DocumentSnapshot
                 Hospital currentHospital = document.ConvertTo<Hospital>();
                 // we expect getting at most one hospital..
-                if (password == currentHospital.hospital_hashed_pass)
+                if (password == currentHospital.hospital_pass)
                 {
                     _loggedInHospitlal = currentHospital;
                     _isLoggedIn = true;
@@ -153,7 +153,7 @@ namespace custom_window.HelperClasses
                 byte[] blob1 = Convert.FromBase64String(template.Trim());
                 byte[] blob2 = Convert.FromBase64String(patient.patient_fingerprint_template_right_thumb.Trim());
                 var cScore = fpDeviceHelper.CompareFingerPrint(blob1, blob2);
-                Debug.WriteLine("Match template 1 vs template 2 score=" + cScore + "!\n");
+                // Debug.WriteLine("Match template 1 vs template 2 score=" + cScore + "!\n");
                 if (cScore > score && cScore >= 60)
                 {
                     score = cScore;
