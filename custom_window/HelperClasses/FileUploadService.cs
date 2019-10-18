@@ -80,15 +80,14 @@ namespace custom_window.HelperClasses
                 // save file info in database..
                 // cfService.
 
-                var reportFile = new ReportFile
-                {
-                    file_name = Path.GetFileName(filePath),
-                    file_url = downloadUrl,
-                    associated_patientId = _currentPatient.patient_id,
-                    associated_hospitalId = _currentHospital.hospital_id
-                };
+                var reportFile = new ReportFile();
+                reportFile.file_name = Path.GetFileName(filePath);
+                reportFile.file_url = downloadUrl;
+                reportFile.associated_patientId = _currentPatient.patient_id;
+                reportFile.associated_hospitalId = _currentHospital.hospital_id;
                 var res = await _cfService.AddFile(reportFile);
                 ToastClass.NotifyMin("Uploaded & saved info to server", res);
+                _currentPatient = null;
                 return res;
             }
             catch (Exception e)

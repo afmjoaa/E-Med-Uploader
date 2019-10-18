@@ -78,6 +78,9 @@ namespace custom_window.Pages
             else if (error_code == Constants.BAD_PASS)
             {
                 ToastClass.NotifyMin("Login Failed!", "Wrong Username/Password combination.");
+
+                //IoC.Get<ApplicationViewModel>().GoToPage();
+                return;
             }
             else if (error_code == Constants.BAD_USER)
             {

@@ -67,7 +67,7 @@ namespace custom_window.HelperClasses
 
         private CloudFirestoreService(string firebaseCredentialPath = "")
         {
-            var filepath = "G:\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json";
+            var filepath = "G:\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json";
             if (!string.IsNullOrEmpty(firebaseCredentialPath))
             {
                 filepath = firebaseCredentialPath;
