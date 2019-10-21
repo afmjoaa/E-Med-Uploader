@@ -35,7 +35,7 @@ namespace custom_window.Pages
         {
             fpDeviceHelper.InitDevice();
             fpDeviceHelper.OpenDevice();
-            bcHelper.startListening();
+            // bcHelper.startListening();
         }
 
         private void OnBarcodeEvent(string barcodestring)
