@@ -5,7 +5,7 @@ using System.Xml;
 using System.Xml.Linq;
 using custom_window.HelperClasses.DataModels;
 using custom_window.Pages;
-using Interop.CoreScanner;
+using Interop.CoreScanner; // this is from 32bit installation location
 
 namespace custom_window.HelperClasses
 {
@@ -40,7 +40,6 @@ namespace custom_window.HelperClasses
                 // Subscribe for barcode events in cCoreScannerClass
                 cCoreScannerClass.BarcodeEvent += new
                     _ICoreScannerEvents_BarcodeEventEventHandler(OnBarcodeEvent);
-                DocCapMessage ms;
                 // Let's subscribe for events
                 int opcode = 1001; // Method for Subscribe events
                 string outXML; // XML Output
