@@ -27,15 +27,13 @@ namespace custom_window.Pages
             fpDeviceHelper.onCaptureCallBackEvents += OnFingerprintCaptured;
             _cfService = CloudFirestoreService.GetInstance();
             bcHelper = BarcodeHelper.GetInstance();
-            bcHelper.onBarcodeEvent += OnBarcodeEvent;
+//            bcHelper.onBarcodeEvent += OnBarcodeEvent;
         }
 
-        [STAThread]
         private void InitButton(object sender, RoutedEventArgs e)
         {
             fpDeviceHelper.InitDevice();
             fpDeviceHelper.OpenDevice();
-            // bcHelper.startListening();
         }
 
         private void OnBarcodeEvent(string barcodestring)

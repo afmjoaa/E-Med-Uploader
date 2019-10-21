@@ -101,8 +101,10 @@
     <Reference Include="Grpc.Core.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d754f35622e28bad, processorArchitecture=MSIL">
       <HintPath>packages\Grpc.Core.Api.1.22.0\lib\net45\Grpc.Core.Api.dll</HintPath>
     </Reference>
-    <Reference Include="Interop.CoreScanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>C:\Users\User\Desktop\Interop.CoreScanner.dll</HintPath>
+    <Reference Include="Interop.CoreScanner, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>F:\Virtual Machines\Shared\Zebra Technologies_32\Barcode Scanners\Common\Interop.CoreScanner.dll</HintPath>
     </Reference>
     <Reference Include="libzkfpcsharp, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null">
       <HintPath>libzkfpcsharp.dll</HintPath>
@@ -336,7 +338,6 @@
     <Compile Include="Controls\SideMenuControl.xaml.cs">
       <DependentUpon>SideMenuControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HelperClasses\BarcodeHelper.cs" />
     <Compile Include="HelperClasses\CloudFirestoreService.cs" />
     <Compile Include="HelperClasses\DataModels\Constants.cs" />
     <Compile Include="HelperClasses\DataModels\Hospital.cs" />
@@ -345,6 +346,7 @@
     <Compile Include="HelperClasses\FileUploadService.cs" />
     <Compile Include="HelperClasses\Watcher.cs" />
     <Compile Include="HelperClasses\ToastClass.cs" />
+    <Compile Include="HelperClasses\ZebraDeviceHelper\BarcodeHelper.cs" />
     <Compile Include="Pages\BasePage.cs" />
     <Compile Include="Pages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
