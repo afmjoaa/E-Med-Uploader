@@ -14,9 +14,11 @@ namespace custom_window.Pages
     public partial class Home : BasePage<HomeViewModel>
     {
         private FingerprintHelper fpDeviceHelper = null;
+        private BarcodeHelper bcHelper = null;
 
         //fp width 288, height:375
         private CloudFirestoreService _cfService = null;
+
 
         public Home()
         {
@@ -24,12 +26,22 @@ namespace custom_window.Pages
             fpDeviceHelper = FingerprintHelper.GetInstance();
             fpDeviceHelper.onCaptureCallBackEvents += OnFingerprintCaptured;
             _cfService = CloudFirestoreService.GetInstance();
+            bcHelper = BarcodeHelper.GetInstance();
+            bcHelper.onBarcodeEvent += OnBarcodeEvent;
         }
 
+        [STAThread]
         private void InitButton(object sender, RoutedEventArgs e)
         {
             fpDeviceHelper.InitDevice();
             fpDeviceHelper.OpenDevice();
+            bcHelper.startListening();
+        }
+
+        private void OnBarcodeEvent(string barcodestring)
+        {
+            Console.WriteLine("New Barcode found: " + barcodestring);
+            ToastClass.NotifyMin("New Barcode!", barcodestring);
         }
 
         private async void OnFingerprintCaptured(string templateString, byte[] templateBlob)
@@ -57,7 +69,7 @@ namespace custom_window.Pages
                 pat.patient_id = "pt_" + r.Next().ToString();
                 Debug.WriteLine("Receptionist might ask about your contact info to complete registration!");
                 var patInfoPrompt = Prompt.ShowDialog("Enter Patient Name:", "Patient's' Info");
-                
+
                 pat.patient_name = patInfoPrompt;
 
                 var patId = await _cfService.AddPatient(pat);
