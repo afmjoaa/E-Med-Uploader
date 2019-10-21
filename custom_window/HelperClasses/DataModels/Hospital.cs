@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading;
 using System.Windows.Forms;
 using Google.Cloud.Firestore;
 
@@ -22,11 +24,13 @@ namespace custom_window.HelperClasses.DataModels
     {
         [FirestoreProperty] public string patient_id { get; set; }
         [FirestoreProperty] public string patient_name { get; set; }
-        [FirestoreProperty] public string patient_age { get; set; }
+        [FirestoreProperty] public string patient_birth { get; set; }
         [FirestoreProperty] public string patient_phone { get; set; }
         [FirestoreProperty] public string patient_email { get; set; }
         [FirestoreProperty] public string patient_address { get; set; }
         [FirestoreProperty] public string patient_fingerprint_template_right_thumb { get; set; }
+
+        [FirestoreProperty] public string patient_new_nid { get; set; }
     }
 
     [FirestoreData]
@@ -58,7 +62,21 @@ namespace custom_window.HelperClasses.DataModels
 
             /*Label textLabel = new Label() {Left = 50, Top = 40, Text = text};
             TextBox textBox = new TextBox() {Left = 50, Top = 50, Width = 400};*/
+            string nameStr = "";
+            bool isObtained = false;
+            BarcodeHelper bh = BarcodeHelper.GetInstance();
 
+            bh.modifiedModifiedBarcodeEvent += (name, nid, newNid, birth) =>
+            {
+                isObtained = true;
+                Debug.WriteLine("Wait success.. got data");
+                nameStr = name;
+            };
+
+            var fromBarcode = new Button() {Text = "From NID", Left = 100, Width = 100, Top = 70};
+
+
+            prompt.Controls.Add(fromBarcode);
 
             Button confirmation = new Button()
                 {Text = "Ok", Left = 350, Width = 100, Top = 70, DialogResult = DialogResult.OK};
@@ -67,7 +85,36 @@ namespace custom_window.HelperClasses.DataModels
             prompt.Controls.Add(confirmation);
             prompt.Controls.Add(textLabel);
             prompt.AcceptButton = confirmation;
-            return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : "";
+
+
+            fromBarcode.Click += (sender, args) =>
+            {
+                prompt.Controls.Clear();
+                prompt.Controls.Add(new TextBox() {Text = "Waiting.."});
+                Thread thread = new Thread(() =>
+                {
+                    while (true)
+                    {
+                        if (isObtained)
+                        {
+                            prompt.Invoke(new Action(() =>
+                            {
+                                prompt.Controls.Clear();
+                                prompt.Controls.Add(new TextBox() {Text = "Success!\n" + nameStr});
+                                Thread.Sleep(2000);
+                                prompt.Close();
+                            }));
+                            break;
+                        }
+
+                        Debug.WriteLine("waiting");
+                        Thread.Sleep(1000);
+                    }
+                }) {IsBackground = true};
+                thread.Start();
+            };
+            var rr = prompt.ShowDialog();
+            return rr == DialogResult.OK ? textBox.Text : nameStr;
         }
     }
 }

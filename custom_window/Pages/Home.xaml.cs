@@ -19,6 +19,11 @@ namespace custom_window.Pages
         //fp width 288, height:375
         private CloudFirestoreService _cfService = null;
 
+        #region MyInits
+
+        private Patient temporaryPatient = null;
+
+        #endregion
 
         public Home()
         {
@@ -37,10 +42,12 @@ namespace custom_window.Pages
             bcHelper.InitDevice();
         }
 
-        private void OnModifiedBarcodeEvent(string patientName, string oldNid, string newNid, string dateOfBirth)
+        private async void OnModifiedBarcodeEvent(string patientName, string oldNid, string newNid, string dateOfBirth)
         {
             ToastClass.NotifyMin("New Barcode!", patientName + "\n" + oldNid + "\n" + newNid + "\n" + dateOfBirth);
+            // wait for fingerprint and find the existing user or create new user using data from barcode
         }
+
 
         private async void OnFingerprintCaptured(string templateString, byte[] templateBlob)
         {

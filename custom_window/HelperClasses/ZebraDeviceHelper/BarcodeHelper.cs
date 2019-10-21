@@ -158,6 +158,11 @@ namespace custom_window.HelperClasses
             }
         }
 
+        public void waitForBarcode()
+        {
+            
+        }
+
         // private Patient 
     }
 }
