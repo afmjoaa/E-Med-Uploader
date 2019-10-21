@@ -135,8 +135,12 @@
                 Margin="0 0 0 10">
 
                 <StackPanel Margin="0 0 0 10" Orientation="Vertical">
-                    <Button Click="InitButton">Init and Open</Button>
-
+                    <Button Click="InitButton">Devices Init and Open</Button>
+                    
+                    
+                    <Button Click="Fix_Button_Click" Margin="0 10 0 10" >Fix and Reconnect</Button>
+                   
+                    <Button Click="Close_Devices_ButtonClick" Margin="0 10 0 10" >Close Devices</Button>
 
                     <RichTextBox x:Name="fp_textblock" />
                 </StackPanel>

@@ -18,11 +18,20 @@ namespace custom_window.HelperClasses
         private static CCoreScanner cCoreScannerClass;
 
 
-        public delegate void BarcodeEvent(string barcodeString);
+        public delegate void ModifiedBarcodeEvent(string patientName, string oldNid, string newNid, string dateOfBirth);
 
-        public BarcodeEvent onBarcodeEvent;
+        public ModifiedBarcodeEvent modifiedModifiedBarcodeEvent;
 
         private BarcodeHelper()
+        {
+        }
+
+        public static BarcodeHelper GetInstance()
+        {
+            return _instance ?? (_instance = new BarcodeHelper());
+        }
+
+        public void InitDevice()
         {
             try
             {
@@ -34,12 +43,8 @@ namespace custom_window.HelperClasses
                 short numberOfScannerTypes = 1; // Size of the scannerTypes array
                 int status; // Extended API return code
                 cCoreScannerClass.Open(0, scannerTypes, numberOfScannerTypes, out status);
-
-                Debug.WriteLine("Status is:" + status);
-
                 // Subscribe for barcode events in cCoreScannerClass
-                cCoreScannerClass.BarcodeEvent += new
-                    _ICoreScannerEvents_BarcodeEventEventHandler(OnBarcodeEvent);
+                cCoreScannerClass.BarcodeEvent += OnBarcodeEvent;
                 // Let's subscribe for events
                 int opcode = 1001; // Method for Subscribe events
                 string outXML; // XML Output
@@ -57,25 +62,16 @@ namespace custom_window.HelperClasses
             }
         }
 
-        public static BarcodeHelper GetInstance()
+        public void CloseDevice()
         {
-            Debug.WriteLine("instance of barcode reader");
-            return _instance ?? (_instance = new BarcodeHelper());
-        }
-
-        public void startListening()
-        {
-        }
-
-
-        public void stopListening()
-        {
-            isCancelled = true;
+            int st;
+            cCoreScannerClass.Close(0, out st);
+            //handle status code.. or errors..
         }
 
         void OnBarcodeEvent(short eventType, ref string pscanData)
         {
-            Debug.WriteLine("Barcode scanned: (event): " + pscanData);
+            //  Debug.WriteLine("Barcode scanned: (event): " + pscanData);
             XDocument doc;
             using (var s = new StringReader(pscanData))
             {
@@ -84,6 +80,10 @@ namespace custom_window.HelperClasses
 
             var rawHex = GetRawInnerValue(doc.ToString());
             var refinedString = HexToAsciiString(rawHex);
+
+            string name = "", newNid = "", oldNid = "", dateOfBirth = "";
+            ExtractInfo(refinedString, ref name, ref oldNid, ref newNid, ref dateOfBirth);
+            modifiedModifiedBarcodeEvent.Invoke(name, oldNid, newNid, dateOfBirth);
         }
 
         private string HexToAsciiString(string barcodeRawHexString)
@@ -113,10 +113,49 @@ namespace custom_window.HelperClasses
             return parentNode[0].InnerText;
         }
 
-        public void GetPatientInfoFromBarcode(ref string patientName, ref string newNidNumber, ref string oldNidNumber,
-            ref string dateOfbirth)
+        public void ExtractInfo(string mainStr, ref string patientName, ref string oldNid, ref string newNid,
+            ref string dateOfBirth)
         {
-            //TODO
+            int ix = 0;
+            for (; ix < mainStr.Length; ++ix)
+            {
+                if (mainStr[ix] == 'N' && mainStr[ix + 1] == 'M') break;
+            }
+
+            ix += 2;
+            while (ix < mainStr.Length - 1)
+            {
+                if (mainStr[ix] == 'N' && mainStr[ix + 1] == 'W') break;
+                patientName += mainStr[ix++];
+            }
+
+            ix += 2;
+            while (ix < mainStr.Length - 1)
+            {
+                if (mainStr[ix] == 'O' && mainStr[ix + 1] == 'L') break;
+                newNid += mainStr[ix++];
+            }
+
+            ix += 2;
+            while (ix < mainStr.Length - 1)
+            {
+                if (mainStr[ix] == 'B' && mainStr[ix + 1] == 'R') break;
+                if (char.IsDigit(mainStr[ix]))
+                {
+                    oldNid += mainStr[ix++];
+                }
+                else
+                {
+                    ix++;
+                }
+            }
+
+            ix += 2;
+            while (ix < mainStr.Length - 1)
+            {
+                if (mainStr[ix] == 'P' && mainStr[ix + 1] == 'E') break;
+                dateOfBirth += mainStr[ix++];
+            }
         }
 
         // private Patient 

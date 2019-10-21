@@ -27,19 +27,19 @@ namespace custom_window.Pages
             fpDeviceHelper.onCaptureCallBackEvents += OnFingerprintCaptured;
             _cfService = CloudFirestoreService.GetInstance();
             bcHelper = BarcodeHelper.GetInstance();
-//            bcHelper.onBarcodeEvent += OnBarcodeEvent;
+            bcHelper.modifiedModifiedBarcodeEvent += OnModifiedBarcodeEvent;
         }
 
         private void InitButton(object sender, RoutedEventArgs e)
         {
             fpDeviceHelper.InitDevice();
             fpDeviceHelper.OpenDevice();
+            bcHelper.InitDevice();
         }
 
-        private void OnBarcodeEvent(string barcodestring)
+        private void OnModifiedBarcodeEvent(string patientName, string oldNid, string newNid, string dateOfBirth)
         {
-            Console.WriteLine("New Barcode found: " + barcodestring);
-            ToastClass.NotifyMin("New Barcode!", barcodestring);
+            ToastClass.NotifyMin("New Barcode!", patientName + "\n" + oldNid + "\n" + newNid + "\n" + dateOfBirth);
         }
 
         private async void OnFingerprintCaptured(string templateString, byte[] templateBlob)
@@ -75,6 +75,18 @@ namespace custom_window.Pages
 
                 FileUploadService.CurrentPatient = pat;
             }
+        }
+
+        private void Fix_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Close_Devices_ButtonClick(null, null);
+            InitButton(null, null);
+        }
+
+        private void Close_Devices_ButtonClick(object sender, RoutedEventArgs e)
+        {
+            bcHelper.CloseDevice();
+            fpDeviceHelper.CloseDevice();
         }
     }
 }

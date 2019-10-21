@@ -182,5 +182,10 @@ namespace custom_window.HelperClasses
         {
             return zkfp2.DBMatch(mDBHandle, candidate, stored);
         }
+
+        public void CloseDevice()
+        {
+            zkfp2.Terminate();
+        }
     }
 }
