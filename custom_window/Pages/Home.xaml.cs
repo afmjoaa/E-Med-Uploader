@@ -19,7 +19,7 @@ namespace custom_window.Pages
         //fp width 288, height:375
         private CloudFirestoreService _cfService = null;
 
-        #region MyInits
+        #region tempPatient
 
         private Patient temporaryPatient = null;
 

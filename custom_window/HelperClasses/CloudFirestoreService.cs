@@ -188,5 +188,12 @@ namespace custom_window.HelperClasses
             var x = await coll.AddAsync(patient);
             return x.Id;
         }
+
+        public bool LogOut()
+        {
+            _loggedInHospitlal = null;
+            _isLoggedIn = false;
+            return true;
+        }
     }
 }

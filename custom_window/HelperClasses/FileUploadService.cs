@@ -19,6 +19,7 @@ namespace custom_window.HelperClasses
 {
     class FileUploadService
     {
+        private static FileUploadService _instance = null;
         private readonly CloudFirestoreService _cfService = CloudFirestoreService.GetInstance();
 
         public static Patient CurrentPatient = null;
@@ -26,6 +27,18 @@ namespace custom_window.HelperClasses
         // needs to be reseted after each upload
 
         private readonly Hospital _currentHospital = CloudFirestoreService.GetInstance().getLoggedInHospital();
+
+        private FileUploadService()
+        {
+        }
+
+        public static FileUploadService GetInstance()
+        {
+            if (_instance != null) return _instance;
+            _instance = new FileUploadService();
+            return _instance;
+        }
+
 
         public async Task UploadFile(object fileInfo, string path)
         {
@@ -86,6 +99,7 @@ namespace custom_window.HelperClasses
                 reportFile.associated_patientId = CurrentPatient.patient_id;
                 reportFile.associated_hospitalId = _currentHospital.hospital_id;
                 var res = await _cfService.AddFile(reportFile);
+
                 ToastClass.NotifyMin("Uploaded & saved info to server", res);
                 CurrentPatient = null;
                 return res;
@@ -96,6 +110,11 @@ namespace custom_window.HelperClasses
             }
 
             return "Error";
+        }
+
+        public void Dispose()
+        {
+            FolderItemVm.DisposeAllWatchers();
         }
     }
 }

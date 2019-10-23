@@ -342,7 +342,7 @@
     <Compile Include="HelperClasses\DataModels\SecurePasswordHasher.cs" />
     <Compile Include="HelperClasses\FingerprintHelper.cs" />
     <Compile Include="HelperClasses\FileUploadService.cs" />
-    <Compile Include="HelperClasses\Watcher.cs" />
+    <Compile Include="HelperClasses\WatcherService.cs" />
     <Compile Include="HelperClasses\ToastClass.cs" />
     <Compile Include="HelperClasses\ZebraDeviceHelper\BarcodeHelper.cs" />
     <Compile Include="Pages\BasePage.cs" />
