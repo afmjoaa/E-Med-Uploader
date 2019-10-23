@@ -14,9 +14,16 @@ namespace custom_window.Pages
     public partial class Home : BasePage<HomeViewModel>
     {
         private FingerprintHelper fpDeviceHelper = null;
+        private BarcodeHelper bcHelper = null;
 
         //fp width 288, height:375
         private CloudFirestoreService _cfService = null;
+
+        #region MyInits
+
+        private Patient temporaryPatient = null;
+
+        #endregion
 
         public Home()
         {
@@ -24,13 +31,23 @@ namespace custom_window.Pages
             fpDeviceHelper = FingerprintHelper.GetInstance();
             fpDeviceHelper.onCaptureCallBackEvents += OnFingerprintCaptured;
             _cfService = CloudFirestoreService.GetInstance();
+            bcHelper = BarcodeHelper.GetInstance();
+            bcHelper.modifiedModifiedBarcodeEvent += OnModifiedBarcodeEvent;
         }
 
         private void InitButton(object sender, RoutedEventArgs e)
         {
             fpDeviceHelper.InitDevice();
             fpDeviceHelper.OpenDevice();
+            bcHelper.InitDevice();
         }
+
+        private async void OnModifiedBarcodeEvent(string patientName, string oldNid, string newNid, string dateOfBirth)
+        {
+            ToastClass.NotifyMin("New Barcode!", patientName + "\n" + oldNid + "\n" + newNid + "\n" + dateOfBirth);
+            // wait for fingerprint and find the existing user or create new user using data from barcode
+        }
+
 
         private async void OnFingerprintCaptured(string templateString, byte[] templateBlob)
         {
@@ -57,7 +74,7 @@ namespace custom_window.Pages
                 pat.patient_id = "pt_" + r.Next().ToString();
                 Debug.WriteLine("Receptionist might ask about your contact info to complete registration!");
                 var patInfoPrompt = Prompt.ShowDialog("Enter Patient Name:", "Patient's' Info");
-                
+
                 pat.patient_name = patInfoPrompt;
 
                 var patId = await _cfService.AddPatient(pat);
@@ -65,6 +82,18 @@ namespace custom_window.Pages
 
                 FileUploadService.CurrentPatient = pat;
             }
+        }
+
+        private void Fix_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Close_Devices_ButtonClick(null, null);
+            InitButton(null, null);
+        }
+
+        private void Close_Devices_ButtonClick(object sender, RoutedEventArgs e)
+        {
+            bcHelper.CloseDevice();
+            fpDeviceHelper.CloseDevice();
         }
     }
 }
