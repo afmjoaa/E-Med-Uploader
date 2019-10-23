@@ -13,11 +13,17 @@ namespace custom_window.Pages
     /// </summary>
     public partial class Home : BasePage<HomeViewModel>
     {
+        #region Init
+
         private FingerprintHelper fpDeviceHelper = null;
         private BarcodeHelper bcHelper = null;
 
+        private FileUploadService _fileUploadService = null;
+
         //fp width 288, height:375
         private CloudFirestoreService _cfService = null;
+
+        #endregion
 
         #region tempPatient
 
@@ -30,9 +36,19 @@ namespace custom_window.Pages
             InitializeComponent();
             fpDeviceHelper = FingerprintHelper.GetInstance();
             fpDeviceHelper.onCaptureCallBackEvents += OnFingerprintCaptured;
+
             _cfService = CloudFirestoreService.GetInstance();
+
             bcHelper = BarcodeHelper.GetInstance();
             bcHelper.modifiedModifiedBarcodeEvent += OnModifiedBarcodeEvent;
+
+            _fileUploadService = FileUploadService.GetInstance();
+            _fileUploadService.OnProgressUpdated += OnFileUploadProgressUpdated;
+        }
+
+        private void OnFileUploadProgressUpdated(int percentage)
+        {
+            upload_progress.Dispatcher?.Invoke(new Action(() => { upload_progress.Value = percentage; }));
         }
 
         private void InitButton(object sender, RoutedEventArgs e)
