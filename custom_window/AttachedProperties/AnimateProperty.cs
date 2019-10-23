@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace custom_window
@@ -17,16 +18,12 @@ namespace custom_window
         /// True if this is the very first time the value has been updated
         /// Used to make sure we run the logic at least once during first load
         /// </summary>
-        protected bool mFirstFire = true;
-
-        #endregion
-
-        #region Public Properties
+        protected Dictionary<DependencyObject, bool> mAlreadyLoaded = new Dictionary<DependencyObject, bool>();
 
         /// <summary>
-        /// A flag indicating if this is the first time this property has been loaded
+        /// The most recent value used if we get a value changed before we do the first load
         /// </summary>
-        public bool FirstLoad { get; set; } = true;
+        protected Dictionary<DependencyObject, bool> mFirstLoadValue = new Dictionary<DependencyObject, bool>();
 
         #endregion
 
@@ -37,15 +34,15 @@ namespace custom_window
                 return;
 
             // Don't fire if the value doesn't change
-            if ((bool)sender.GetValue(ValueProperty) == (bool)value && !mFirstFire)
+            if ((bool)sender.GetValue(ValueProperty) == (bool)value && mAlreadyLoaded.ContainsKey(sender))
                 return;
 
-            // No longer first fire
-            mFirstFire = false;
-
             // On first load...
-            if (FirstLoad)
+            if (!mAlreadyLoaded.ContainsKey(sender))
             {
+                // Flag that we are in first load but have not finished it
+                mAlreadyLoaded[sender] = false;
+
                 // Start off hidden before we decide how to animate
                 // if we are to be animated out initially
                 if (!(bool)value)
@@ -64,18 +61,21 @@ namespace custom_window
                     await Task.Delay(5);
 
                     // Do desired animation
-                    DoAnimation(element, (bool)value);
+                    DoAnimation(element, mFirstLoadValue.ContainsKey(sender) ? mFirstLoadValue[sender] : (bool)value, true);
 
-                    // No longer in first load
-                    FirstLoad = false;
+                    // Flag that we have finished first load
+                    mAlreadyLoaded[sender] = true;
                 };
 
                 // Hook into the Loaded event of the element
                 element.Loaded += onLoaded;
             }
+            // If we have started a first load but not fired the animation yet, update the property
+            else if (mAlreadyLoaded[sender] == false)
+                mFirstLoadValue[sender] = (bool)value;
             else
                 // Do desired animation
-                DoAnimation(element, (bool)value);
+                DoAnimation(element, (bool)value, false);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace custom_window
         /// </summary>
         /// <param name="element">The element</param>
         /// <param name="value">The new value</param>
-        protected virtual void DoAnimation(FrameworkElement element, bool value) { }
+        protected virtual void DoAnimation(FrameworkElement element, bool value, bool firstLoad) { }
     }
 
     /// <summary>
@@ -92,14 +92,14 @@ namespace custom_window
     /// </summary>
     public class AnimateSlideInFromLeftProperty : AnimateBaseProperty<AnimateSlideInFromLeftProperty>
     {
-        protected override async void DoAnimation(FrameworkElement element, bool value)
+        protected override async void DoAnimation(FrameworkElement element, bool value, bool firstLoad)
         {
             if (value)
                 // Animate in
-                await element.SlideAndFadeInFromLeftAsync(FirstLoad ? 0 : 0.3f, keepMargin: false);
+                await element.SlideAndFadeInAsync(AnimationSlideInDirection.Left, firstLoad, firstLoad ? 0 : 0.3f, keepMargin: false);
             else
                 // Animate out
-                await element.SlideAndFadeOutToLeftAsync(FirstLoad ? 0 : 0.3f, keepMargin: false);
+                await element.SlideAndFadeOutAsync(AnimationSlideInDirection.Left, firstLoad ? 0 : 0.3f, keepMargin: false);
         }
     }
 
@@ -109,14 +109,14 @@ namespace custom_window
     /// </summary>
     public class AnimateSlideInFromBottomProperty : AnimateBaseProperty<AnimateSlideInFromBottomProperty>
     {
-        protected override async void DoAnimation(FrameworkElement element, bool value)
+        protected override async void DoAnimation(FrameworkElement element, bool value, bool firstLoad)
         {
             if (value)
                 // Animate in
-                await element.SlideAndFadeInFromBottomAsync(FirstLoad ? 0 : 0.3f, keepMargin: false);
+                await element.SlideAndFadeInAsync(AnimationSlideInDirection.Bottom, firstLoad, firstLoad ? 0 : 0.3f, keepMargin: false);
             else
                 // Animate out
-                await element.SlideAndFadeOutToBottomAsync(FirstLoad ? 0 : 0.3f, keepMargin: false);
+                await element.SlideAndFadeOutAsync(AnimationSlideInDirection.Bottom, firstLoad ? 0 : 0.3f, keepMargin: false);
         }
     }
 
@@ -128,14 +128,14 @@ namespace custom_window
     /// </summary>
     public class AnimateSlideInFromBottomMarginProperty : AnimateBaseProperty<AnimateSlideInFromBottomMarginProperty>
     {
-        protected override async void DoAnimation(FrameworkElement element, bool value)
+        protected override async void DoAnimation(FrameworkElement element, bool value, bool firstLoad)
         {
             if (value)
                 // Animate in
-                await element.SlideAndFadeInFromBottomAsync(FirstLoad ? 0 : 0.3f, keepMargin: true);
+                await element.SlideAndFadeInAsync(AnimationSlideInDirection.Bottom, firstLoad, firstLoad ? 0 : 0.3f, keepMargin: true);
             else
                 // Animate out
-                await element.SlideAndFadeOutToBottomAsync(FirstLoad ? 0 : 0.3f, keepMargin: true);
+                await element.SlideAndFadeOutAsync(AnimationSlideInDirection.Bottom, firstLoad ? 0 : 0.3f, keepMargin: true);
         }
     }
 
@@ -145,14 +145,14 @@ namespace custom_window
     /// </summary>
     public class AnimateFadeInProperty : AnimateBaseProperty<AnimateFadeInProperty>
     {
-        protected override async void DoAnimation(FrameworkElement element, bool value)
+        protected override async void DoAnimation(FrameworkElement element, bool value, bool firstLoad)
         {
             if (value)
                 // Animate in
-                await element.FadeInAsync(FirstLoad ? 0 : 0.3f);
+                await element.FadeInAsync(firstLoad, firstLoad ? 0 : 0.3f);
             else
                 // Animate out
-                await element.FadeOutAsync(FirstLoad ? 0 : 0.3f);
+                await element.FadeOutAsync(firstLoad ? 0 : 0.3f);
         }
     }
 
@@ -161,10 +161,10 @@ namespace custom_window
     /// </summary>
     public class AnimateMarqueeProperty : AnimateBaseProperty<AnimateMarqueeProperty>
     {
-        protected override void DoAnimation(FrameworkElement element, bool value)
+        protected override void DoAnimation(FrameworkElement element, bool value, bool firstLoad)
         {
             // Animate in
-            element.MarqueeAsync(FirstLoad ? 0 : 3f);
+            element.MarqueeAsync(firstLoad ? 0 : 3f);
         }
     }
 }

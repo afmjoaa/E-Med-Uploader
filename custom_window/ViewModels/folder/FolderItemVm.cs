@@ -29,13 +29,13 @@ namespace custom_window
         public FolderItemVm()
         {
             //create commands
-            ItemPlayCommand = new RelayCommand(PlayFolderWatching);
-            ItemPauseCommand = new RelayCommand(PauseFolderWatching);
+            ItemPlayCommand = new RelayParameterizedCommand(PlayFolderWatching);
+            ItemPauseCommand = new RelayParameterizedCommand(PauseFolderWatching);
             ItemDeleteCommand = new RelayCommand(DeleteFolderWatching);
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        private async void PlayFolderWatching()
+        private async void PlayFolderWatching(object parameter)
         {
             // var w = new Watcher(path);
             // new Thread(w.watch).Start(); 
@@ -49,12 +49,24 @@ namespace custom_window
             Debug.WriteLine("started watching: " + path);
             var wt = GetWatcher(path);
             new Thread(wt.watch).Start();
+            var passedGrid = parameter as Grid;
+            var coll = passedGrid?.Children as UIElementCollection;
+            var Playbtn = coll?[2];
+            var Pausebtn = coll?[3];
+            if (Playbtn != null) Playbtn.IsEnabled = false;
+            if (Pausebtn != null) Pausebtn.IsEnabled = true;
         }
 
-        private void PauseFolderWatching()
+        private void PauseFolderWatching(object parameter)
         {
             GetWatcher(path).Dispose();
             _watchers.Remove(path);
+            var passedGrid = parameter as Grid;
+            var coll = passedGrid?.Children as UIElementCollection;
+            var Playbtn = coll?[2];
+            var Pausebtn = coll?[3];
+            if (Playbtn != null) Playbtn.IsEnabled = true;
+            if (Pausebtn != null) Pausebtn.IsEnabled = false;
         }
 
         private void DeleteFolderWatching()
