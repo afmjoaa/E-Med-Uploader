@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
 using custom_window.Core;
-using Custom_Window.Core.ViewModels.Dialogs;
 using MaterialDesignThemes.Wpf;
 
 namespace custom_window

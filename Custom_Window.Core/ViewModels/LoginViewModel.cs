@@ -31,9 +31,6 @@ namespace custom_window.Core
         /// </summary>
         public ICommand LoginCommand { get; set; }
 
-        public ICommand RegisterCommand { get; set; }
-        public ICommand PatientInfoCommand { get; set; }
-
         #endregion
 
         #region Constructor
@@ -45,27 +42,9 @@ namespace custom_window.Core
         {
             // Create commands
             LoginCommand = new RelayParameterizedCommand(async (parameter) => await LoginAsync(parameter));
-            RegisterCommand = new RelayCommand(async () => await RegisterAsync());
-            PatientInfoCommand = new RelayCommand(async () => await PatientInfo());
         }
 
-        private async Task PatientInfo()
-        {
-           //show a custom dialog 
-           await IoC.UI.ShowMessage(new DialogViewModel
-           {
-               Title = "Patient Info Check",
-               Message = "This is the testing message",
-               OkText = "Ok"
-           });
-        }
-
-
-        private async Task RegisterAsync()
-        {
-            //testing the patient slide in the main application
-            IoC.Get<ApplicationViewModel>().PatientInfoCheckVisible = true;
-        }
+        
 
         #endregion
 

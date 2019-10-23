@@ -121,7 +121,7 @@
                                    Text="Please scan patient fingerprint or NID barcode to identify patient." />
                     </StackPanel>
 
-                    <StackPanel Margin="0 0 0 10" Orientation="Vertical" Visibility="Hidden">
+                    <StackPanel Margin="0 0 0 10" Orientation="Vertical" Visibility="Visible">
 
                         <ProgressBar Minimum="0"
                                      Maximum="100"
@@ -136,7 +136,7 @@
                                    FontSize="16"
                                    FontWeight="Light" />
 
-                        <RichTextBox x:Name="fp_textblock" Visibility="Hidden" />
+                        <RichTextBox x:Name="fp_textblock" Visibility="Visible" />
                     </StackPanel>
                 </StackPanel>
 

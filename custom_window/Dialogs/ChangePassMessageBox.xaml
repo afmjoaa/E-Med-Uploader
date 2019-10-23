@@ -4,9 +4,52 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:custom_window"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+    <StackPanel Background="White">
+        <TextBlock Text="{Binding Message}" Padding="0 0 0 10" />
+
+        <Button  
+                x:Name="loginButton"
+                CommandParameter="{Binding ElementName=login_page }" 
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center"
+                FontSize="16"
+                Panel.ZIndex="2" 
+                Style="{DynamicResource MaterialDesignRaisedButton}"
+                materialDesign:ButtonProgressAssist.Value="-1"
+                materialDesign:ButtonAssist.CornerRadius="4"
+                ToolTip="Login - Already have a account"
+                Padding="20 0"
+                BorderBrush="Transparent"
+                materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
+                materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
+                materialDesign:ButtonProgressAssist.IsIndeterminate="True"
+                Command="{Binding CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:BaseDialogUserControl}}}"
+                MinWidth="160"
+                >
+            <StackPanel Orientation="Horizontal" Margin="8,0">
+                <materialDesign:PackIcon Margin="0 2 6 0" Kind="PasswordReset" />
+                <TextBlock FontWeight="Regular"
+                           FontSize="{StaticResource FontSizeForteen}">
+                    Reset Password
+                </TextBlock>
+            </StackPanel>
+        </Button>
+
+        <Button Style="{StaticResource IconGrowButton}"
+                FontSize="12"
+                x:Name="haveActBtn"
+                Padding="20 7"
+                Margin="20 10"
+                Content="Cancel"
+                Width="80"
+                Foreground="{StaticResource TextActiveBrush}"
+                FontWeight="Regular"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Panel.ZIndex="2"  />
+
+    </StackPanel>
 </local:BaseDialogUserControl>
