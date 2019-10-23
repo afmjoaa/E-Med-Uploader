@@ -51,12 +51,12 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <materialDesign:PackIcon x:Name="phone_Num_ico" Kind="Phone" Grid.Column="0" Foreground="{Binding ElementName=phone_number, Path=BorderBrush}" VerticalAlignment="Bottom" Margin=" 0 0 6 6"/>
+                            <materialDesign:PackIcon x:Name="phone_Num_ico" Kind="Gmail" Grid.Column="0" Foreground="{Binding ElementName=phone_number, Path=BorderBrush}" VerticalAlignment="Bottom" Margin=" 0 0 6 6"/>
                             <TextBox x:Name="phone_number" Grid.Column="1" 
                                  materialDesign:ValidationAssist.UsePopup="True" 
                                  materialDesign:TextFieldAssist.TextFieldCornerRadius="10" 
                                  materialDesign:HintAssist.IsFloating="True"
-                                 materialDesign:HintAssist.Hint="Phone Number" 
+                                 materialDesign:HintAssist.Hint="Email" 
                                  FontWeight="Regular"
                                  GotFocus="Phone_number_GotFocus"
                                  LostFocus="Phone_number_LostFocus"
@@ -71,12 +71,12 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <materialDesign:PackIcon x:Name="password_ico" Kind="Lock" Grid.Column="0" Foreground="{Binding ElementName=password, Path=BorderBrush}" VerticalAlignment="Bottom" Margin=" 0 0 6 6"/>
+                            <materialDesign:PackIcon x:Name="password_ico" Kind="lock" Grid.Column="0" Foreground="{Binding ElementName=password, Path=BorderBrush}" VerticalAlignment="Bottom" Margin=" 0 0 6 6"/>
                             <PasswordBox x:Name="password" Grid.Column="1" 
                                  materialDesign:ValidationAssist.UsePopup="True" 
                                  materialDesign:TextFieldAssist.TextFieldCornerRadius="10" 
                                  materialDesign:HintAssist.IsFloating="True"
-                                 materialDesign:HintAssist.Hint="Code" 
+                                 materialDesign:HintAssist.Hint="Password" 
                                  FontWeight="Regular"
                                  GotFocus="Password_GotFocus"
                                  LostFocus="Password_LostFocus"
@@ -90,16 +90,41 @@
                 <Viewbox HorizontalAlignment="Left" VerticalAlignment="Top" MaxWidth="420" MaxHeight="280">
 
                     <StackPanel>
-                        <!-- Floating action btn -->
-                        <Button Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=login_page }" VerticalAlignment="Bottom" HorizontalAlignment="Right" Panel.ZIndex="2" Width="44" Height="44" Style="{DynamicResource MaterialDesignFloatingActionButton}" Click="Login_Button_Click">
-                            <Image Margin="11" Source="/Images/windowControl/RightArrow.png"/>
-                        </Button>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                           
+                        <!-- new user button -->
+                            <Button Style="{StaticResource IconGrowButton}"
+                                FontSize="12"
+                                Padding="20 8"
+                                Margin="0 0 20 0"
+                                Content="New User ?"
+                                Width="120"
+                                Foreground="{StaticResource TextActiveBrush}"
+                                FontWeight="Regular"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Panel.ZIndex="2" 
+                                Click="Rigister_Button_Click" />
+
+
+                            <!-- login btn-->
+                            <Button Command="{Binding LoginCommand}" 
+                                    CommandParameter="{Binding ElementName=login_page }" 
+                                    VerticalAlignment="Center" 
+                                    HorizontalAlignment="Right"
+                                    FontSize="16"
+                                    Panel.ZIndex="2" 
+                                    Content="login"
+                                    Style="{DynamicResource MaterialDesignRaisedButton}"
+                                    Click="Login_Button_Click"/>
+                        </StackPanel>
 
                         <!-- other login -->
                         <TextBlock Visibility="Hidden" Margin="0 0 0 4" TextWrapping="WrapWithOverflow" Foreground="{StaticResource TextLightBrush}" FontSize="{StaticResource FontSizeEighteen}" FontWeight="ExtraLight" Text="Please login to your account by using your cell no."/>
                         <TextBlock Margin="0 0 0 20" TextWrapping="WrapWithOverflow" Foreground="{StaticResource TextLightBrush}" FontSize="{StaticResource FontSizeEighteen}" FontWeight="ExtraLight" Text="Or, you can Join with"/>
 
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" >
                             <Button Margin="0 0 15 0" 
                                     BorderBrush="{StaticResource GoogleColorBrush}" 
                                     Background="{StaticResource GoogleColorBrush}" 

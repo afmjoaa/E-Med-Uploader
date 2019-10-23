@@ -92,5 +92,10 @@ namespace custom_window.Pages
         {
             return !string.IsNullOrEmpty(phone) && !string.IsNullOrEmpty(pass);
         }
+
+        private void Rigister_Button_Click(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
     }
 }
