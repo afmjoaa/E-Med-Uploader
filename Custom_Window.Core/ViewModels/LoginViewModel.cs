@@ -51,20 +51,20 @@ namespace custom_window.Core
 
         private async Task PatientInfo()
         {
-           //show a custom dialog 
-           await IoC.UI.ShowMessage(new DialogViewModel
-           {
-               Title = "Patient Info Check",
-               Message = "This is the testing message",
-               OkText = "Ok"
-           });
+            //show a custom dialog 
+            await IoC.UI.ShowMessage(new DialogViewModel
+            {
+                Title = "Patient Info Check",
+                Message = "This is the testing message",
+                OkText = "Ok"
+            });
         }
 
 
         private async Task RegisterAsync()
         {
             //testing the patient slide in the main application
-            IoC.Get<ApplicationViewModel>().PatientInfoCheckVisible = true;
+            IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
         }
 
         #endregion

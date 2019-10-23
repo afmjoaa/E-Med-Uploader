@@ -8,5 +8,6 @@
         public string Message { get; set; }
 
         public string OkText { get; set; }
+
     }
 }
