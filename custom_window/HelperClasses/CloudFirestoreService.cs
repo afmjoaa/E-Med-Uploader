@@ -30,7 +30,7 @@ namespace custom_window.HelperClasses
             {
                 filepath = "F:\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json"; // zsumon laptop
             }
-            else if (pcName == "DESKTOP-")
+            else if (pcName == "DESKTOP-5PTT5JA")
             {
                 filepath = "E:\\Projects\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json"; // zsumon -> desktop
             }
