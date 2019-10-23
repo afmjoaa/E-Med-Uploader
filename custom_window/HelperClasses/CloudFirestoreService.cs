@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using ControlzEx.Standard;
 using custom_window.HelperClasses.DataModels;
@@ -20,6 +21,7 @@ namespace custom_window.HelperClasses
         public bool _isLoggedIn = false;
         private Hospital _loggedInHospitlal = null;
 
+
         private CloudFirestoreService()
         {
             var filepath = "";
@@ -35,6 +37,11 @@ namespace custom_window.HelperClasses
             else if (pcName == "DESKTOP--")
             {
                 filepath = "E:\\Projects\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json"; // joaa --> Laptop
+            }
+
+            if (string.IsNullOrWhiteSpace(filepath))
+            {
+                throw new FileNotFoundException("Please set correct path of your credentials..");
             }
 
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", filepath);
