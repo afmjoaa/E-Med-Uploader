@@ -309,14 +309,10 @@
     <Compile Include="Animation\PageAnimation.cs" />
     <Compile Include="Animation\PageAnimations.cs" />
     <Compile Include="Animation\StoryBoardHelper.cs" />
-    <Compile Include="AttachedProperties\BaseAttachedProperties.cs" />
     <Compile Include="AttachedProperties\AnimateProperty.cs" />
+    <Compile Include="AttachedProperties\BaseAttachedProperties.cs" />
     <Compile Include="AttachedProperties\NoFrameHistory.cs" />
     <Compile Include="AttachedProperties\ScrollViewerAttachedProperties.cs" />
-    <Compile Include="Dialogs\DialogMessageBox.xaml.cs">
-      <DependentUpon>DialogMessageBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\BaseDialogUserControl.cs" />
     <Compile Include="Controls\FolderListView.xaml.cs">
       <DependentUpon>FolderListView.xaml</DependentUpon>
     </Compile>
@@ -344,6 +340,13 @@
     <Compile Include="Controls\SideMenuControl.xaml.cs">
       <DependentUpon>SideMenuControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\BaseDialogUserControl.cs" />
+    <Compile Include="Dialogs\DialogMessageBox.xaml.cs">
+      <DependentUpon>DialogMessageBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DialogWindow.xaml.cs">
+      <DependentUpon>DialogWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="HelperClasses\CloudFirestoreService.cs" />
     <Compile Include="HelperClasses\DataModels\Constants.cs" />
     <Compile Include="HelperClasses\DataModels\Hospital.cs" />
@@ -352,14 +355,8 @@
     <Compile Include="HelperClasses\FileUploadService.cs" />
     <Compile Include="HelperClasses\Watcher.cs" />
     <Compile Include="HelperClasses\ToastClass.cs" />
-<<<<<<< HEAD
-    <Compile Include="IocHere\UIManager.cs" />
-    <Compile Include="DialogWindow.xaml.cs">
-      <DependentUpon>DialogWindow.xaml</DependentUpon>
-    </Compile>
-=======
     <Compile Include="HelperClasses\ZebraDeviceHelper\BarcodeHelper.cs" />
->>>>>>> d4f488894c8a9c52406b124de9d37b8a6a203c56
+    <Compile Include="IocHere\UIManager.cs" />
     <Compile Include="Pages\BasePage.cs" />
     <Compile Include="Pages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
@@ -387,6 +384,7 @@
     <Compile Include="ValueConverters\ApplicationPageValueConverter.cs" />
     <Compile Include="ValueConverters\BaseValueConverter.cs" />
     <Compile Include="HelperClasses\WindowResizer.cs" />
+    <Compile Include="ViewModels\DialogWindowViewModel.cs" />
     <Compile Include="ViewModels\folder\FolderItemVm.cs" />
     <Compile Include="ViewModels\folder\FolderListVm.cs" />
     <Compile Include="ViewModels\history\Design\HistoryItemDm.cs" />
@@ -398,12 +396,7 @@
     <Compile Include="ViewModels\side\SideListVm.cs" />
     <Compile Include="ViewModels\side\SideItemVm.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
-    <Compile Include="ViewModels\DialogWindowViewModel.cs" />
     <Compile Include="ViewModels\WindowVIewModel.cs" />
-    <Page Include="Dialogs\DialogMessageBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\FolderListView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -433,12 +426,16 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\PatientInfoCheck.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\SideMenuControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\DialogMessageBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="DialogWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -602,7 +599,6 @@
   <ItemGroup>
     <Resource Include="Images\BackGround\patientDemo.png" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('packages\Fody.6.0.0\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

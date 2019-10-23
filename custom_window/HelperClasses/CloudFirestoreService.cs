@@ -24,7 +24,7 @@ namespace custom_window.HelperClasses
         {
             var filepath = "";
             string pcName = Environment.MachineName;
-            if (pcName == "DESKTOP-91FG7PD")
+            /*if (pcName == "DESKTOP-91FG7PD")
             {
                 filepath = "F:\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json"; // zsumon laptop
             }
@@ -32,10 +32,10 @@ namespace custom_window.HelperClasses
             {
                 filepath = "E:\\Projects\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json"; // zsumon -> desktop
             }
-            else if (pcName == "DESKTOP--")
-            {
-                filepath = "E:\\Projects\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json"; // joaa --> Laptop
-            }
+            else if (pcName == "Foot-Print")
+            {*/
+                filepath = "D:\\All_mine\\VS_2019\\emed-4490e-ddff9c9b9237.json"; // joaa --> Laptop
+            //}
 
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", filepath);
             projectId = "emed-4490e";
@@ -87,22 +87,6 @@ namespace custom_window.HelperClasses
                 return _loggedInHospitlal;
             return null;
         }
-
-<<<<<<< HEAD
-        private CloudFirestoreService()
-        {
-            //var filepath = "E:\\Projects\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json"; // zsumon -> desktop
-
-            // var filepath = "G:\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json";  // zsumon -> laptop
-
-            var filepath = "D:\\All_mine\\VS_2019\\emed-4490e-ddff9c9b9237.json";  // for joaa-> laptop
-
-            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", filepath);
-            projectId = "emed-4490e";
-            fireStoreDb = FirestoreDb.Create(projectId);
-        }
-=======
->>>>>>> d4f488894c8a9c52406b124de9d37b8a6a203c56
 
         public static CloudFirestoreService GetInstance()
         {
