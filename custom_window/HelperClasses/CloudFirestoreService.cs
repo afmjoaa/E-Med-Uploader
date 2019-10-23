@@ -216,34 +216,52 @@ namespace custom_window.HelperClasses
             var ret = new List<ReportFile>();
             if (_isLoggedIn)
             {
+                /*CollectionReference citiesRef = fireStoreDb.Collection("files");
+                Query query = fireStoreDb.Collection("files")
+                    .WhereEqualTo("associated_hospitalId", _loggedInHospitlal.hospital_id);
+
+                FirestoreChangeListener clistener = query.Listen(snapshot =>
+                {
+                    Console.WriteLine("Callback received query snapshot.");
+                    Console.WriteLine("Current cities in California:");
+
+                    foreach (DocumentSnapshot documentSnapshot in snapshot.Documents)
+                    {
+                        Console.WriteLine(documentSnapshot.Id);
+                    }
+                });*/
+
                 var collection = fireStoreDb.Collection("files");
                 Query queryRef = collection.WhereEqualTo("associated_hospitalId", _loggedInHospitlal.hospital_id);
-                var docSnap = await queryRef.GetSnapshotAsync();
 
-                FirestoreChangeListener listener = queryRef.Listen((snap) => { ToastClass.NotifyMin("test", "test"); });
 
-                queryRef.Listen((snapshot) =>
+                FirestoreChangeListener listener = queryRef.Listen((snap) =>
                 {
-                    ToastClass.NotifyMin("interesting", "happened");
-                    // each time any file change event will cause query to all of  the files again.. not really efficient.. needs improvements 
-                    List<ReportFile> myRet = new List<ReportFile>();
-                    foreach (DocumentSnapshot snap in snapshot)
+                    var invokeParam = new List<ReportFile>();
+
+                    ToastClass.NotifyMin("Changes in /files", "lookup");
+                    foreach (var _docSnap in snap.Documents)
                     {
-                        ReportFile currFile = snap.ConvertTo<ReportFile>();
-                        myRet.Add(currFile);
+                        invokeParam.Add(_docSnap.ConvertTo<ReportFile>());
                     }
 
-                    OnDbFileChanged.Invoke(myRet);
+                    OnDbFileChanged.Invoke(invokeParam);
                 });
 
+                var docSnap = await queryRef.GetSnapshotAsync();
                 foreach (DocumentSnapshot reportFileDoc in docSnap)
                 {
                     ReportFile currFile = reportFileDoc.ConvertTo<ReportFile>();
                     ret.Add(currFile);
                 }
+
+                return ret;
             }
 
-            return ret;
+            else
+            {
+                return null;
+            }
         }
 
         private void _updateDbFileListeners(QuerySnapshot snapshot)

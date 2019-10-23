@@ -6,10 +6,12 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using custom_window.HelperClasses;
 using custom_window.HelperClasses.DataModels;
 
@@ -42,15 +44,20 @@ namespace custom_window
 
         private void OnDbFileChanged(List<ReportFile> updatedfiles)
         {
-            Items.Clear();
-            foreach (ReportFile rf in updatedfiles)
-            {
-                Items.Add(new HistoryItemVm()
+            Application.Current.Dispatcher?.BeginInvoke(
+                DispatcherPriority.Background,
+                new Action(() =>
                 {
-                    Name = rf.file_name, Status = "Completed", RecieverID = rf.associated_patientId,
-                    Date = rf.file_creation_date.ToString()
-                });
-            }
+                    Items.Clear();
+                    foreach (ReportFile rf in updatedfiles)
+                    {
+                        Items.Add(new HistoryItemVm()
+                        {
+                            Name = rf.file_name, Status = "Completed", RecieverID = rf.associated_patientId,
+                            Date = rf.file_creation_date.ToString()
+                        });
+                    }
+                }));
         }
 
         public async void LoadList()
