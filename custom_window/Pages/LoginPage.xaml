@@ -275,8 +275,8 @@
                                     HorizontalAlignment="Left" 
                                     Panel.ZIndex="2" 
                                     Width="36" 
-                                    Height="36" 
-                                    Command="{Binding RegisterCommand}"
+                                    Height="36"
+                                    Click="google_OnClick"
                                     Style="{DynamicResource MaterialDesignFloatingActionButton}">
                                 <materialDesign:PackIcon Width="21" Height="21" Kind="Google" Grid.Column="0"/>
                             </Button>
@@ -289,12 +289,20 @@
                                     Panel.ZIndex="2" 
                                     Width="36"
                                     Height="36" 
-                                    Command="{Binding PatientInfoCommand}"
+                                    Click="fb_OnClick"
                                     Style="{DynamicResource MaterialDesignFloatingActionButton}">
                                 <materialDesign:PackIcon Width="21" Height="21" Kind="Facebook" Grid.Column="0"/>
                             </Button>
 
-                            <Button BorderBrush="{StaticResource TwitterColorBrush}" Background="{StaticResource TwitterColorBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Panel.ZIndex="2" Width="36" Height="36" Style="{DynamicResource MaterialDesignFloatingActionButton}">
+                            <Button BorderBrush="{StaticResource TwitterColorBrush}"
+                                    Background="{StaticResource TwitterColorBrush}"
+                                    VerticalAlignment="Bottom"
+                                    HorizontalAlignment="Left"
+                                    Panel.ZIndex="2" 
+                                    Width="36"
+                                    Height="36" 
+                                    Click="twitter_OnClick"
+                                    Style="{DynamicResource MaterialDesignFloatingActionButton}">
                                 <materialDesign:PackIcon Width="21" Height="21" Kind="Twitter" Grid.Column="0"/>
                             </Button>
                         </StackPanel>
