@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using custom_window.Core;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using custom_window.HelperClasses;
 using custom_window.HelperClasses.DataModels;
 using custom_window.HelperClasses.MailAuthService;
@@ -25,11 +26,42 @@ namespace custom_window.Pages
 
         #endregion
 
+        #region Constructor
+
         public LoginPage()
         {
             InitializeComponent();
             cfService = CloudFirestoreService.GetInstance();
         }
+
+        #endregion
+
+        #region relay functions
+
+        private async void google_OnClick(object sender, RoutedEventArgs e)
+        {
+            //show a custom dialog 
+            await IoC.UI.ShowMessage(new DialogViewModel
+            {
+                Title = "Patient Info Check",
+                Message = "This is the testing message",
+                OkText = "Ok"
+            });
+        }
+
+        private void fb_OnClick(object sender, RoutedEventArgs e)
+        {
+            //testing the patient slide in the main application
+            IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
+        }
+
+        private void twitter_OnClick(object sender, RoutedEventArgs e)
+        {
+            var Toast = new ToastClass();
+            Toast.ShowNotification("Twitter Authentication", "Twitter authentication is coming soon...", 200);
+        }
+
+        #endregion
 
         #region iconColorFix
 
