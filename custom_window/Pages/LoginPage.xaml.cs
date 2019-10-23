@@ -9,6 +9,7 @@ using custom_window.Core;
 using System.Threading.Tasks;
 using custom_window.HelperClasses;
 using custom_window.HelperClasses.DataModels;
+using custom_window.HelperClasses.MailAuthService;
 
 namespace custom_window.Pages
 {
@@ -17,7 +18,12 @@ namespace custom_window.Pages
     /// </summary>
     public partial class LoginPage : BasePage<LoginViewModel>, IHavePassword
     {
+        #region Init
+
+        private string verificationCodeSent = null;
         private CloudFirestoreService cfService = null;
+
+        #endregion
 
         public LoginPage()
         {
@@ -53,15 +59,14 @@ namespace custom_window.Pages
 
         private void Code_GotFocus(object sender, RoutedEventArgs e)
         {
-            var phoneNumberIcon = (PackIcon)this.FindName("code_ico");
+            var phoneNumberIcon = (PackIcon) this.FindName("code_ico");
             phoneNumberIcon.Foreground = Brushes.OrangeRed;
         }
 
         private void Code_LostFocus(object sender, RoutedEventArgs e)
         {
-            var phoneNumberIcon = (PackIcon)this.FindName("code_ico");
+            var phoneNumberIcon = (PackIcon) this.FindName("code_ico");
             phoneNumberIcon.Foreground = Brushes.Gray;
-
         }
 
         #endregion
@@ -97,9 +102,8 @@ namespace custom_window.Pages
             }
             else if (error_code == Constants.BAD_USER)
             {
-                IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Register);
+                // IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Register);
             }
-
         }
 
         private bool validatePhoneAndPass(string phone, string pass)
@@ -122,7 +126,6 @@ namespace custom_window.Pages
             haveActBtn.Visibility = Visibility.Visible;
             sendCodeButton.Visibility = Visibility.Visible;
             emailBlock.Visibility = Visibility.Visible;
-
         }
 
         private void Have_Account_Button_Click(object sender, RoutedEventArgs e)
@@ -139,7 +142,6 @@ namespace custom_window.Pages
             emailBlock.Visibility = Visibility.Visible;
             newUserBtn.Visibility = Visibility.Visible;
             loginButton.Visibility = Visibility.Visible;
-
         }
 
         private void SendCodeButton_OnClick(object sender, RoutedEventArgs e)
@@ -160,16 +162,37 @@ namespace custom_window.Pages
             codeBlock.Visibility = Visibility.Visible;
 
 
-
-
             /*changing send code btn text*/
             //sendCodeButtonText.Text = "Resend Code";
+
+
+            RegistrationCodeSender codeHelper = RegistrationCodeSender.GetInstance();
+            var newMail = phone_number.Text;
+            var sentCode = codeHelper.SendCodeToEmail(newMail);
+            verificationCodeSent = sentCode;
         }
 
 
         private void Register_Button_Click(object sender, RoutedEventArgs e)
         {
-           IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Register);
+            if (code.Text == verificationCodeSent)
+            {
+                ToastClass.NotifyMin("Verification Successful", "You're ready to go :)");
+                IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Register);
+            }
+            else
+            {
+                ToastClass.NotifyMin("Bad verification code", "Please try again");
+            }
+        }
+
+        private void resendCodeButton_Click(object sender, RoutedEventArgs e)
+        {
+            RegistrationCodeSender codeHelper = RegistrationCodeSender.GetInstance();
+            var newMail = phone_number.Text;
+            var sentCode = codeHelper.SendCodeToEmail(newMail);
+            verificationCodeSent = sentCode;
+            code.Clear();
         }
     }
 }

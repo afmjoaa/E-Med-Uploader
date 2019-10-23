@@ -117,7 +117,9 @@
 
                         <!--send code button-->
                         <Button  
+                            
                             x:Name="resendCodeButton"
+                            Click="resendCodeButton_Click"
                             Margin="0 0 0 10"
                             Visibility="Collapsed"
                             CommandParameter="{Binding ElementName=login_page }" 
@@ -134,7 +136,7 @@
                             materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
                             materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
                             materialDesign:ButtonProgressAssist.IsIndeterminate="True"
-                            Click="SendCodeButton_OnClick">
+                            >
                             <StackPanel Orientation="Horizontal" Margin="8,0">
                                 <TextBlock FontWeight="Regular"
                                            x:Name="resendCodeButtonText"
