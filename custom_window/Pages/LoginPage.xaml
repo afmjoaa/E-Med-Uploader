@@ -26,7 +26,7 @@
 
         <Viewbox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" MaxWidth="1200" MaxHeight="800">
             <StackPanel Orientation="Vertical" >
-                <TextBlock Margin="0,6" Foreground="{StaticResource TextDarkBrush}"  FontSize="{StaticResource FontSizeTwentyTwo}" FontWeight="Medium" Text="About E-Med:"/>
+                <TextBlock FontFamily="{StaticResource DosisExtraLight}" Margin="0,6" Foreground="{StaticResource TextDarkBrush}"  FontSize="{StaticResource FontSizeTwentyTwo}" FontWeight="Medium" Text="About E-Med:"/>
                 <TextBlock TextWrapping="WrapWithOverflow" Foreground="{StaticResource TextLightBrush}" FontSize="{StaticResource FontSizeEighteen}" FontWeight="ExtraLight" Text="E-med is a online doctor and report delivery service. It helps you to consult doctor with all the info needed within the comfort of your home."/>
             </StackPanel>
         </Viewbox>
@@ -113,7 +113,16 @@
                                 <materialDesign:PackIcon Width="21" Height="21" Kind="Google" Grid.Column="0"/>
                             </Button>
 
-                            <Button Margin="0 0 15 0" BorderBrush="{StaticResource FaceBookColorBrush}" Background="{StaticResource FaceBookColorBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Panel.ZIndex="2" Width="36" Height="36" Style="{DynamicResource MaterialDesignFloatingActionButton}">
+                            <Button Margin="0 0 15 0" 
+                                    BorderBrush="{StaticResource FaceBookColorBrush}"
+                                    Background="{StaticResource FaceBookColorBrush}"
+                                    VerticalAlignment="Bottom" 
+                                    HorizontalAlignment="Left"
+                                    Panel.ZIndex="2" 
+                                    Width="36"
+                                    Height="36" 
+                                    Command="{Binding PatientInfoCommand}"
+                                    Style="{DynamicResource MaterialDesignFloatingActionButton}">
                                 <materialDesign:PackIcon Width="21" Height="21" Kind="Facebook" Grid.Column="0"/>
                             </Button>
 

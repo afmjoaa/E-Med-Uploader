@@ -17,17 +17,20 @@ namespace custom_window
     public class WindowViewModel : BaseViewModel
     {
         private Window mWindow;
-        private MainWindow mMainWindow;
         private int mOuterMarginSize = 10;
         private int mWindowRadius = 8;
 
-
         #region getter setter
+
+        /// <summary>
+        /// true if have a dimmed overlay on the window
+        /// </summary>
+        public bool DimableOverlayVisible { get; set; }
 
         public Thickness InnerContentPadding { get { return new Thickness(0); } }
 
-        public double WindowMinimumWidth { get; set; } = 400;
-        public double WindowMinimumHeight { get; set; } = 400;
+        public double WindowMinimumWidth { get; set; } = 960;
+        public double WindowMinimumHeight { get; set; } = 630;
 
         public int ResizeBorder { get { return mWindow.WindowState == WindowState.Maximized ? 0 : 6; } }
         public Thickness ResizeBorderThickness { get { return new Thickness(ResizeBorder + OuterMarginSize); } }
@@ -62,14 +65,20 @@ namespace custom_window
         public int TitleHeight { get; set; } = 38;
         public GridLength TitleHeightGridLength { get { return new GridLength(TitleHeight + ResizeBorder); } }
 
-
+        /// <summary>
+        /// true if we want to 
+        /// </summary>
+        public bool PatientInfoCheckVisible
+        {
+            get => IoC.Get<ApplicationViewModel>().PatientInfoCheckVisible;
+            set => IoC.Get<ApplicationViewModel>().PatientInfoCheckVisible = value;
+        }
         #endregion
 
         #region constructor
-        public WindowViewModel(Window window, MainWindow mainWindow)
+        public WindowViewModel(Window window)
         {
             mWindow = window;
-            mMainWindow = mainWindow;
             //fix window resize issue 
             var resizer = new WindowResizer(mWindow);
 

@@ -27,12 +27,22 @@ namespace custom_window
 
             //let the base application do what it needs 
             base.OnStartup(e);
-            //setup IoC
-            IoC.Setup();
+
+            //setup the main application
+            ApplicationSetup();
+          
             // show the main window
             Current.MainWindow = new MainWindow();
             Current.MainWindow.Show();
 
+        }
+
+        private void ApplicationSetup()
+        {
+            IoC.Setup();
+
+            //bind a ui manager
+            IoC.kernel.Bind<IUIManager>().ToConstant(new UIManager());
         }
     }
 }

@@ -86,4 +86,7 @@
     <Color x:Key="CardColor">#F8FAFB</Color>
     <SolidColorBrush x:Key="CardColorBrush" Color="{StaticResource CardColor}" />
 
+    <Color x:Key="WordTransparent">#003099c5</Color>
+    <SolidColorBrush x:Key="WordTransparentBrush" Color="{StaticResource WordTransparent}" />
+
 </ResourceDictionary>

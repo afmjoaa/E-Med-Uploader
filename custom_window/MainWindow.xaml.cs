@@ -24,10 +24,22 @@ namespace custom_window
         {
             InitializeComponent();
 
-            this.DataContext = new WindowViewModel(this, this);
+            this.DataContext = new WindowViewModel(this);
 
            
         }
 
+        private void MainWindow_OnDeactivated(object sender, EventArgs e)
+        {
+            //show overlay if we are not focused on the main window
+            (DataContext as WindowViewModel).DimableOverlayVisible = true;
+        }
+
+        private void MainWindow_OnActivated(object sender, EventArgs e)
+        {
+            //hide overlay if we are focused on the main window 
+            (DataContext as WindowViewModel).DimableOverlayVisible = false;
+
+        }
     }
 }
