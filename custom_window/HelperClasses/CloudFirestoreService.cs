@@ -20,6 +20,35 @@ namespace custom_window.HelperClasses
         public bool _isLoggedIn = false;
         private Hospital _loggedInHospitlal = null;
 
+        private CloudFirestoreService()
+        {
+            var filepath = "E:\\Projects\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json"; // zsumon -> desktop
+
+            // var filepath = "G:\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json";  // zsumon -> laptop
+
+            //var filepath = "G:\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json";  // for joaa-> laptop
+
+            string pcName = Environment.MachineName;
+            if (pcName == "DESKTOP-91FG7PD")
+            {
+                // zsumon laptop
+                filepath = "F:\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json"; 
+
+            }
+            else if (pcName == "")
+            {
+
+            }
+
+            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", filepath);
+            projectId = "emed-4490e";
+            fireStoreDb = FirestoreDb.Create(projectId);
+
+
+
+        }
+
+
         public async Task<Tuple<Hospital, int>> Login(string phoneNumber, string password)
         {
             // check & get hashed password & compare..
@@ -65,18 +94,7 @@ namespace custom_window.HelperClasses
             return null;
         }
 
-        private CloudFirestoreService()
-        {
-            var filepath = "E:\\Projects\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json"; // zsumon -> desktop
-
-            // var filepath = "G:\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json";  // zsumon -> laptop
-
-            //var filepath = "G:\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json";  // for joaa-> laptop
-
-            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", filepath);
-            projectId = "emed-4490e";
-            fireStoreDb = FirestoreDb.Create(projectId);
-        }
+        
 
         public static CloudFirestoreService GetInstance()
         {
