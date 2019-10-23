@@ -31,14 +31,28 @@ namespace custom_window.Pages
 
 //                    System.Windows.Forms.MessageBox.Show("Files found: " + files.Length.ToString(), "Message");
                 toast.ShowNotification("Selected Folder", fbd.SelectedPath, 200);
-                FolderListVm.Instance.myItem.Add(new FolderItemVm() {path = fbd.SelectedPath});
+
+                var tempitems = FolderListVm.Instance.myItem;
+                bool alreadyAdded = false;
+                foreach (var it in tempitems)
+                {
+                    if (it.path == fbd.SelectedPath)
+                    {
+                        // dont add..
+                        alreadyAdded = true;
+                        break;
+                    }
+                }
+
+                if (!alreadyAdded)
+                    FolderListVm.Instance.myItem.Add(new FolderItemVm() {path = fbd.SelectedPath});
             }
         }
 
         private void LogOutButtonClick(object sender, MouseButtonEventArgs e)
         {
             CloudFirestoreService.GetInstance().LogOut();
-            FileUploadService.GetInstance().Dispose();
+            // FileUploadService.GetInstance().Dispose();
             // close all devices & stop all services...
 
             FolderListVm.Instance.myItem.Clear();
