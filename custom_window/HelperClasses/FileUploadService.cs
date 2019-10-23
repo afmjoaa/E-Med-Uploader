@@ -19,14 +19,23 @@ namespace custom_window.HelperClasses
 {
     class FileUploadService
     {
+        #region Init
+
         private static FileUploadService _instance = null;
+
+        public delegate void ProgressUpdatedDelegate(int percentage);
+
+        public ProgressUpdatedDelegate OnProgressUpdated = null;
+
         private readonly CloudFirestoreService _cfService = CloudFirestoreService.GetInstance();
 
         public static Patient CurrentPatient = null;
+
         // updated on each fingerprints or null
         // needs to be reseted after each upload
-
         private readonly Hospital _currentHospital = CloudFirestoreService.GetInstance().getLoggedInHospital();
+
+        #endregion
 
         private FileUploadService()
         {
@@ -39,14 +48,12 @@ namespace custom_window.HelperClasses
             return _instance;
         }
 
-
         public async Task UploadFile(object fileInfo, string path)
         {
             var stream = File.Open(path, FileMode.Open);
             var task = new FirebaseStorage("emed-4490e.appspot.com")
                 .Child(Path.GetFileName(path))
                 .PutAsync(stream);
-            task.Progress.ProgressChanged += (s, e) => Debug.WriteLine($"Progress: {e.Percentage} %");
             try
             {
                 var downloadUrl = await task;
@@ -85,6 +92,12 @@ namespace custom_window.HelperClasses
                 .Child(Path.GetFileName(filePath))
                 .PutAsync(stream);
             task.Progress.ProgressChanged += (s, e) => Debug.WriteLine($"Progress: {e.Percentage} %");
+            task.Progress.ProgressChanged += (s, e) =>
+            {
+                OnProgressUpdated.Invoke(e.Percentage);
+                Debug.WriteLine($"Progress: {e.Percentage} %");
+            };
+
             try
             {
                 var downloadUrl = await task;

@@ -28,13 +28,13 @@ namespace custom_window.HelperClasses.MailAuthService
             try
             {
                 MailMessage mail = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-
                 mail.From = new MailAddress("xumeinc@gmail.com");
                 mail.To.Add(email);
-                mail.Subject = "Test Mail";
-                mail.Body = "This is for testing SMTP mail from GMAIL";
+                mail.Subject = "E-Med account Verification Code!";
+                mail.Body = "Your code is: " + codeToSend +
+                            "\nPlease use it in appropriate place.\nThanks for being with us.";
 
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
                 SmtpServer.Port = 587;
                 SmtpServer.Credentials = new System.Net.NetworkCredential("xumeinc@gmail.com", "xumedume101430");
                 SmtpServer.EnableSsl = true;
