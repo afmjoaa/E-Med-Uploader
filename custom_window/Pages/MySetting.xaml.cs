@@ -40,6 +40,9 @@ namespace custom_window.Pages
             CloudFirestoreService.GetInstance().LogOut();
             FileUploadService.GetInstance().Dispose();
             // close all devices & stop all services...
+
+            FolderListVm.Instance.myItem.Clear();
+
             IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Login);
             IoC.Get<ApplicationViewModel>().SideMenuVisible = false;
         }
