@@ -7,18 +7,18 @@ using custom_window.HelperClasses;
 using custom_window.HelperClasses.DataModels;
 using custom_window.Pages;
 
-public class Watcher
+public class WatcherService
 {
     public bool IsWatching = false;
     private string Path = null;
     private FileSystemWatcher _watcher = null;
     private FileUploadService _fileUploadService = null;
 
-    public Watcher(string path)
+    public WatcherService(string path)
     {
         this._watcher = new FileSystemWatcher();
         this.Path = path;
-        this._fileUploadService = new FileUploadService();
+        this._fileUploadService = FileUploadService.GetInstance();
         this.IsWatching = true;
     }
 

@@ -17,7 +17,7 @@ namespace custom_window
     public class FolderItemVm : BaseViewModel
     {
         public string path { get; set; }
-        private Dictionary<string, Watcher> _watchers = new Dictionary<string, Watcher>();
+        public static Dictionary<string, WatcherService> _watchers = new Dictionary<string, WatcherService>();
 
 
         public BitmapImage FolderTypeImageSource { get; set; }
@@ -76,16 +76,23 @@ namespace custom_window
             }
 
             FolderListVm.Instance.myItem.RemoveAt(itemIndex);
-
         }
 
-        private Watcher GetWatcher(string path)
+        private WatcherService GetWatcher(string path)
         {
             if (path == null) throw new ArgumentNullException(nameof(path));
             if (_watchers.ContainsKey(path)) return _watchers[path];
-            var ret = new Watcher(path);
+            var ret = new WatcherService(path);
             _watchers.Add(path, ret);
             return ret;
+        }
+
+        public static void DisposeAllWatchers()
+        {
+            foreach (var ww in _watchers)
+            {
+                ww.Value.Dispose();
+            }
         }
     }
 }

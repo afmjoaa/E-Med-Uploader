@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.IO;
 using System.Windows.Forms;
 using System.Windows.Input;
 using custom_window.Core;
@@ -41,6 +33,15 @@ namespace custom_window.Pages
                 toast.ShowNotification("Selected Folder", fbd.SelectedPath, 200);
                 FolderListVm.Instance.myItem.Add(new FolderItemVm() {path = fbd.SelectedPath});
             }
+        }
+
+        private void LogOutButtonClick(object sender, MouseButtonEventArgs e)
+        {
+            CloudFirestoreService.GetInstance().LogOut();
+            FileUploadService.GetInstance().Dispose();
+            // close all devices & stop all services...
+            IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Login);
+            IoC.Get<ApplicationViewModel>().SideMenuVisible = false;
         }
     }
 }
