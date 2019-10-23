@@ -55,7 +55,9 @@
 
 
                                 <Button Grid.Column="4"
+                                        x:Name="Play_btn"
                                         Command="{Binding ItemPlayCommand}"
+                                        CommandParameter="{Binding ElementName=container}" 
                                         Margin="10 0"
                                         IsEnabled="True"
                                         DockPanel.Dock="Right"
@@ -78,7 +80,9 @@
                                 </Button>
 
                                 <Button Margin="10 0"
+                                        x:Name="Pause_btn"
                                         Command="{Binding ItemPauseCommand}"
+                                        CommandParameter="{Binding ElementName=container}" 
                                         Grid.Column="5"
                                         Style="{StaticResource MaterialDesignRaisedButton}"
                                         materialDesign:ButtonProgressAssist.Value="-1"
@@ -98,6 +102,7 @@
                                 </Button>
 
                                 <Button Margin="10 0"
+                                        x:Name="Delete_btn"
                                         Command="{Binding ItemDeleteCommand}"
                                         Grid.Column="6"
                                         Style="{StaticResource MaterialDesignRaisedButton}"

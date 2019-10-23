@@ -51,6 +51,19 @@ namespace custom_window.Pages
             phoneNumberIcon.Foreground = Brushes.Gray;
         }
 
+        private void Code_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var phoneNumberIcon = (PackIcon)this.FindName("code_ico");
+            phoneNumberIcon.Foreground = Brushes.OrangeRed;
+        }
+
+        private void Code_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var phoneNumberIcon = (PackIcon)this.FindName("code_ico");
+            phoneNumberIcon.Foreground = Brushes.Gray;
+
+        }
+
         #endregion
 
         public SecureString SecurePassword => password.SecurePassword;
@@ -58,7 +71,7 @@ namespace custom_window.Pages
         private async void Login_Button_Click(object sender, RoutedEventArgs e)
         {
             // await Task.Delay(20); // 50
-
+            MaterialDesignThemes.Wpf.ButtonProgressAssist.SetIsIndicatorVisible(loginButton, true);
             var phoneNumber = phone_number.Text;
             // IMPORTANT: Never store unsecure password in variable like this
             var pass = password.Password;
@@ -86,6 +99,7 @@ namespace custom_window.Pages
             {
                 IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Register);
             }
+
         }
 
         private bool validatePhoneAndPass(string phone, string pass)
@@ -93,9 +107,69 @@ namespace custom_window.Pages
             return !string.IsNullOrEmpty(phone) && !string.IsNullOrEmpty(pass);
         }
 
-        private void Rigister_Button_Click(object sender, RoutedEventArgs e)
+        private void New_User_Button_Click(object sender, RoutedEventArgs e)
         {
-            //throw new NotImplementedException();
+            /*hidding login items*/
+            newUserBtn.Visibility = Visibility.Collapsed;
+            loginButton.Visibility = Visibility.Collapsed;
+            passBlock.Visibility = Visibility.Collapsed;
+            registerButton.Visibility = Visibility.Collapsed;
+            resendCodeButton.Visibility = Visibility.Collapsed;
+            codeBlock.Visibility = Visibility.Collapsed;
+
+
+            /*showing register items*/
+            haveActBtn.Visibility = Visibility.Visible;
+            sendCodeButton.Visibility = Visibility.Visible;
+            emailBlock.Visibility = Visibility.Visible;
+
+        }
+
+        private void Have_Account_Button_Click(object sender, RoutedEventArgs e)
+        {
+            /*hidding register items*/
+            haveActBtn.Visibility = Visibility.Collapsed;
+            sendCodeButton.Visibility = Visibility.Collapsed;
+            registerButton.Visibility = Visibility.Collapsed;
+            resendCodeButton.Visibility = Visibility.Collapsed;
+            codeBlock.Visibility = Visibility.Collapsed;
+
+            /*showing login items*/
+            passBlock.Visibility = Visibility.Visible;
+            emailBlock.Visibility = Visibility.Visible;
+            newUserBtn.Visibility = Visibility.Visible;
+            loginButton.Visibility = Visibility.Visible;
+
+        }
+
+        private void SendCodeButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            /*hidding login items*/
+            emailBlock.Visibility = Visibility.Collapsed;
+            sendCodeButton.Visibility = Visibility.Collapsed;
+            newUserBtn.Visibility = Visibility.Collapsed;
+            loginButton.Visibility = Visibility.Collapsed;
+            passBlock.Visibility = Visibility.Collapsed;
+
+            /*showing register items*/
+
+            haveActBtn.Visibility = Visibility.Visible;
+            registerButton.Visibility = Visibility.Visible;
+            haveActBtn.Visibility = Visibility.Visible;
+            resendCodeButton.Visibility = Visibility.Visible;
+            codeBlock.Visibility = Visibility.Visible;
+
+
+
+
+            /*changing send code btn text*/
+            //sendCodeButtonText.Text = "Resend Code";
+        }
+
+
+        private void Register_Button_Click(object sender, RoutedEventArgs e)
+        {
+           IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Register);
         }
     }
 }
