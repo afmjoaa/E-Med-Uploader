@@ -17,6 +17,7 @@ namespace custom_window
         public string Date { get; set; }
         public string Status { get; set; }
         public string Size { get; set; }
+        public string Url { get; set; }
 
         public BitmapImage FileTypeImageSource { get; set; }
 
@@ -39,6 +40,8 @@ namespace custom_window
                     Toast.ShowNotification("Name", Name, 300);
                     break;
                 default:
+                    System.Diagnostics.Process.Start(Url);
+
                     //IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Home);
                     Toast.ShowNotification("default", "default Clicked", 300);
                     break;
