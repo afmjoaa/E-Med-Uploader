@@ -9,10 +9,10 @@
         /// </summary>
         public bool SideMenuVisible { get; set; } = false;
 
-        /// <summary>
-        /// true if patient info layout is to be shown
-        /// </summary>
-        public bool PatientInfoCheckVisible { get; set; } = false;
+        
+
+        public string pName { get; set; }
+        public string pPhone { get; set; }
 
         /// <summary>
         /// navigate to specified page
@@ -26,7 +26,6 @@
             {
                 SideMenuVisible = true;
             }
-
         }
     }
 }

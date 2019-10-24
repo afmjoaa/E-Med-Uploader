@@ -42,9 +42,9 @@ namespace custom_window.Core
         {
             // Create commands
             LoginCommand = new RelayParameterizedCommand(async (parameter) => await LoginAsync(parameter));
-        }
 
-        
+          
+        }
 
         #endregion
 

@@ -80,6 +80,12 @@ namespace custom_window.Pages
             {
                 FileUploadService.CurrentPatient = matchedPatient;
                 ToastClass.NotifyMin("Welcome " + matchedPatient.patient_name, "We have Identified you!");
+                
+                IoC.Get<PatientInfoCheckViewModel>().SetWindowData(matchedPatient.patient_name,
+                    matchedPatient.patient_old_nid, matchedPatient.patient_new_nid, matchedPatient.patient_birth,
+                    matchedPatient.patient_email, matchedPatient.patient_address, matchedPatient.patient_phone);
+                
+                IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
             }
             else
             {
@@ -89,9 +95,10 @@ namespace custom_window.Pages
                 var r = new Random();
                 pat.patient_id = "pt_" + r.Next().ToString();
                 Debug.WriteLine("Receptionist might ask about your contact info to complete registration!");
-                var patInfoPrompt = Prompt.ShowDialog("Enter Patient Name:", "Patient's' Info");
 
-                pat.patient_name = patInfoPrompt;
+                // var patInfoPrompt = Prompt.ShowDialog("Enter Patient Name:", "Patient's' Info");
+
+                // pat.patient_name = patInfoPrompt;
 
                 var patId = await _cfService.AddPatient(pat);
                 Debug.WriteLine("new patient added: " + patId + "\n\n");

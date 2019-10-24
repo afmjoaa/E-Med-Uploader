@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Security;
 using System.Threading.Tasks;
 using ControlzEx.Standard;
 using custom_window.HelperClasses.DataModels;
@@ -20,7 +21,6 @@ namespace custom_window.HelperClasses
 
         public bool _isLoggedIn = false;
         private Hospital _loggedInHospitlal = null;
-
 
         private CloudFirestoreService()
         {
@@ -186,6 +186,12 @@ namespace custom_window.HelperClasses
             var coll = fireStoreDb.Collection("patients");
             var x = await coll.AddAsync(patient);
             return x.Id;
+        }
+
+        public void ResetPassword(SecureString password)
+        {
+            _loggedInHospitlal.hospital_pass = password.ToString();
+            // TODO passwordHashing will be done later insha'Allah
         }
 
         public bool LogOut()

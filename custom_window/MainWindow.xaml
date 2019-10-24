@@ -74,8 +74,12 @@
                                             <StackPanel>
                                                 <TextBlock FontWeight="SemiBold"
                                                            FontFamily="{StaticResource DosisExtraLight}"
-                                                           FontSize="{StaticResource FontSizeTwenty}" Margin="0,0,0,-5" >
-                                                    <Run Text="E" Foreground="{StaticResource RedDarkOneBrush}" /><Run Text="-" Foreground="{StaticResource RedDarkTwoBrush}" /><Run Text="M" Foreground="{StaticResource RedDarkThreeBrush}" /><Run Text="E" Foreground="{StaticResource RedDarkFourBrush}" /><Run Text="D" Foreground="{StaticResource RedDarkFiveBrush}" />
+                                                           FontSize="{StaticResource FontSizeTwenty}" Margin="0,0,0,-5">
+                                                    <Run Text="E" Foreground="{StaticResource RedDarkOneBrush}" />
+                                                    <Run Text="-" Foreground="{StaticResource RedDarkTwoBrush}" />
+                                                    <Run Text="M" Foreground="{StaticResource RedDarkThreeBrush}" />
+                                                    <Run Text="E" Foreground="{StaticResource RedDarkFourBrush}" />
+                                                    <Run Text="D" Foreground="{StaticResource RedDarkFiveBrush}" />
                                                 </TextBlock>
                                                 <TextBlock FontWeight="ExtraLight" Text="uploader"
                                                            Foreground="{StaticResource ForegroundDarkBrush}"
@@ -157,12 +161,12 @@
                 Opacity="0.3"
                 Panel.ZIndex="10">
             <Border Background="Gray"
-                    local:AnimateFadeInProperty.Value="{Binding DimableOverlayVisible}"/>
+                    local:AnimateFadeInProperty.Value="{Binding DimableOverlayVisible}" />
         </Border>
 
-        <local:PatientInfoCheck  Grid.ColumnSpan="2"
-                                 Panel.ZIndex="9"
-                                 local:AnimateSlideInFromBottomMarginProperty.Value="{Binding ApplicationViewModel.PatientInfoCheckVisible, Source={x:Static local:ViewModelLocator.Instance}}"/>
+        <local:PatientInfoCheck Grid.ColumnSpan="2"
+                                Panel.ZIndex="9"
+                                local:AnimateSlideInFromBottomMarginProperty.Value="{Binding PatientInfoCheckViewModel.PatientInfoCheckVisible, Source={x:Static local:ViewModelLocator.Instance}}" />
 
         <local:SideMenuControl Width="280" Grid.Column="0"
                                local:AnimateSlideInFromLeftProperty.Value="{Binding ApplicationViewModel.SideMenuVisible, Source={x:Static local:ViewModelLocator.Instance}}">
@@ -175,8 +179,7 @@
                         DataContext="{Binding ApplicationViewModel.CurrentPage, 
                         Source={x:Static local:ViewModelLocator.Instance}, 
                         Converter={local:ApplicationPageValueConverter}}"
-                        CurrentPage="{Binding}">
-        </local:PageHost>
+                        CurrentPage="{Binding}" />
 
         <!--Frame Grid.Column="1" x:Name="MainFrame"Content="{Binding CurrentPage, Converter={local:ApplicationPageValueConverter}}" />
             -->

@@ -60,5 +60,17 @@ namespace custom_window.Pages
             IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Login);
             IoC.Get<ApplicationViewModel>().SideMenuVisible = false;
         }
+
+        private void ResetPassword_Button_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (CloudFirestoreService.GetInstance()._isLoggedIn)
+            {
+//                CloudFirestoreService.GetInstance().ResetPassword(); TODO
+            }
+            else
+            {
+                ToastClass.NotifyMin("Fatal Error", "something very bad happened..");
+            }
+        }
     }
 }

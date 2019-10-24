@@ -29,7 +29,8 @@ namespace custom_window.HelperClasses.DataModels
         [FirestoreProperty] public string patient_email { get; set; }
         [FirestoreProperty] public string patient_address { get; set; }
         [FirestoreProperty] public string patient_fingerprint_template_right_thumb { get; set; }
-
+        
+        [FirestoreProperty] public string patient_old_nid { get; set; }
         [FirestoreProperty] public string patient_new_nid { get; set; }
     }
 

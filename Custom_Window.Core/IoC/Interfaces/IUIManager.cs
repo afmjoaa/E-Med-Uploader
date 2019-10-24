@@ -10,5 +10,7 @@ namespace custom_window.Core
         /// <param name="viewModel"></param>
         /// <returns></returns>
         Task ShowMessage(DialogViewModel viewModel);
+
+        Task ShowChangePassBlock(ChangePassViewModel viewModel);
     }
 }
