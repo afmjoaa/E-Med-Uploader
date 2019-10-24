@@ -80,11 +80,11 @@ namespace custom_window.Pages
             {
                 FileUploadService.CurrentPatient = matchedPatient;
                 ToastClass.NotifyMin("Welcome " + matchedPatient.patient_name, "We have Identified you!");
-                
+
                 IoC.Get<PatientInfoCheckViewModel>().SetWindowData(matchedPatient.patient_name,
                     matchedPatient.patient_old_nid, matchedPatient.patient_new_nid, matchedPatient.patient_birth,
                     matchedPatient.patient_email, matchedPatient.patient_address);
-                
+
                 IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
             }
             else

@@ -10,7 +10,6 @@ namespace custom_window
 {
     public class HistoryItemVm : BaseViewModel
     {
-       
         public string Name { get; set; }
         public string ReportType { get; set; }
         public string RecieverID { get; set; }
@@ -40,7 +39,8 @@ namespace custom_window
                     Toast.ShowNotification("Name", Name, 300);
                     break;
                 default:
-                    System.Diagnostics.Process.Start(Url);
+                    if (!string.IsNullOrWhiteSpace(Url))
+                        System.Diagnostics.Process.Start(Url);
 
                     //IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Home);
                     Toast.ShowNotification("default", "default Clicked", 300);
