@@ -54,7 +54,7 @@ namespace custom_window
                         Items.Add(new HistoryItemVm()
                         {
                             Name = rf.file_name, Status = "Completed", RecieverID = rf.associated_patientId,
-                            Date = rf.file_creation_date.ToString()
+                            Date = rf.file_creation_date.ToString(), Url = rf.file_url
                         });
                     }
                 }));
@@ -70,7 +70,7 @@ namespace custom_window
                 Items.Add(new HistoryItemVm()
                 {
                     Name = rf.file_name, Status = "Completed", RecieverID = rf.associated_patientId,
-                    Date = rf.file_creation_date.ToString()
+                    Date = rf.file_creation_date.ToString(), Url = rf.file_url
                 });
             }
         }

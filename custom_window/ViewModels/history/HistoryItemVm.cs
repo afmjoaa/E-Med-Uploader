@@ -34,16 +34,15 @@ namespace custom_window
             switch (Name)
             {
                 case "Home":
-                    //SideListDm.Instance.Items.ForEach((value) => { value.IsSelected = value.Name == "Home"; });
-                    //IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Home);
-                    Toast.ShowNotification("Name", Name, 300);
                     break;
                 default:
                     if (!string.IsNullOrWhiteSpace(Url))
                         System.Diagnostics.Process.Start(Url);
+                    else
+                    {
+                        ToastClass.NotifyMin("File Not Found!", "File was not uploaded correctly!");
+                    }
 
-                    //IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Home);
-                    Toast.ShowNotification("default", "default Clicked", 300);
                     break;
             }
         }
