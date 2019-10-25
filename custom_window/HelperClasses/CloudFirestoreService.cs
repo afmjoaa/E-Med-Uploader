@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Security;
@@ -14,13 +15,22 @@ namespace custom_window.HelperClasses
 {
     public class CloudFirestoreService
     {
+        #region Init
+
         string projectId = null;
         FirestoreDb fireStoreDb = null;
         private static CloudFirestoreService instance = null;
+
+        public delegate void DbFileChangedEvent(List<ReportFile> updatedFiles);
+
+        public DbFileChangedEvent OnDbFileChanged;
+
         private FingerprintHelper fpDeviceHelper = FingerprintHelper.GetInstance();
 
         public bool _isLoggedIn = false;
         private Hospital _loggedInHospitlal = null;
+
+        #endregion
 
         private CloudFirestoreService()
         {
@@ -30,7 +40,7 @@ namespace custom_window.HelperClasses
             {
                 filepath = "F:\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json"; // zsumon laptop
             }
-            else if (pcName == "DESKTOP-")
+            else if (pcName == "DESKTOP-5PTT5JA")
             {
                 filepath = "E:\\Projects\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json"; // zsumon -> desktop
             }
@@ -199,6 +209,63 @@ namespace custom_window.HelperClasses
             _loggedInHospitlal = null;
             _isLoggedIn = false;
             return true;
+        }
+
+        public async Task<List<ReportFile>> GetUploadedFiles()
+        {
+            var ret = new List<ReportFile>();
+            if (_isLoggedIn)
+            {
+                /*CollectionReference citiesRef = fireStoreDb.Collection("files");
+                Query query = fireStoreDb.Collection("files")
+                    .WhereEqualTo("associated_hospitalId", _loggedInHospitlal.hospital_id);
+
+                FirestoreChangeListener clistener = query.Listen(snapshot =>
+                {
+                    Console.WriteLine("Callback received query snapshot.");
+                    Console.WriteLine("Current cities in California:");
+
+                    foreach (DocumentSnapshot documentSnapshot in snapshot.Documents)
+                    {
+                        Console.WriteLine(documentSnapshot.Id);
+                    }
+                });*/
+
+                var collection = fireStoreDb.Collection("files");
+                Query queryRef = collection.WhereEqualTo("associated_hospitalId", _loggedInHospitlal.hospital_id);
+
+
+                FirestoreChangeListener listener = queryRef.Listen((snap) =>
+                {
+                    var invokeParam = new List<ReportFile>();
+
+                    ToastClass.NotifyMin("Changes in /files", "lookup");
+                    foreach (var _docSnap in snap.Documents)
+                    {
+                        invokeParam.Add(_docSnap.ConvertTo<ReportFile>());
+                    }
+
+                    OnDbFileChanged.Invoke(invokeParam);
+                });
+
+                var docSnap = await queryRef.GetSnapshotAsync();
+                foreach (DocumentSnapshot reportFileDoc in docSnap)
+                {
+                    ReportFile currFile = reportFileDoc.ConvertTo<ReportFile>();
+                    ret.Add(currFile);
+                }
+
+                return ret;
+            }
+
+            else
+            {
+                return null;
+            }
+        }
+
+        private void _updateDbFileListeners(QuerySnapshot snapshot)
+        {
         }
     }
 }

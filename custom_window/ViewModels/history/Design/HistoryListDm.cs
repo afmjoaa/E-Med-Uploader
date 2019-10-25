@@ -1,11 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using custom_window.HelperClasses;
+using custom_window.HelperClasses.DataModels;
 
 namespace custom_window
 {
@@ -13,6 +21,7 @@ namespace custom_window
     {
         private static HistoryListDm PrivateInstance { get; set; }
         private static readonly object padlock = new object();
+        private CloudFirestoreService _cf = null;
 
         public static HistoryListDm Instance
         {
@@ -26,61 +35,44 @@ namespace custom_window
         }
 
 
-        public HistoryListDm()
+        private HistoryListDm()
         {
-            Items = new List<HistoryItemVm>
+            _cf = CloudFirestoreService.GetInstance();
+            _cf.OnDbFileChanged += OnDbFileChanged;
+            LoadList();
+        }
+
+        private void OnDbFileChanged(List<ReportFile> updatedfiles)
+        {
+            Application.Current.Dispatcher?.BeginInvoke(
+                DispatcherPriority.Background,
+                new Action(() =>
+                {
+                    Items.Clear();
+                    foreach (ReportFile rf in updatedfiles)
+                    {
+                        Items.Add(new HistoryItemVm()
+                        {
+                            Name = rf.file_name, Status = "Completed", RecieverID = rf.associated_patientId,
+                            Date = rf.file_creation_date.ToString(), Url = rf.file_url
+                        });
+                    }
+                }));
+        }
+
+        public async void LoadList()
+        {
+            Items = new ObservableCollection<HistoryItemVm>();
+
+            var allFiles = await _cf.GetUploadedFiles();
+            foreach (ReportFile rf in allFiles)
             {
-                new HistoryItemVm
+                Items.Add(new HistoryItemVm()
                 {
-                    Name = "ScreenShot 5678",
-                    ReportType = "X-Ray Report",
-                    RecieverID = "12345678",
-                    Date = "12 July, 2019",
-                    Status = "Uploaded",
-                    Size = "4563 KB",
-                    FileTypeImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/ai.png"))
-                },
-                new HistoryItemVm
-                {
-                    Name = "ScreenShot 5678",
-                    ReportType = "X-Ray Report",
-                    RecieverID = "12345678",
-                    Date = "12 July, 2019",
-                    Status = "Uploaded",
-                    Size = "4563 KB",
-                    FileTypeImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/pdf.png"))
-                },
-                new HistoryItemVm
-                {
-                    Name = "ScreenShot 5678",
-                    ReportType = "X-Ray Report",
-                    RecieverID = "12345678",
-                    Date = "12 July, 2019",
-                    Status = "Uploaded",
-                    Size = "4563 KB",
-                    FileTypeImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/dcm.png"))
-                },
-                new HistoryItemVm
-                {
-                    Name = "ScreenShot 5678",
-                    ReportType = "X-Ray Report",
-                    RecieverID = "12345678",
-                    Date = "12 July, 2019",
-                    Status = "Uploaded",
-                    Size = "4563 KB",
-                    FileTypeImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/ai.png"))
-                },
-                new HistoryItemVm
-                {
-                    Name = "ScreenShot 5678",
-                    ReportType = "X-Ray Report",
-                    RecieverID = "12345678",
-                    Date = "12 July, 2019",
-                    Status = "Uploaded",
-                    Size = "4563 KB",
-                    FileTypeImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/ai.png"))
-                },
-            };
+                    Name = rf.file_name, Status = "Completed", RecieverID = rf.associated_patientId,
+                    Date = rf.file_creation_date.ToString(), Url = rf.file_url
+                });
+            }
         }
     }
 }

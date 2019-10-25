@@ -10,13 +10,13 @@ namespace custom_window
 {
     public class HistoryItemVm : BaseViewModel
     {
-       
         public string Name { get; set; }
         public string ReportType { get; set; }
         public string RecieverID { get; set; }
         public string Date { get; set; }
         public string Status { get; set; }
         public string Size { get; set; }
+        public string Url { get; set; }
 
         public BitmapImage FileTypeImageSource { get; set; }
 
@@ -34,13 +34,15 @@ namespace custom_window
             switch (Name)
             {
                 case "Home":
-                    //SideListDm.Instance.Items.ForEach((value) => { value.IsSelected = value.Name == "Home"; });
-                    //IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Home);
-                    Toast.ShowNotification("Name", Name, 300);
                     break;
                 default:
-                    //IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Home);
-                    Toast.ShowNotification("default", "default Clicked", 300);
+                    if (!string.IsNullOrWhiteSpace(Url))
+                        System.Diagnostics.Process.Start(Url);
+                    else
+                    {
+                        ToastClass.NotifyMin("File Not Found!", "File was not uploaded correctly!");
+                    }
+
                     break;
             }
         }
