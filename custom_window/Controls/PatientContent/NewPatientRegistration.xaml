@@ -194,6 +194,7 @@
                                 <!-- Content -->
 
                                 <TextBox
+                                    x:Name="reg_name_tb"
                                     Text="{Binding PatientInfoCheckViewModel.pName,Source={x:Static local:ViewModelLocator.Instance}}"
                                     Grid.Column="2"
                                     Grid.Row="0"
@@ -484,14 +485,15 @@
 
                                 <!--middle Right Thumb-->
                                 <Rectangle Height="36"
+                                            Visibility="Collapsed"
                                            Width="36" 
                                            Panel.ZIndex="10"
                                            Grid.Column="0"
                                            Grid.Row="0"
-                                           VerticalAlignment="Bottom"
+                                           VerticalAlignment="Top"
                                            HorizontalAlignment="Left"
                                            Stroke="Transparent" 
-                                           Fill="Transparent">
+                                           Fill="Transparent" Margin="0,122,0,0">
 
                                     <Rectangle.RenderTransform>
                                         <TranslateTransform X="-1" Y="-40" />
@@ -509,9 +511,10 @@
                                         <TranslateTransform X="0" Y="0" />
                                     </ToggleButton.RenderTransform>
                                 </ToggleButton>
-                                
+
                                 <!--bottom Right index-->
                                 <Rectangle Height="36"
+                                           Visibility="Collapsed"
                                            Width="36" 
                                            Panel.ZIndex="10"
                                            Grid.Column="0"
@@ -585,6 +588,7 @@
                                            Panel.ZIndex="10"
                                            Grid.Column="2"
                                            Grid.Row="0"
+                                            Visibility="Collapsed"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Stroke="Transparent" 
@@ -614,6 +618,7 @@
                                 <!--Left thumb rectangle for image-->
                                 <Rectangle Height="36"
                                            Width="36" 
+                                            Visibility="Collapsed"
                                            Panel.ZIndex="10"
                                            Grid.Column="2"
                                            Grid.Row="0"
@@ -679,7 +684,7 @@
                                         BorderBrush="Transparent"
                                         materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
                                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                                        materialDesign:ButtonProgressAssist.IsIndeterminate="False">
+                                        materialDesign:ButtonProgressAssist.IsIndeterminate="False" Click="Skip_Button_Click">
                                     <StackPanel Orientation="Horizontal" Margin="8,0">
                                         <TextBlock FontWeight="Normal"
                                                    FontSize="{StaticResource FontSizeForteen}">
@@ -698,7 +703,7 @@
                                         ToolTip="Proceed with the account registration"
                                         materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
                                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                                        materialDesign:ButtonProgressAssist.IsIndeterminate="False">
+                                        materialDesign:ButtonProgressAssist.IsIndeterminate="False" Click="Register_Button_Click">
                                     <StackPanel Orientation="Horizontal" Margin="8,0">
                                         <TextBlock FontWeight="Normal"
                                                    FontSize="{StaticResource FontSizeForteen}">
