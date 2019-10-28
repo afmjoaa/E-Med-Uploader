@@ -41,23 +41,26 @@ namespace custom_window.Pages
         private async void google_OnClick(object sender, RoutedEventArgs e)
         {
             //show a custom dialog 
-            await IoC.UI.ShowMessage(new DialogViewModel
+            /*await IoC.UI.ShowMessage(new DialogViewModel
             {
                 Title = "Patient Info Check",
                 Message = "This is the testing message",
                 OkText = "Ok"
-            });
+            });*/
 
             /*await IoC.UI.ShowChangePassBlock(new ChangePassViewModel
             {
                 Title = "Patient Info Check",
             });*/
+            IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.NewPatientRegistration;
+            IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
 
         }
 
         private void fb_OnClick(object sender, RoutedEventArgs e)
         {
             //testing the patient slide in the main application
+            IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
             IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
         }
 

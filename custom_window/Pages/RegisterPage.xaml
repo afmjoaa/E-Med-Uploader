@@ -67,17 +67,17 @@
                             <ColumnDefinition Width="280" />
                         </Grid.ColumnDefinitions>
 
-                        <materialDesign:PackIcon x:Name="hospital_id_icon" Kind="HospitalMarker" Grid.Column="0"
-                                                 Foreground="{Binding ElementName=hospital_id, Path=BorderBrush}"
+                        <materialDesign:PackIcon x:Name="hos_reg_number_icon" Kind="RegisteredTrademark" Grid.Column="0"
+                                                 Foreground="{Binding ElementName=hos_reg_number, Path=BorderBrush}"
                                                  VerticalAlignment="Bottom" Margin=" 0 0 6 6" />
-                        <TextBox x:Name="hospital_id" Grid.Column="1"
+                        <TextBox x:Name="hos_reg_number" Grid.Column="1"
                                  materialDesign:ValidationAssist.UsePopup="True"
                                  materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
                                  materialDesign:HintAssist.IsFloating="True"
-                                 materialDesign:HintAssist.Hint="Hospital ID"
+                                 materialDesign:HintAssist.Hint="Hospital Registration Number"
                                  FontWeight="Regular"
-                                 GotFocus="Hospital_id_OnGotFocus"
-                                 LostFocus="Hospital_id_OnLostFocus"
+                                 GotFocus="Hos_reg_number_OnGotFocus"
+                                 LostFocus="Hos_reg_number_OnLostFocus"
                                  FontSize="{StaticResource FontSizeSixteen}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  Text="{Binding PhoneNumber}" />
@@ -111,27 +111,7 @@
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  Text="{Binding PhoneNumber}" />
                     </Grid>
-                    <Grid Margin="30 0 0 0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="280" />
-                        </Grid.ColumnDefinitions>
-
-                        <materialDesign:PackIcon x:Name="contact_mail_icon" Kind="Contact" Grid.Column="0"
-                                                 Foreground="{Binding ElementName=contact_mail, Path=BorderBrush}"
-                                                 VerticalAlignment="Bottom" Margin=" 0 0 6 6" />
-                        <TextBox x:Name="contact_mail" Grid.Column="1"
-                                 materialDesign:ValidationAssist.UsePopup="True"
-                                 materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
-                                 materialDesign:HintAssist.IsFloating="True"
-                                 materialDesign:HintAssist.Hint="Contact Email"
-                                 FontWeight="Regular"
-                                 GotFocus="Contact_mail_OnGotFocus"
-                                 LostFocus="Contact_mail_OnLostFocus"
-                                 FontSize="{StaticResource FontSizeSixteen}"
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding PhoneNumber}" />
-                    </Grid>
+                   
                 </StackPanel>
 
 
@@ -140,31 +120,62 @@
                            FontSize="{StaticResource FontSizeEighteen}"
                            FontWeight="Light" Text="3. Verification Information" />
 
-                <StackPanel Orientation="Horizontal">
-                    <Grid Margin="0 0 40 22">
+                <StackPanel Orientation="Horizontal"
+                            Margin="0 0 0 16">
+                    <Grid HorizontalAlignment="Center"
+                          Margin="0 0 30 0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="280" />
                         </Grid.ColumnDefinitions>
 
-                        <materialDesign:PackIcon x:Name="hos_reg_number_icon" Kind="HowToRegOutline" Grid.Column="0"
-                                                 Foreground="{Binding ElementName=hos_reg_number, Path=BorderBrush}"
+                        <materialDesign:PackIcon x:Name="CurrentPassIcon" Kind="TextboxPassword" Grid.Column="0"
+                                                 Foreground="{Binding ElementName=CurrentPass, Path=BorderBrush}"
                                                  VerticalAlignment="Bottom" Margin=" 0 0 6 6" />
-                        <TextBox x:Name="hos_reg_number" Grid.Column="1"
+                        <TextBox x:Name="CurrentPass"
+                                 Grid.Column="1"
                                  materialDesign:ValidationAssist.UsePopup="True"
                                  materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
                                  materialDesign:HintAssist.IsFloating="True"
-                                 materialDesign:HintAssist.Hint="Hospital Registration Number"
+                                 materialDesign:HintAssist.Hint="Password"
                                  FontWeight="Regular"
-                                 GotFocus="Hos_reg_number_OnGotFocus"
-                                 LostFocus="Hos_reg_number_OnLostFocus"
                                  FontSize="{StaticResource FontSizeSixteen}"
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding PhoneNumber}" />
+                                 GotFocus="CurrentPass_OnGotFocus"
+                                 LostFocus="CurrentPass_OnLostFocus"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Center"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                    </Grid>
+
+                    <Grid Margin="30 0 0 0"
+                          HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="280" />
+                        </Grid.ColumnDefinitions>
+
+                        <materialDesign:PackIcon x:Name="ConfirmPassIcon" Kind="SelectCompare" Grid.Column="0"
+                                                 Foreground="{Binding ElementName=ConfirmPass, Path=BorderBrush}"
+                                                 VerticalAlignment="Bottom" Margin=" 0 0 6 6" />
+                        <TextBox x:Name="ConfirmPass"
+                                 Grid.Column="1"
+                                 materialDesign:ValidationAssist.UsePopup="True"
+                                 materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
+                                 materialDesign:HintAssist.IsFloating="True"
+                                 materialDesign:HintAssist.Hint="Confirm Password"
+                                 FontWeight="Regular"
+                                 FontSize="{StaticResource FontSizeSixteen}"
+                                 GotFocus="ConfirmPass_OnGotFocus"
+                                 LostFocus="ConfirmPass_OnLostFocus"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Center"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
                     </Grid>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Width="auto" Height="60" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal" 
+                            Width="auto" Height="60"
+                            HorizontalAlignment="Right">
 
                     <Button Margin="10 0"
                             Style="{StaticResource MaterialDesignRaisedButton}"
@@ -203,7 +214,6 @@
                     </Button>
 
                 </StackPanel>
-
             </StackPanel>
         </Viewbox>
 

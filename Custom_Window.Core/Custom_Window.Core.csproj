@@ -247,6 +247,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataModels\ContentType.cs" />
     <Compile Include="DataModels\ApplicationPage.cs" />
     <Compile Include="Expressions\ExpressionHelper.cs" />
     <Compile Include="IoC\Interfaces\IUIManager.cs" />

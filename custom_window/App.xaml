@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="Styles/Texts.xaml"/>
                 <ResourceDictionary Source="Styles/Buttons.xaml"/>
                 <ResourceDictionary Source="Styles/Windows.xaml"/>
+                <ResourceDictionary Source="Styles/Scroll.xaml"/>
                 
                 <!-- material design -->
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />

@@ -20,6 +20,13 @@ namespace custom_window.Core
         /// </summary>
         public bool PatientInfoCheckVisible { get; set; } = false;
 
+        /// <summary>
+        /// content will be served  based on the patient account type
+        /// three values can be possible acc == account
+        /// 1. noAcc 2. existingAccWithNID 3. existingAccWithoutNID
+        /// </summary>
+        public ContentType CurrentContent { get; set; } = ContentType.ExistingPatientInfo;
+
         #region PatientInfoRegion
 
         public string pName { get; set; }

@@ -63,6 +63,12 @@ namespace custom_window.Pages
 
         private void ResetPassword_Button_Click(object sender, MouseButtonEventArgs e)
         {
+
+            IoC.UI.ShowChangePassBlock(new ChangePassViewModel
+            {
+                Title = "Reset Password",
+            });
+
             if (CloudFirestoreService.GetInstance()._isLoggedIn)
             {
 //                CloudFirestoreService.GetInstance().ResetPassword(); TODO

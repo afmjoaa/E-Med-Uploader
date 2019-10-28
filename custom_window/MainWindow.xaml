@@ -13,9 +13,9 @@
         Icon="Images/Logo/logo.png"
         Deactivated="MainWindow_OnDeactivated"
         Activated="MainWindow_OnActivated"
-        MinWidth="{Binding WindowMinimumWidth, FallbackValue=960}"
-        MinHeight="{Binding WindowMinimumHeight, FallbackValue=630}"
-        Title="E-Med Uploader" Height="630" Width="960">
+        MinWidth="{Binding WindowMinimumWidth, FallbackValue=1060}"
+        MinHeight="{Binding WindowMinimumHeight, FallbackValue=700}"
+        Title="E-Med Uploader" Height="700" Width="1060">
 
     <Window.Resources>
         <Style TargetType="{x:Type local:MainWindow}">

@@ -40,18 +40,6 @@ namespace custom_window.Pages
             hosNameIcon.Foreground = Brushes.Gray;
         }
 
-        private void Hospital_id_OnGotFocus(object sender, RoutedEventArgs e)
-        {
-            var hosIdIcon = (PackIcon) this.FindName("hospital_id_icon");
-            hosIdIcon.Foreground = Brushes.OrangeRed;
-        }
-
-        private void Hospital_id_OnLostFocus(object sender, RoutedEventArgs e)
-        {
-            var hosIdIcon = (PackIcon) this.FindName("hospital_id_icon");
-            hosIdIcon.Foreground = Brushes.Gray;
-        }
-
         private void Contact_number_OnGotFocus(object sender, RoutedEventArgs e)
         {
             var contactNameIcon = (PackIcon) this.FindName("contact_number_icon");
@@ -64,17 +52,6 @@ namespace custom_window.Pages
             contactNameIcon.Foreground = Brushes.Gray;
         }
 
-        private void Contact_mail_OnGotFocus(object sender, RoutedEventArgs e)
-        {
-            var contactMailIcon = (PackIcon) this.FindName("contact_mail_icon");
-            contactMailIcon.Foreground = Brushes.OrangeRed;
-        }
-
-        private void Contact_mail_OnLostFocus(object sender, RoutedEventArgs e)
-        {
-            var contactMailIcon = (PackIcon) this.FindName("contact_mail_icon");
-            contactMailIcon.Foreground = Brushes.Gray;
-        }
 
         private void Hos_reg_number_OnGotFocus(object sender, RoutedEventArgs e)
         {
@@ -88,14 +65,36 @@ namespace custom_window.Pages
             hosRegNumIcon.Foreground = Brushes.Gray;
         }
 
+        private void ConfirmPass_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            var hosNameIcon = (PackIcon)this.FindName("ConfirmPassIcon");
+            hosNameIcon.Foreground = Brushes.OrangeRed;
+        }
+
+        private void ConfirmPass_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            var hosNameIcon = (PackIcon)this.FindName("ConfirmPassIcon");
+            hosNameIcon.Foreground = Brushes.Gray;
+        }
+
+        private void CurrentPass_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            var hosNameIcon = (PackIcon)this.FindName("CurrentPassIcon");
+            hosNameIcon.Foreground = Brushes.OrangeRed;
+        }
+
+        private void CurrentPass_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            var hosNameIcon = (PackIcon)this.FindName("CurrentPassIcon");
+            hosNameIcon.Foreground = Brushes.Gray;
+        }
+
         private void Register_Button_Click(object sender, RoutedEventArgs e)
         {
             //proceed...
             var hospital = new Hospital
             {
                 hospital_name = hospital_name.Text,
-                hospital_id = hospital_id.Text,
-                hospital_email = contact_mail.Text,
                 hospital_phone_number = contact_number.Text,
                 hospital_registration_num = hos_reg_number.Text,
                 hospital_pass = "123",
@@ -110,5 +109,6 @@ namespace custom_window.Pages
         {
             IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Login);
         }
+
     }
 }

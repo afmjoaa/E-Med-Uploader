@@ -32,8 +32,8 @@ namespace custom_window
             get { return new Thickness(0); }
         }
 
-        public double WindowMinimumWidth { get; set; } = 960;
-        public double WindowMinimumHeight { get; set; } = 630;
+        public double WindowMinimumWidth { get; set; } = 1060;
+        public double WindowMinimumHeight { get; set; } = 700;
 
         public int ResizeBorder
         {

@@ -2,9 +2,11 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using custom_window.Core;
 using custom_window.HelperClasses;
 using custom_window.HelperClasses.DataModels;
+using MaterialDesignThemes.Wpf;
 
 namespace custom_window.Pages
 {
@@ -45,6 +47,34 @@ namespace custom_window.Pages
             _fileUploadService = FileUploadService.GetInstance();
             _fileUploadService.OnProgressUpdated += OnFileUploadProgressUpdated;
         }
+
+        #region design functions
+
+        private void Combo_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            var hosNameIcon = (PackIcon)this.FindName("Combo_icon");
+            hosNameIcon.Foreground = Brushes.OrangeRed;
+        }
+
+        private void Combo_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            var hosNameIcon = (PackIcon)this.FindName("Combo_icon");
+            hosNameIcon.Foreground = Brushes.Gray;
+        }
+
+        private void identification_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            var hosNameIcon = (PackIcon)this.FindName("identification_icon");
+            hosNameIcon.Foreground = Brushes.OrangeRed;
+        }
+
+        private void identification_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            var hosNameIcon = (PackIcon)this.FindName("identification_icon");
+            hosNameIcon.Foreground = Brushes.Gray;
+        }
+
+        #endregion
 
         private void OnFileUploadProgressUpdated(int percentage)
         {
@@ -117,6 +147,21 @@ namespace custom_window.Pages
         {
             bcHelper.CloseDevice();
             fpDeviceHelper.CloseDevice();
+        }
+
+        private void NewPatientRegister_OnClick(object sender, RoutedEventArgs e)
+        {
+            IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.NewPatientRegistration;
+            IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
+        }
+
+        private void CriteriaSearchBtn_OnClick(object sender, RoutedEventArgs e)
+        {
+            //first search the database find the user 
+            //if found then show 
+            //if not found then show the newPatient register
+            IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
+            IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
         }
     }
 }

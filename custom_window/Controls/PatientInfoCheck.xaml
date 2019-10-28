@@ -5,199 +5,45 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:custom_window"
              mc:Ignorable="d"
-             d:DesignHeight="630" d:DesignWidth="960">
+             d:DesignHeight="900" d:DesignWidth="960">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Border Background="{StaticResource WhiteBrush}"
+                Padding="15 0 15 15">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                    <!-- Back button -->
+                    <Button Style="{StaticResource IconGrowButton}"
+                            FontFamily="{StaticResource FontAwesome}"
+                            FontSize="{StaticResource FontSizeTwentyTwo}"
+                            Content="{StaticResource FontAwesomeArrowLeftIcon}"
+                            Height="45"
+                            FontWeight="Regular"
+                            Margin="26 0"
+                            Panel.ZIndex="9"
+                            Foreground="{StaticResource WhiteBrush}"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Command="{Binding closePatientInfoCommand}" >
+
+                        <Button.RenderTransform>
+                            <TranslateTransform X="0" Y="28" />
+                        </Button.RenderTransform>
+
+                    </Button>
 
 
-    <Border Background="{StaticResource WhiteBrush}"
-            Padding="15">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <!-- Settings Title -->
-            <Grid Margin="0 0 0 10">
-
-                <!-- Back button -->
-                <Button Style="{StaticResource IconGrowButton}"
-                        FontFamily="{StaticResource FontAwesome}"
-                        FontSize="{StaticResource FontSizeTwentyfour}"
-                        Content="{StaticResource FontAwesomeArrowLeftIcon}"
-                        Height="45"
-                        Foreground="{StaticResource TextActiveBrush}"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Command="{Binding closePatientInfoCommand}" />
-
-                <!-- Settings header -->
-                <TextBlock FontSize="{StaticResource FontSizeTwentyfour}"
-                           Foreground="{StaticResource TextDarkBrush}"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center">
-                    <!-- Cog icon -->
-                    <Run FontFamily="{StaticResource FontAwesome}"
-                         Text="{StaticResource PatientId}"
-                         Foreground="{StaticResource WordOrangeBrush}" />
-                    <!-- Settings text -->
-                    <Run Text=" Current Patient Info"
-                         FontFamily="{StaticResource FontAwesome}" />
-                </TextBlock>
-
+                    <ContentControl
+                    Grid.Row="0"
+                    Margin="0 0 0 40"
+                    Content="{Binding}"
+                    DataContext="{Binding PatientInfoCheckViewModel.CurrentContent, 
+                        Source={x:Static local:ViewModelLocator.Instance}, 
+                        Converter={local:ContentValueConverter}}" />
             </Grid>
-
-            <!-- Main Content -->
-            <Viewbox Grid.Row="1"
-                     MaxWidth="1000"
-                     MaxHeight="700"
-                     Margin="0 20 0 0"
-                     HorizontalAlignment="Center"
-                     VerticalAlignment="Top">
-                <Grid>
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200" />
-                        <ColumnDefinition Width="400" />
-                    </Grid.ColumnDefinitions>
-
-
-                    <!-- Profile Picture -->
-                    <Grid Margin="10 10 20 10"
-                          Column="0"
-
-                          Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}">
-
-                        <!-- Mask for rounded corners-->
-                        <Border CornerRadius="18"
-                                Name="Mask"
-                                Background="White">
-                            <Border.Effect>
-                                <DropShadowEffect ShadowDepth="1" Opacity="0.3" />
-                            </Border.Effect>
-                        </Border>
-
-                        <!-- Image -->
-                        <Grid>
-                            <Grid.OpacityMask>
-                                <VisualBrush Visual="{Binding ElementName=Mask}" />
-                            </Grid.OpacityMask>
-
-                            <Image Source="/Images/BackGround/patientDemo.png" Stretch="UniformToFill" />
-                        </Grid>
-
-
-                    </Grid>
-
-                    <!-- Profile details -->
-                    <Grid Grid.Column="1" Margin="10 26">
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width=".2*" />
-                            <ColumnDefinition Width="2*" />
-                        </Grid.ColumnDefinitions>
-
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <!-- Labels -->
-                        <TextBlock
-                            Text="Name"
-                            Margin="0 8"
-                            VerticalAlignment="Center"
-                            Grid.Row="0"
-                            FontWeight="SemiBold"
-                            FontSize="{StaticResource FontSizeSixteen}" />
-
-                        <Rectangle HorizontalAlignment="Stretch"
-                                   VerticalAlignment="Bottom"
-                                   Fill="LightGray"
-                                   Grid.ColumnSpan="3"
-                                   Grid.Row="0"
-                                   Height=".5" />
-
-                        <TextBlock Text="NID No."
-                                   Grid.Row="1"
-                                   Margin="0 8"
-                                   VerticalAlignment="Center"
-                                   FontWeight="SemiBold"
-                                   FontSize="{StaticResource FontSizeSixteen}" />
-                        <TextBlock Text="Phone"
-                                   Margin="0 8"
-                                   VerticalAlignment="Center"
-                                   Grid.Row="2"
-                                   FontWeight="SemiBold"
-                                   FontSize="{StaticResource FontSizeSixteen}" />
-                        <TextBlock Text="Email"
-                                   Margin="0 8"
-                                   VerticalAlignment="Center"
-                                   Grid.Row="3"
-                                   FontWeight="SemiBold"
-                                   FontSize="{StaticResource FontSizeSixteen}" />
-
-
-                        <!-- ::::: -->
-                        <TextBlock Text=":" Grid.Column="1" Grid.Row="0"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"
-                                   FontSize="{StaticResource FontSizeSixteen}" />
-                        <TextBlock Text=":" Grid.Column="1" Grid.Row="1"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"
-                                   FontSize="{StaticResource FontSizeSixteen}" />
-                        <TextBlock Text=":" Grid.Column="1" Grid.Row="2"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"
-                                   FontSize="{StaticResource FontSizeSixteen}" />
-                        <TextBlock Text=":" Grid.Column="1" Grid.Row="3"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"
-                                   FontSize="{StaticResource FontSizeSixteen}" />
-
-                        <!-- Content -->
-                        <TextBlock
-                            Text="{Binding PatientInfoCheckViewModel.pName,Source={x:Static local:ViewModelLocator.Instance}}"
-                            Grid.Column="2"
-                            FontWeight="Light"
-                            VerticalAlignment="Center"
-                            FontSize="{StaticResource FontSizeSixteen}" />
-                        <TextBlock
-                            Text="{Binding PatientInfoCheckViewModel.pNewNid,Source={x:Static local:ViewModelLocator.Instance}}"
-                            Grid.Column="2"
-                            FontWeight="Light"
-                            VerticalAlignment="Center"
-                            FontSize="{StaticResource FontSizeSixteen}"
-                            Grid.Row="1" />
-                        <TextBlock
-                            Text="{Binding PatientInfoCheckViewModel.pPhone,Source={x:Static local:ViewModelLocator.Instance}}"
-                            Grid.Column="2"
-                            Grid.Row="2" FontWeight="Light"
-                            VerticalAlignment="Center"
-                            FontSize="{StaticResource FontSizeSixteen}" />
-                        <TextBlock
-                            Text="{Binding PatientInfoCheckViewModel.pEmail,Source={x:Static local:ViewModelLocator.Instance}}"
-                            Grid.Column="2"
-                            Grid.Row="3"
-                            VerticalAlignment="Center"
-                            FontWeight="Light"
-                            FontSize="{StaticResource FontSizeSixteen}" />
-
-                    </Grid>
-
-                </Grid>
-
-            </Viewbox>
-
-            <ContentControl  
-                Grid.Row="2"
-                Content="{Binding Content}"/>
-        </Grid>
-    </Border>
+        </Border>
+    </ScrollViewer>
 </UserControl>

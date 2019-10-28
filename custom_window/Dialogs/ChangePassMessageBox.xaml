@@ -8,7 +8,81 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel Background="White">
-        <TextBlock Text="{Binding Message}" Padding="0 0 0 10" />
+
+        <Grid Margin="0 0 0 20"
+              HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="200" />
+            </Grid.ColumnDefinitions>
+
+            <materialDesign:PackIcon x:Name="CurrentPassIcon" Kind="TextboxPassword" Grid.Column="0"
+                                     Foreground="{Binding ElementName=CurrentPass, Path=BorderBrush}"
+                                     VerticalAlignment="Bottom" Margin=" 0 0 6 6" />
+            <TextBox x:Name="CurrentPass"
+                     Grid.Column="1"
+                     materialDesign:ValidationAssist.UsePopup="True"
+                     materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
+                     materialDesign:HintAssist.IsFloating="True"
+                     materialDesign:HintAssist.Hint="Current Password"
+                     FontWeight="Regular"
+                     FontSize="{StaticResource FontSizeSixteen}"
+                     GotFocus="CurrentPass_OnGotFocus"
+                     LostFocus="CurrentPass_OnLostFocus"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Center"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+        </Grid>
+
+        <Grid Margin="0 0 0 20"
+              HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="200" />
+            </Grid.ColumnDefinitions>
+
+            <materialDesign:PackIcon x:Name="NewPassIcon" Kind="PasswordReset" Grid.Column="0"
+                                     Foreground="{Binding ElementName=NewPass, Path=BorderBrush}"
+                                     VerticalAlignment="Bottom" Margin=" 0 0 6 6" />
+            <TextBox x:Name="NewPass"
+                     Grid.Column="1"
+                     materialDesign:ValidationAssist.UsePopup="True"
+                     materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
+                     materialDesign:HintAssist.IsFloating="True"
+                     materialDesign:HintAssist.Hint="New Password"
+                     FontWeight="Regular"
+                     FontSize="{StaticResource FontSizeSixteen}"
+                     GotFocus="NewPass_OnGotFocus"
+                     LostFocus="NewPass_OnLostFocus"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Center"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+        </Grid>
+
+        <Grid Margin="0 0 0 20"
+              HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="200" />
+            </Grid.ColumnDefinitions>
+
+            <materialDesign:PackIcon x:Name="ConfirmPassIcon" Kind="SelectCompare" Grid.Column="0"
+                                     Foreground="{Binding ElementName=ConfirmPass, Path=BorderBrush}"
+                                     VerticalAlignment="Bottom" Margin=" 0 0 6 6" />
+            <TextBox x:Name="ConfirmPass"
+                     Grid.Column="1"
+                     materialDesign:ValidationAssist.UsePopup="True"
+                     materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
+                     materialDesign:HintAssist.IsFloating="True"
+                     materialDesign:HintAssist.Hint="Confirm Password"
+                     FontWeight="Regular"
+                     FontSize="{StaticResource FontSizeSixteen}"
+                     GotFocus="ConfirmPass_OnGotFocus"
+                     LostFocus="ConfirmPass_OnLostFocus"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Center"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+        </Grid>
 
         <Button  
                 x:Name="loginButton"
@@ -40,13 +114,13 @@
 
         <Button Style="{StaticResource IconGrowButton}"
                 FontSize="12"
-                x:Name="haveActBtn"
+                x:Name="CancelBtn"
                 Padding="20 7"
                 Margin="20 10"
                 Content="Cancel"
                 Width="80"
                 Foreground="{StaticResource TextActiveBrush}"
-                FontWeight="Regular"
+                FontWeight="SemiBold"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Panel.ZIndex="2"  />
