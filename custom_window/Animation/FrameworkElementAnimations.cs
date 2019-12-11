@@ -21,7 +21,7 @@ namespace custom_window
         /// <param name="size">The animation width/height to animate to. If not specified the elements size is used</param>
         /// <param name="firstLoad">Indicates if this is the first load</param>
         /// <returns></returns>
-        public static async Task SlideAndFadeInAsync(this FrameworkElement element, AnimationSlideInDirection direction, bool firstLoad, float seconds = 0.3f, bool keepMargin = true, int size = 0)
+        public static async Task SlideAndFadeInAsync(this FrameworkElement element, AnimationSlideInDirection direction, bool firstLoad, float seconds = 0.01f, bool keepMargin = true, int size = 0)
         {
             // Create the storyboard
             var sb = new Storyboard();
@@ -47,7 +47,7 @@ namespace custom_window
                     break;
             }
             // Add fade in animation
-            sb.AddFadeIn(seconds);
+            //sb.AddFadeIn(seconds);
 
             // Start animating
             sb.Begin(element);
@@ -69,7 +69,7 @@ namespace custom_window
         /// <param name="keepMargin">Whether to keep the element at the same width during animation</param>
         /// <param name="size">The animation width/height to animate to. If not specified the elements size is used</param>
         /// <returns></returns>
-        public static async Task SlideAndFadeOutAsync(this FrameworkElement element, AnimationSlideInDirection direction, float seconds = 0.3f, bool keepMargin = true, int size = 0)
+        public static async Task SlideAndFadeOutAsync(this FrameworkElement element, AnimationSlideInDirection direction, float seconds = 0.01f, bool keepMargin = true, int size = 0)
         {
             // Create the storyboard
             var sb = new Storyboard();
@@ -96,7 +96,7 @@ namespace custom_window
             }
 
             // Add fade in animation
-            sb.AddFadeOut(seconds);
+            //sb.AddFadeOut(seconds);
 
             // Start animating
             sb.Begin(element);
@@ -123,7 +123,7 @@ namespace custom_window
         /// <param name="seconds">The time the animation will take</param>
         /// <param name="firstLoad">Indicates if this is the first load</param>
         /// <returns></returns>
-        public static async Task FadeInAsync(this FrameworkElement element, bool firstLoad, float seconds = 0.3f)
+        public static async Task FadeInAsync(this FrameworkElement element, bool firstLoad, float seconds = 0.01f)
         {
             // Create the storyboard
             var sb = new Storyboard();
@@ -149,7 +149,7 @@ namespace custom_window
         /// <param name="seconds">The time the animation will take</param>
         /// <param name="firstLoad">Indicates if this is the first load</param>
         /// <returns></returns>
-        public static async Task FadeOutAsync(this FrameworkElement element, float seconds = 0.3f)
+        public static async Task FadeOutAsync(this FrameworkElement element, float seconds = 0.01f)
         {
             // Create the storyboard
             var sb = new Storyboard();

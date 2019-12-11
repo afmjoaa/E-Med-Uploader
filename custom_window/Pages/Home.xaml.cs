@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -71,25 +72,25 @@ namespace custom_window.Pages
 
         private void Combo_OnGotFocus(object sender, RoutedEventArgs e)
         {
-            var hosNameIcon = (PackIcon)this.FindName("Combo_icon");
+            var hosNameIcon = (PackIcon) this.FindName("Combo_icon");
             hosNameIcon.Foreground = Brushes.OrangeRed;
         }
 
         private void Combo_OnLostFocus(object sender, RoutedEventArgs e)
         {
-            var hosNameIcon = (PackIcon)this.FindName("Combo_icon");
+            var hosNameIcon = (PackIcon) this.FindName("Combo_icon");
             hosNameIcon.Foreground = Brushes.Gray;
         }
 
         private void identification_OnGotFocus(object sender, RoutedEventArgs e)
         {
-            var hosNameIcon = (PackIcon)this.FindName("identification_icon");
+            var hosNameIcon = (PackIcon) this.FindName("identification_icon");
             hosNameIcon.Foreground = Brushes.OrangeRed;
         }
 
         private void identification_OnLostFocus(object sender, RoutedEventArgs e)
         {
-            var hosNameIcon = (PackIcon)this.FindName("identification_icon");
+            var hosNameIcon = (PackIcon) this.FindName("identification_icon");
             hosNameIcon.Foreground = Brushes.Gray;
         }
 
@@ -108,43 +109,82 @@ namespace custom_window.Pages
 
         private async void OnFingerprintCaptured(string templateString, byte[] templateBlob)
         {
-            fp_textblock.Dispatcher?.Invoke(() =>
+            /*fp_textblock.Dispatcher?.Invoke(() =>
             {
                 fp_textblock.Height = 500;
                 fp_textblock.Width = 400;
                 fp_textblock.Selection.Text = "\ntemplate: " + templateString;
                 Clipboard.SetText(templateString);
             });
-            // add or check for existing patient having this fingerprint 
-            var matchedPatient = await _cfService.FindPatientByFingerprint(templateString);
-            if (matchedPatient != null)
+            //this code save fingerPrint in the clipboard
+            */
+
+            //visible and new patient
+            if (IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible &&
+                IoC.Get<PatientInfoCheckViewModel>().CurrentContent == ContentType.NewPatientRegistration)
             {
-                FileUploadService.CurrentPatient = matchedPatient;
-                ToastClass.NotifyMin("Welcome " + matchedPatient.patient_name, "We have Identified you!");
-
-                IoC.Get<PatientInfoCheckViewModel>().SetWindowData(matchedPatient.patient_name,
-                    matchedPatient.patient_old_nid, matchedPatient.patient_new_nid, matchedPatient.patient_birth,
-                    matchedPatient.patient_email, matchedPatient.patient_address, matchedPatient.patient_phone);
-
-                IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
+                //inside register
             }
+            //visible and existing patient
+            else if (IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible &&
+                     IoC.Get<PatientInfoCheckViewModel>().CurrentContent == ContentType.ExistingPatientInfo)
+            {
+                //don't do anything
+            }
+            //not visible
             else
             {
-                Debug.WriteLine("No such user having this fingerprint adding new user");
-                var pat = new Patient();
-                pat.patient_fingerprint_template_right_thumb = templateString;
-                var r = new Random();
-                pat.patient_id = "pt_" + r.Next().ToString();
-                Debug.WriteLine("Receptionist might ask about your contact info to complete registration!");
+                //search database
+                //1.found
+                //2.not found
+                // add or check for existing patient having this fingerprint 
+                var foundPatient = await _cfService.FindPatientByFingerprint(templateString);
+                if (foundPatient != null)
+                {
+                    //Found
+                    IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
 
-                // var patInfoPrompt = Prompt.ShowDialog("Enter Patient Name:", "Patient's' Info");
+                    FileUploadService.CurrentPatient = foundPatient;
+                    ToastClass.NotifyMin("Welcome " + foundPatient.name, "We have Identified you!");
 
-                // pat.patient_name = patInfoPrompt;
 
-                var patId = await _cfService.AddPatient(pat);
-                Debug.WriteLine("new patient added: " + patId + "\n\n");
+                    IoC.Get<PatientInfoCheckViewModel>().SetWindowData(foundPatient.name, foundPatient.phone,
+                        foundPatient.email, foundPatient.birth, foundPatient.permanent_address,
+                        foundPatient.present_address, foundPatient.voting_area, foundPatient.issue_date,
+                        foundPatient.display_pic,
+                        foundPatient.old_nid, foundPatient.new_nid, foundPatient.fingerprint_templates);
 
-                FileUploadService.CurrentPatient = pat;
+                    IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
+                }
+                else
+                {
+                    //Not Found
+                    IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.NewPatientRegistration;
+                    IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
+
+                    Debug.WriteLine("No such user having this fingerprint adding new user");
+                    var pat = new Patient();
+                    try
+                    {
+                        pat.fingerprint_templates[0] = templateString;
+                        var r = new Random();
+                        pat.id = "pt_" + r.Next().ToString();
+                        Debug.WriteLine("Receptionist might ask about your contact info to complete registration!");
+
+
+                        //updating patient info
+                        var patId = await _cfService.AddPatient(pat);
+                        //_cfService.authProvider.SignInAnonymouslyAsync();
+
+                        Debug.WriteLine("new patient added: " + patId + "\n\n");
+                        FileUploadService.CurrentPatient = pat;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
+                }
             }
         }
 
@@ -166,13 +206,116 @@ namespace custom_window.Pages
             IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
         }
 
-        private void CriteriaSearchBtn_OnClick(object sender, RoutedEventArgs e)
+        private async void CriteriaSearchBtn_OnClick(object sender, RoutedEventArgs e)
         {
+            string phone = "By Phone Number";
+            string mail = "By Phone Number";
+            string newNid = "By Phone Number";
+
+            ButtonProgressAssist.SetIsIndicatorVisible(CriteriaSearchBtn, true);
+
+
+            if (string.IsNullOrEmpty(SearchField.Text) || string.IsNullOrEmpty(SearchCriteria.Text))
+            {
+                await IoC.UI.ShowMessage(new DialogViewModel()
+                {
+                    Title = "Error Information",
+                    Message = "Search Field or Criteria can't be empty",
+                    OkText = "Okay"
+                });
+                ButtonProgressAssist.SetIsIndicatorVisible(CriteriaSearchBtn, false);
+                return;
+            }
+
+
             //first search the database find the user 
             //if found then show 
             //if not found then show the newPatient register
-            IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
-            IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
+
+            string value = SearchCriteria.Text;
+            if (value == phone)
+            {
+                var cancellationToken = new CancellationToken();
+                //phone search first
+                var foundPatient = await _cfService.FindPatientBy("phone", SearchField.Text, cancellationToken);
+                if (foundPatient != null)
+                {
+                    ToastClass.NotifyMin("Welcome " + foundPatient.name, "We have Identified you!");
+
+                    IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
+                    //update view
+                    IoC.Get<PatientInfoCheckViewModel>().SetWindowData(foundPatient.name, foundPatient.phone,
+                        foundPatient.email, foundPatient.birth, foundPatient.permanent_address,
+                        foundPatient.present_address, foundPatient.voting_area, foundPatient.issue_date,
+                        foundPatient.display_pic,
+                        foundPatient.old_nid, foundPatient.new_nid, foundPatient.fingerprint_templates);
+
+                    IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
+                }
+                else
+                {
+                    ToastClass.NotifyMin("Not identifiable", "Sorry no patient found associated with the phone number");
+                    IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.NewPatientRegistration;
+                    IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
+                }
+                ButtonProgressAssist.SetIsIndicatorVisible(CriteriaSearchBtn, false);
+            }
+            else if (value == mail)
+            {
+                var cancellationToken = new CancellationToken();
+                //mail search first
+                var foundPatient = await _cfService.FindPatientBy("email", SearchField.Text, cancellationToken);
+                if (foundPatient != null)
+                {
+                    ToastClass.NotifyMin("Welcome " + foundPatient.name, "We have Identified you!");
+
+                    IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
+                    //update view
+                    IoC.Get<PatientInfoCheckViewModel>().SetWindowData(foundPatient.name, foundPatient.phone,
+                        foundPatient.email, foundPatient.birth, foundPatient.permanent_address,
+                        foundPatient.present_address, foundPatient.voting_area, foundPatient.issue_date,
+                        foundPatient.display_pic,
+                        foundPatient.old_nid, foundPatient.new_nid, foundPatient.fingerprint_templates);
+
+                    IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
+                }
+                else
+                {
+                    ToastClass.NotifyMin("Not identifiable", "Sorry no patient found associated with the email");
+                    IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.NewPatientRegistration;
+                    IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
+                }
+
+                ButtonProgressAssist.SetIsIndicatorVisible(CriteriaSearchBtn, false);
+
+            }
+            else
+            {
+                var cancellationToken = new CancellationToken();
+                //newNid search first
+                var foundPatient = await _cfService.FindPatientBy("new_nid", SearchField.Text, cancellationToken);
+                if (foundPatient != null)
+                {
+                    ToastClass.NotifyMin("Welcome " + foundPatient.name, "We have Identified you!");
+
+                    IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
+                    //update view
+                    IoC.Get<PatientInfoCheckViewModel>().SetWindowData(foundPatient.name, foundPatient.phone,
+                        foundPatient.email, foundPatient.birth, foundPatient.permanent_address,
+                        foundPatient.present_address, foundPatient.voting_area, foundPatient.issue_date,
+                        foundPatient.display_pic,
+                        foundPatient.old_nid, foundPatient.new_nid, foundPatient.fingerprint_templates);
+
+                    IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
+                }
+                else
+                {
+                    ToastClass.NotifyMin("Not identifiable", "Sorry no patient found associated with the nid no");
+                    IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.NewPatientRegistration;
+                    IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
+                }
+                ButtonProgressAssist.SetIsIndicatorVisible(CriteriaSearchBtn, false);
+            }
         }
     }
 }

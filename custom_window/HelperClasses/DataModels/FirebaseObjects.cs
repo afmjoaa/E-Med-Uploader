@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
-using System.Windows.Forms;
-using custom_window.HelperClasses;
 using Google.Cloud.Firestore;
 
 namespace custom_window
@@ -25,17 +24,21 @@ namespace custom_window
     [FirestoreData]
     public class Patient
     {
-        [FirestoreProperty] public string patient_id { get; set; }
-        [FirestoreProperty] public string patient_name { get; set; }
-        [FirestoreProperty] public string patient_phone { get; set; }
-        [FirestoreProperty] public string patient_email { get; set; }
-        [FirestoreProperty] public string patient_birth { get; set; }
-        [FirestoreProperty] public string patient_permanent_address { get; set; }
-        [FirestoreProperty] public string patient_present_address { get; set; }
-        [FirestoreProperty] public string patient_fingerprint_template_right_thumb { get; set; }
-        
-        [FirestoreProperty] public string patient_old_nid { get; set; }
-        [FirestoreProperty] public string patient_new_nid { get; set; }
+        [FirestoreProperty] public string id { get; set; }
+        [FirestoreProperty] public string name { get; set; }
+        [FirestoreProperty] public string phone { get; set; }
+        [FirestoreProperty] public string email { get; set; }
+        [FirestoreProperty] public string birth { get; set; }
+        [FirestoreProperty] public string permanent_address { get; set; }
+        [FirestoreProperty] public string present_address { get; set; }
+        [FirestoreProperty] public string voting_area { get; set; }
+        [FirestoreProperty] public string issue_date { get; set; }
+        [FirestoreProperty] public string pk { get; set; }
+        [FirestoreProperty] public string signature { get; set; }
+        [FirestoreProperty] public string display_pic { get; set; }
+        [FirestoreProperty] public List<String> fingerprint_templates { get; set; } = new List<string>();
+        [FirestoreProperty] public string old_nid { get; set; }
+        [FirestoreProperty] public string new_nid { get; set; }
     }
 
     [FirestoreData]
@@ -44,6 +47,7 @@ namespace custom_window
         [FirestoreProperty] public string file_id { get; set; }
         [FirestoreProperty] public string file_name { get; set; }
         [FirestoreProperty] public string file_url { get; set; }
+        [FirestoreProperty] public string file_type { get; set; }
         [FirestoreProperty] public string associated_patientId { get; set; }
         [FirestoreProperty] public string associated_hospitalId { get; set; }
         [FirestoreProperty] public Timestamp file_creation_date { get; set; }

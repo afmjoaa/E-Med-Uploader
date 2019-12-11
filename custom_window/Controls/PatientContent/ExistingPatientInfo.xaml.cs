@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
+using custom_window.Core;
 
 namespace custom_window
 {
@@ -10,6 +12,11 @@ namespace custom_window
         public ExistingPatientInfo()
         {
             InitializeComponent();
+        }
+
+        private void skipBtnClicked(object sender, RoutedEventArgs e)
+        {
+            IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = false;
         }
     }
 }

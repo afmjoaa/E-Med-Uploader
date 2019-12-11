@@ -244,7 +244,7 @@
                             <materialDesign:PackIcon x:Name="identification_icon" Kind="Category" Grid.Column="0"
                                                      Foreground="{Binding ElementName=identification_name, Path=BorderBrush}"
                                                      VerticalAlignment="Bottom" Margin=" 0 0 6 6" />
-                            <TextBox x:Name="identification_name"
+                            <TextBox x:Name="SearchField"
                                      Grid.Column="1"
                                      materialDesign:ValidationAssist.UsePopup="True"
                                      materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
@@ -271,10 +271,10 @@
                                                      Foreground="{Binding ElementName=ComboBox1, Path=BorderBrush}"
                                                      VerticalAlignment="Bottom" Margin=" 0 0 6 10" />
 
-                            <ComboBox Name="ComboBox1"
-                                      FontSize="{StaticResource FontSizeSixteen}"
+                            <ComboBox FontSize="{StaticResource FontSizeSixteen}"
                                       FontWeight="Regular"
                                       Grid.Column="1"
+                                      x:Name="SearchCriteria"
                                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                       materialDesign:HintAssist.Hint="Select Search Criteria"
                                       GotFocus="Combo_OnGotFocus"
@@ -286,7 +286,6 @@
                                 <ComboBoxItem Content="By Phone Number" />
                                 <ComboBoxItem Content="By Mail ID" />
                                 <ComboBoxItem Content="By New NID Number" />
-                                <ComboBoxItem Content="By Old NID Number" />
                             </ComboBox>
 
                         </Grid>

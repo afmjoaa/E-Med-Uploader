@@ -36,6 +36,7 @@ namespace custom_window.HelperClasses
         public bool _isLoggedIn = false;
         private Hospital _loggedInHospitlal = null;
         private CollectionReference hospitalCollection = null;
+        private CollectionReference patientCollection = null;
 
         #endregion
 
@@ -68,6 +69,7 @@ namespace custom_window.HelperClasses
             fireStoreDb = FirestoreDb.Create(projectId);
             authProvider = new FirebaseAuthProvider(new FirebaseConfig("AIzaSyBIdfmwhWFPB1PvTqNwqrukIOBB8sas16c"));
             hospitalCollection = fireStoreDb.Collection("hospitals");
+            patientCollection = fireStoreDb.Collection("patients");
         }
 
         #endregion
@@ -138,6 +140,19 @@ namespace custom_window.HelperClasses
             }
         }
 
+        public async Task UpdatePatient(string uid, string key, string value)
+        {
+            try
+            {
+                var retRef = await patientCollection.Document(uid).UpdateAsync(key, value);
+                // ToastClass.NotifyMin("created! Hospital", retRef.Id);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public async Task<Hospital> GetLoggedInHospital(string hospitalUid, CancellationToken cancellationToken)
         {
             try
@@ -163,6 +178,7 @@ namespace custom_window.HelperClasses
 
         public async Task<Hospital> GetLoggedInHospitalByEmail(string mEmail, CancellationToken cancellationToken)
         {
+            hospitalCollection = fireStoreDb.Collection("hospitals");
             try
             {
                 var hospitalShanpShot = await hospitalCollection.WhereEqualTo("email", mEmail)
@@ -232,6 +248,8 @@ namespace custom_window.HelperClasses
             return patientsList;
         }
 
+
+
         public async Task<string> AddFile(ReportFile reportFile)
         {
             try
@@ -253,20 +271,57 @@ namespace custom_window.HelperClasses
             var score = 0;
             foreach (var patient in patients)
             {
-                if (string.IsNullOrEmpty(patient.patient_fingerprint_template_right_thumb)) continue;
-
-                byte[] blob1 = Convert.FromBase64String(template.Trim());
-                byte[] blob2 = Convert.FromBase64String(patient.patient_fingerprint_template_right_thumb.Trim());
-                var cScore = fpDeviceHelper.CompareFingerPrint(blob1, blob2);
-                // Debug.WriteLine("Match template 1 vs template 2 score=" + cScore + "!\n");
-                if (cScore > score && cScore >= 60)
+                foreach (var patientFingerprintTemplate in patient.fingerprint_templates)
                 {
-                    score = cScore;
-                    ret = patient;
+                    if (string.IsNullOrEmpty(patientFingerprintTemplate)) continue;
+                    byte[] blob1 = Convert.FromBase64String(template.Trim());
+                    byte[] blob2 = Convert.FromBase64String(patientFingerprintTemplate.Trim());
+                    var cScore = fpDeviceHelper.CompareFingerPrint(blob1, blob2);
+                    // Debug.WriteLine("Match template 1 vs template 2 score=" + cScore + "!\n");
+                    if (cScore > score && cScore >= 60)
+                    {
+                        score = cScore;
+                        ret = patient;
+                        return ret;
+                    }
                 }
             }
-
             return ret;
+        }
+
+        public async Task<Patient> FindPatientBy(string fieldPath, string fieldValue, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var patientSnapshot= await patientCollection.WhereEqualTo(fieldPath, fieldValue)
+                    .GetSnapshotAsync(cancellationToken);
+                if (patientSnapshot != null)
+                {
+                    var documentSnapshots = patientSnapshot.Documents;
+                    if (documentSnapshots.Count >= 1)
+                    {
+                        foreach (DocumentSnapshot document in documentSnapshots)
+                        {
+                            var patient = document.ConvertTo<Patient>();
+                            return patient;
+                        }
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (FirebaseException exception)
+            {
+                Console.WriteLine(exception);
+                throw;
+            }
+            return null;
         }
 
         public async Task<string> AddPatient(Patient patient)

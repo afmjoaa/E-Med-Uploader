@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using custom_window.Core;
 using custom_window.HelperClasses.DataModels;
 using custom_window.Pages;
 using Firebase.Auth;
@@ -107,6 +108,28 @@ namespace custom_window.HelperClasses
             }
         }
 
+        public async Task<string> UploadPatientDisplayPic(Stream stream, string patientId)
+        {
+            var task = new FirebaseStorage("emed-4490e.appspot.com")
+                .Child(patientId)
+                .PutAsync(stream);
+            try
+            {
+                var downloadUrl = await task;
+                Properties.Settings.Default.photoUrl = downloadUrl;
+                Properties.Settings.Default.Save();
+
+                await CloudFirestoreService.GetInstance()
+                    .UpdatePatient(patientId, "display_pic", downloadUrl);
+                return downloadUrl;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error uploading:: " + e.ToString());
+                return null;
+            }
+        }
+
         public async Task deleteFile(string fileName)
         {
             try
@@ -151,7 +174,7 @@ namespace custom_window.HelperClasses
                 var reportFile = new ReportFile();
                 reportFile.file_name = Path.GetFileName(filePath);
                 reportFile.file_url = downloadUrl;
-                reportFile.associated_patientId = CurrentPatient.patient_id;
+                reportFile.associated_patientId = CurrentPatient.id;
                 reportFile.associated_hospitalId = Properties.Settings.Default.localId;
                 var res = await _cfService.AddFile(reportFile);
 

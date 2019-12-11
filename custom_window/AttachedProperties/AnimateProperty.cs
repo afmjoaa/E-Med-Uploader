@@ -96,10 +96,10 @@ namespace custom_window
         {
             if (value)
                 // Animate in
-                await element.SlideAndFadeInAsync(AnimationSlideInDirection.Left, firstLoad, firstLoad ? 0 : 0.3f, keepMargin: false);
+                await element.SlideAndFadeInAsync(AnimationSlideInDirection.Left, firstLoad, firstLoad ? 0 : 0.1f, keepMargin: false);
             else
                 // Animate out
-                await element.SlideAndFadeOutAsync(AnimationSlideInDirection.Left, firstLoad ? 0 : 0.3f, keepMargin: false);
+                await element.SlideAndFadeOutAsync(AnimationSlideInDirection.Left, firstLoad ? 0 : 0.1f, keepMargin: false);
         }
     }
 
@@ -113,10 +113,10 @@ namespace custom_window
         {
             if (value)
                 // Animate in
-                await element.SlideAndFadeInAsync(AnimationSlideInDirection.Bottom, firstLoad, firstLoad ? 0 : 0.3f, keepMargin: false);
+                await element.SlideAndFadeInAsync(AnimationSlideInDirection.Bottom, firstLoad, firstLoad ? 0 : 0.01f, keepMargin: false);
             else
                 // Animate out
-                await element.SlideAndFadeOutAsync(AnimationSlideInDirection.Bottom, firstLoad ? 0 : 0.3f, keepMargin: false);
+                await element.SlideAndFadeOutAsync(AnimationSlideInDirection.Bottom, firstLoad ? 0 : 0.01f, keepMargin: false);
         }
     }
 
@@ -132,10 +132,10 @@ namespace custom_window
         {
             if (value)
                 // Animate in
-                await element.SlideAndFadeInAsync(AnimationSlideInDirection.Bottom, firstLoad, firstLoad ? 0 : 0.3f, keepMargin: true);
+                await element.SlideAndFadeInAsync(AnimationSlideInDirection.Bottom, firstLoad, firstLoad ? 0 : 0.01f, keepMargin: true);
             else
                 // Animate out
-                await element.SlideAndFadeOutAsync(AnimationSlideInDirection.Bottom, firstLoad ? 0 : 0.3f, keepMargin: true);
+                await element.SlideAndFadeOutAsync(AnimationSlideInDirection.Bottom, firstLoad ? 0 : 0.01f, keepMargin: true);
         }
     }
 
@@ -149,10 +149,10 @@ namespace custom_window
         {
             if (value)
                 // Animate in
-                await element.FadeInAsync(firstLoad, firstLoad ? 0 : 0.3f);
+                await element.FadeInAsync(firstLoad, firstLoad ? 0 : 0.01f);
             else
                 // Animate out
-                await element.FadeOutAsync(firstLoad ? 0 : 0.3f);
+                await element.FadeOutAsync(firstLoad ? 0 : 0.01f);
         }
     }
 
@@ -164,7 +164,7 @@ namespace custom_window
         protected override void DoAnimation(FrameworkElement element, bool value, bool firstLoad)
         {
             // Animate in
-            element.MarqueeAsync(firstLoad ? 0 : 3f);
+            element.MarqueeAsync(firstLoad ? 0 : 0.01f);
         }
     }
 }

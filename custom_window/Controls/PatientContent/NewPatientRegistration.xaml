@@ -80,12 +80,21 @@
                                 </Border>
 
                                 <!-- Image -->
-                                <Grid>
+                                <Grid MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown">
                                     <Grid.OpacityMask>
                                         <VisualBrush Visual="{Binding ElementName=Mask}" />
                                     </Grid.OpacityMask>
-
-                                    <Image Source="/Images/BackGround/patientDemo.png" Stretch="UniformToFill" />
+                                    <Image Source="/Images/BackGround/patientDemo.png" 
+                                           x:Name="patientImage"/>
+                                    
+                                    <TextBlock 
+                                        Foreground="{StaticResource TextActiveBrush}"
+                                        FontWeight="SemiBold"
+                                        FontSize="{StaticResource FontSizeEighteen}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Margin="10"
+                                        Text="Change"/>
                                 </Grid>
 
 
@@ -194,8 +203,8 @@
                                 <!-- Content -->
 
                                 <TextBox
-                                    x:Name="reg_name_tb"
-                                    Text="{Binding PatientInfoCheckViewModel.pName,Source={x:Static local:ViewModelLocator.Instance}}"
+                                    x:Name="vName"
+                                    Text="{Binding PatientInfoCheckViewModel.name,Source={x:Static local:ViewModelLocator.Instance}}"
                                     Grid.Column="2"
                                     Grid.Row="0"
                                     materialDesign:ValidationAssist.UsePopup="True"
@@ -210,7 +219,8 @@
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
 
                                 <TextBox
-                                    Text="{Binding PatientInfoCheckViewModel.pPhone,Source={x:Static local:ViewModelLocator.Instance}}"
+                                    x:Name="vPhone"
+                                    Text="{Binding PatientInfoCheckViewModel.phone,Source={x:Static local:ViewModelLocator.Instance}}"
                                     Grid.Column="2"
                                     Grid.Row="1"
                                     materialDesign:ValidationAssist.UsePopup="True"
@@ -223,7 +233,8 @@
                                     Margin="0 0 0 10"
                                     FontSize="{StaticResource FontSizeSixteen}" />
                                 <TextBox
-                                    Text="{Binding PatientInfoCheckViewModel.pEmail,Source={x:Static local:ViewModelLocator.Instance}}"
+                                    x:Name="vEmail"
+                                    Text="{Binding PatientInfoCheckViewModel.email,Source={x:Static local:ViewModelLocator.Instance}}"
                                     Grid.Column="2"
                                     Grid.Row="2"
                                     materialDesign:ValidationAssist.UsePopup="True"
@@ -237,7 +248,8 @@
                                     FontSize="{StaticResource FontSizeSixteen}" />
 
                                 <TextBox
-                                    Text="{Binding PatientInfoCheckViewModel.pNewNid,Source={x:Static local:ViewModelLocator.Instance}}"
+                                    x:Name="vNewNid"
+                                    Text="{Binding PatientInfoCheckViewModel.new_nid,Source={x:Static local:ViewModelLocator.Instance}}"
                                     Grid.Column="2"
                                     materialDesign:ValidationAssist.UsePopup="True"
                                     materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
@@ -274,6 +286,8 @@
                                         VerticalAlignment="Center"
                                         Margin="0 0 20 0"
                                         Width="300"
+                                        x:Name="vOldNid"
+                                        Text="{Binding PatientInfoCheckViewModel.old_nid,Source={x:Static local:ViewModelLocator.Instance}}"
                                         FontSize="{StaticResource FontSizeSixteen}" />
 
                                     <TextBox
@@ -286,6 +300,8 @@
                                         VerticalAlignment="Center"
                                         Margin="20 0 0 0"
                                         Width="300"
+                                        x:Name="vBirth"
+                                        Text="{Binding PatientInfoCheckViewModel.birth,Source={x:Static local:ViewModelLocator.Instance}}"
                                         FontSize="{StaticResource FontSizeSixteen}" />
 
                                 </StackPanel>
@@ -303,6 +319,8 @@
                                         VerticalAlignment="Center"
                                         Margin="0 0 20 0"
                                         Width="300"
+                                        x:Name="vPresent"
+                                        Text="{Binding PatientInfoCheckViewModel.present_address,Source={x:Static local:ViewModelLocator.Instance}}"
                                         FontSize="{StaticResource FontSizeSixteen}" />
 
                                     <TextBox
@@ -315,6 +333,8 @@
                                         VerticalAlignment="Center"
                                         Margin="20 0 0 0"
                                         Width="300"
+                                        x:Name="vParmanent"
+                                        Text="{Binding PatientInfoCheckViewModel.permanent_address,Source={x:Static local:ViewModelLocator.Instance}}"
                                         FontSize="{StaticResource FontSizeSixteen}" />
 
                                 </StackPanel>
@@ -332,6 +352,8 @@
                                         VerticalAlignment="Center"
                                         Margin="0 0 20 0"
                                         Width="300"
+                                        x:Name="vVotingArea"
+                                        Text="{Binding PatientInfoCheckViewModel.voting_area,Source={x:Static local:ViewModelLocator.Instance}}"
                                         FontSize="{StaticResource FontSizeSixteen}" />
 
                                     <TextBox
@@ -344,6 +366,8 @@
                                         VerticalAlignment="Center"
                                         Margin="20 0 0 0"
                                         Width="300"
+                                        x:Name="vIssueDate"
+                                        Text="{Binding PatientInfoCheckViewModel.issue_date,Source={x:Static local:ViewModelLocator.Instance}}"
                                         FontSize="{StaticResource FontSizeSixteen}" />
 
                                 </StackPanel>
@@ -418,33 +442,41 @@
 
                                 </StackPanel>
 
-                                <ToggleButton Content="LT" Style="{StaticResource MaterialDesignActionLightToggleButton}"
+                                <ToggleButton Content="LT"
+                                              Style="{StaticResource MaterialDesignActionLightToggleButton}"
                                               ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed"
                                               Grid.Column="0"
                                               Grid.Row="0"
+                                              x:Name="lt"
                                               HorizontalAlignment="Left"
                                               VerticalAlignment="Top"
-                                              materialDesign:ShadowAssist.ShadowDepth="Depth3"/>
+                                              materialDesign:ShadowAssist.ShadowDepth="Depth3" />
 
                                 <!--Top left Thumb-->
                                 <Rectangle Height="36"
-                                           Width="36" 
+                                           Width="36"
                                            Panel.ZIndex="10"
                                            Grid.Column="0"
                                            Grid.Row="0"
+                                           Visibility="{Binding PatientInfoCheckViewModel.visibleStateOne,
+                                    Source={x:Static local:ViewModelLocator.Instance},
+                                    Converter={local:BooleanToVisiblityConverter}, 
+                                    ConverterParameter=True}" 
                                            VerticalAlignment="Top"
                                            HorizontalAlignment="Left"
-                                           Stroke="Transparent" 
+                                           Stroke="Transparent"
                                            Fill="Transparent">
                                     <Rectangle.RenderTransform>
                                         <TranslateTransform X="-1" Y="-1" />
                                     </Rectangle.RenderTransform>
                                 </Rectangle>
 
-                                <ToggleButton Content="LI" Style="{StaticResource MaterialDesignActionLightToggleButton}"
+                                <ToggleButton Content="LI"
+                                              Style="{StaticResource MaterialDesignActionLightToggleButton}"
                                               ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed"
                                               Grid.Column="0"
                                               Grid.Row="0"
+                                              x:Name="li"
                                               HorizontalAlignment="Left"
                                               VerticalAlignment="Top"
                                               materialDesign:ShadowAssist.ShadowDepth="Depth3">
@@ -455,13 +487,17 @@
 
                                 <!--Middle left Index-->
                                 <Rectangle Height="36"
-                                           Width="36" 
+                                           Width="36"
                                            Panel.ZIndex="10"
                                            Grid.Column="0"
                                            Grid.Row="0"
+                                           Visibility="{Binding PatientInfoCheckViewModel.visibleStateTwo,
+                                    Source={x:Static local:ViewModelLocator.Instance},
+                                    Converter={local:BooleanToVisiblityConverter}, 
+                                    ConverterParameter=True}" 
                                            VerticalAlignment="Top"
                                            HorizontalAlignment="Left"
-                                           Stroke="Transparent" 
+                                           Stroke="Transparent"
                                            Fill="Transparent">
                                     <Rectangle.RenderTransform>
                                         <TranslateTransform X="-1" Y="40" />
@@ -469,12 +505,12 @@
                                 </Rectangle>
 
 
-
-
-                                <ToggleButton Content="RT" Style="{StaticResource MaterialDesignActionLightToggleButton}"
+                                <ToggleButton Content="RT"
+                                              Style="{StaticResource MaterialDesignActionLightToggleButton}"
                                               ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed"
                                               Grid.Column="0"
                                               Grid.Row="0"
+                                              x:Name="rt"
                                               HorizontalAlignment="Left"
                                               VerticalAlignment="Bottom"
                                               materialDesign:ShadowAssist.ShadowDepth="Depth3">
@@ -485,14 +521,17 @@
 
                                 <!--middle Right Thumb-->
                                 <Rectangle Height="36"
-                                            Visibility="Collapsed"
-                                           Width="36" 
+                                           Visibility="{Binding PatientInfoCheckViewModel.visibleStateThree,
+                                    Source={x:Static local:ViewModelLocator.Instance},
+                                    Converter={local:BooleanToVisiblityConverter}, 
+                                    ConverterParameter=True}" 
+                                           Width="36"
                                            Panel.ZIndex="10"
                                            Grid.Column="0"
                                            Grid.Row="0"
                                            VerticalAlignment="Top"
                                            HorizontalAlignment="Left"
-                                           Stroke="Transparent" 
+                                           Stroke="Transparent"
                                            Fill="Transparent" Margin="0,122,0,0">
 
                                     <Rectangle.RenderTransform>
@@ -500,10 +539,12 @@
                                     </Rectangle.RenderTransform>
                                 </Rectangle>
 
-                                <ToggleButton Content="RI" Style="{StaticResource MaterialDesignActionLightToggleButton}"
+                                <ToggleButton Content="RI"
+                                              Style="{StaticResource MaterialDesignActionLightToggleButton}"
                                               ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed"
                                               Grid.Column="0"
                                               Grid.Row="0"
+                                              x:Name="ri"
                                               HorizontalAlignment="Left"
                                               VerticalAlignment="Bottom"
                                               materialDesign:ShadowAssist.ShadowDepth="Depth3">
@@ -514,23 +555,26 @@
 
                                 <!--bottom Right index-->
                                 <Rectangle Height="36"
-                                           Visibility="Collapsed"
-                                           Width="36" 
+                                           Visibility="{Binding PatientInfoCheckViewModel.visibleStateFour,
+                                    Source={x:Static local:ViewModelLocator.Instance},
+                                    Converter={local:BooleanToVisiblityConverter}, 
+                                    ConverterParameter=True}" 
+                                           Width="36"
                                            Panel.ZIndex="10"
                                            Grid.Column="0"
                                            Grid.Row="0"
                                            VerticalAlignment="Bottom"
                                            HorizontalAlignment="Left"
-                                           Stroke="Transparent" 
+                                           Stroke="Transparent"
                                            Fill="Transparent">
                                     <Rectangle.RenderTransform>
                                         <TranslateTransform X="-1" Y="1" />
                                     </Rectangle.RenderTransform>
                                 </Rectangle>
 
-                                <Image Grid.Column="2" 
-                                       Grid.Row="0" 
-                                       Source="/Images/BackGround/hand.png" 
+                                <Image Grid.Column="2"
+                                       Grid.Row="0"
+                                       Source="/Images/BackGround/hand.png"
                                        ToolTip="You can discard fingerprint by clicking the right sign on the fingers"
                                        Width="260" />
 
@@ -559,7 +603,7 @@
                                            Grid.Row="0"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Stroke="Transparent" 
+                                           Stroke="Transparent"
                                            Fill="Transparent">
                                     <Rectangle.RenderTransform>
                                         <TranslateTransform X="48" Y="-44" />
@@ -588,10 +632,9 @@
                                            Panel.ZIndex="10"
                                            Grid.Column="2"
                                            Grid.Row="0"
-                                            Visibility="Collapsed"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Stroke="Transparent" 
+                                           Stroke="Transparent"
                                            Fill="Transparent">
                                     <Rectangle.RenderTransform>
                                         <TranslateTransform X="14" Y="2" />
@@ -617,14 +660,13 @@
 
                                 <!--Left thumb rectangle for image-->
                                 <Rectangle Height="36"
-                                           Width="36" 
-                                            Visibility="Collapsed"
+                                           Width="36"
                                            Panel.ZIndex="10"
                                            Grid.Column="2"
                                            Grid.Row="0"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Stroke="Transparent" 
+                                           Stroke="Transparent"
                                            Fill="Transparent">
                                     <Rectangle.RenderTransform>
                                         <TranslateTransform X="-14" Y="2" />
@@ -650,13 +692,13 @@
 
                                 <!--Left Index rectangle for image-->
                                 <Rectangle Height="36"
-                                           Width="36" 
+                                           Width="36"
                                            Panel.ZIndex="10"
                                            Grid.Column="2"
                                            Grid.Row="0"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Stroke="Transparent" 
+                                           Stroke="Transparent"
                                            Fill="Transparent">
                                     <Rectangle.RenderTransform>
                                         <TranslateTransform X="-48" Y="-44" />
@@ -676,15 +718,30 @@
                                 Grid.ColumnSpan="2"
                                 HorizontalAlignment="Right">
 
+                                <TextBlock 
+                                        FontSize="12"
+                                        x:Name="errorText"
+                                        Padding="20 7"
+                                        Margin="20 8"
+                                        Visibility="Hidden"
+                                        Text=""
+                                        Foreground="{StaticResource RedDarkFourBrush}"
+                                        FontWeight="SemiBold"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Panel.ZIndex="2" />
+
                                 <Button Margin="10 0"
                                         Style="{StaticResource MaterialDesignRaisedButton}"
                                         materialDesign:ButtonProgressAssist.Value="-1"
-                                        materialDesign:ButtonAssist.CornerRadius="16"
+                                        materialDesign:ButtonAssist.CornerRadius="4"
                                         ToolTip="Proceed with the account registration"
                                         BorderBrush="Transparent"
+                                        x:Name="skipBtn"
                                         materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
                                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                                        materialDesign:ButtonProgressAssist.IsIndeterminate="False" Click="Skip_Button_Click">
+                                        materialDesign:ButtonProgressAssist.IsIndeterminate="True"
+                                        Click="Skip_Button_Click">
                                     <StackPanel Orientation="Horizontal" Margin="8,0">
                                         <TextBlock FontWeight="Normal"
                                                    FontSize="{StaticResource FontSizeForteen}">
@@ -699,11 +756,13 @@
                                         CommandParameter="{Binding ElementName=register_page }"
                                         Style="{StaticResource MaterialDesignRaisedButton}"
                                         materialDesign:ButtonProgressAssist.Value="-1"
-                                        materialDesign:ButtonAssist.CornerRadius="16"
+                                        materialDesign:ButtonAssist.CornerRadius="4"
+                                        x:Name="RegisterAndSelectBtn"
                                         ToolTip="Proceed with the account registration"
                                         materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
                                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                                        materialDesign:ButtonProgressAssist.IsIndeterminate="False" Click="Register_Button_Click">
+                                        materialDesign:ButtonProgressAssist.IsIndeterminate="True"
+                                        Click="Register_Button_Click">
                                     <StackPanel Orientation="Horizontal" Margin="8,0">
                                         <TextBlock FontWeight="Normal"
                                                    FontSize="{StaticResource FontSizeForteen}">

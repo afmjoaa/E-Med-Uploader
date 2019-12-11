@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms.Design;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using libzkfpcsharp; // ZK Fingerprint Device library
@@ -186,6 +187,23 @@ namespace custom_window.HelperClasses
         public void CloseDevice()
         {
             zkfp2.Terminate();
+        }
+
+        public bool isFingerPrintMatch(string templateOne, string templateTwo)
+        {
+            var score = 0;
+            byte[] blob1 = Convert.FromBase64String(templateOne.Trim());
+            byte[] blob2 = Convert.FromBase64String(templateTwo.Trim());
+            var cScore = CompareFingerPrint(blob1, blob2);
+            // Debug.WriteLine("Match template 1 vs template 2 score=" + cScore + "!\n");
+            if (cScore > score && cScore >= 60)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
