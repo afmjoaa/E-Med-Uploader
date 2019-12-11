@@ -33,6 +33,8 @@ namespace custom_window.Pages
 
         #endregion
 
+        #region constructor and init
+
         public Home()
         {
             InitializeComponent();
@@ -46,9 +48,26 @@ namespace custom_window.Pages
 
             _fileUploadService = FileUploadService.GetInstance();
             _fileUploadService.OnProgressUpdated += OnFileUploadProgressUpdated;
+            init();
         }
 
-        #region design functions
+        private void init()
+        {
+            fpDeviceHelper.InitDevice();
+            fpDeviceHelper.OpenDevice();
+            bcHelper.InitDevice();
+        }
+
+        private void InitButton(object sender, RoutedEventArgs e)
+        {
+            fpDeviceHelper.InitDevice();
+            fpDeviceHelper.OpenDevice();
+            bcHelper.InitDevice();
+        }
+
+        #endregion
+
+        #region editText color
 
         private void Combo_OnGotFocus(object sender, RoutedEventArgs e)
         {
@@ -81,19 +100,11 @@ namespace custom_window.Pages
             upload_progress.Dispatcher?.Invoke(new Action(() => { upload_progress.Value = percentage; }));
         }
 
-        private void InitButton(object sender, RoutedEventArgs e)
-        {
-            fpDeviceHelper.InitDevice();
-            fpDeviceHelper.OpenDevice();
-            bcHelper.InitDevice();
-        }
-
         private async void OnModifiedBarcodeEvent(string patientName, string oldNid, string newNid, string dateOfBirth)
         {
             ToastClass.NotifyMin("New Barcode!", patientName + "\n" + oldNid + "\n" + newNid + "\n" + dateOfBirth);
             // wait for fingerprint and find the existing user or create new user using data from barcode
         }
-
 
         private async void OnFingerprintCaptured(string templateString, byte[] templateBlob)
         {

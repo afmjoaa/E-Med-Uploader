@@ -30,9 +30,9 @@
             </TextBlock>
 
             <!--device initialization button-->
+            <!--x:Name="loginButton"
+                    CommandParameter="{Binding ElementName=login_page }"-->
             <Button Command="{Binding LoginCommand}"
-                    x:Name="loginButton"
-                    CommandParameter="{Binding ElementName=login_page }"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     FontSize="18"

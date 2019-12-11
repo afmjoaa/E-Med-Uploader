@@ -20,5 +20,16 @@ namespace custom_window
         {
             return new ChangePassMessageBox().ShowDialog(viewModel);
         }
+
+        public Task ShowForgetPassBlock(ForgetPassViewModel viewModel)
+        {
+            return new ForgetPassDialog().ShowDialog(viewModel);
+        }
+
+        public Task ShowConfirmMessage(ConfirmDialogViewModel viewModel)
+        {
+            return new ConfirmDialog().ShowDialog(viewModel);
+
+        }
     }
 }

@@ -64,7 +64,6 @@ public class WatcherService
             try
             {
                 WaitForFile(e.FullPath);
-//                await this._service.UploadFile(new {name = e.Name}, e.FullPath);
                 await _fileUploadService.UploadFileForPatient(e.FullPath);
             }
             catch (Exception exception)

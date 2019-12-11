@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Security;
+using System.Threading;
 using System.Threading.Tasks;
 using ControlzEx.Standard;
 using custom_window.HelperClasses.DataModels;
+using Firebase.Auth;
+using FirebaseAdmin;
 using Google.Cloud.Firestore;
 using libzkfpcsharp;
 using Newtonsoft.Json;
+using FirebaseException = Firebase.Database.FirebaseException;
 
 namespace custom_window.HelperClasses
 {
@@ -20,6 +25,7 @@ namespace custom_window.HelperClasses
         string projectId = null;
         FirestoreDb fireStoreDb = null;
         private static CloudFirestoreService instance = null;
+        public FirebaseAuthProvider authProvider = null;
 
         public delegate void DbFileChangedEvent(List<ReportFile> updatedFiles);
 
@@ -29,8 +35,11 @@ namespace custom_window.HelperClasses
 
         public bool _isLoggedIn = false;
         private Hospital _loggedInHospitlal = null;
+        private CollectionReference hospitalCollection = null;
 
         #endregion
+
+        #region constructor
 
         private CloudFirestoreService()
         {
@@ -44,9 +53,9 @@ namespace custom_window.HelperClasses
             {
                 filepath = "E:\\Projects\\emed\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json"; // zsumon -> desktop
             }
-            else if (pcName == "FOOT-PRINT")
+            else if (pcName == "DESKTOP-331SMHA")
             {
-                filepath = "D:\\All_mine\\VS_2019\\emed-4490e-ddff9c9b9237.json"; // joaa --> Laptop
+                filepath = "D:\\emed(all)\\E-Med_Uploader\\emed-4490e-ddff9c9b9237.json"; // joaa --> Laptop
             }
 
             if (string.IsNullOrWhiteSpace(filepath))
@@ -57,10 +66,15 @@ namespace custom_window.HelperClasses
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", filepath);
             projectId = "emed-4490e";
             fireStoreDb = FirestoreDb.Create(projectId);
+            authProvider = new FirebaseAuthProvider(new FirebaseConfig("AIzaSyBIdfmwhWFPB1PvTqNwqrukIOBB8sas16c"));
+            hospitalCollection = fireStoreDb.Collection("hospitals");
         }
 
+        #endregion
 
-        public async Task<Tuple<Hospital, int>> Login(string phoneNumber, string password)
+        #region unUsedMethods
+
+        /*public async Task<Tuple<Hospital, int>> Login(string phoneNumber, string password)
         {
             // check & get hashed password & compare..
 
@@ -90,18 +104,96 @@ namespace custom_window.HelperClasses
 
             _isLoggedIn = false;
             return new Tuple<Hospital, int>(null, Constants.BAD_USER);
+        }*/
+
+        #endregion
+
+        public async Task AddHospital(Hospital hospital)
+        {
+            try
+            {
+                hospitalCollection = fireStoreDb.Collection("hospitals");
+                var retRef = await hospitalCollection.Document(hospital.uid).CreateAsync(hospital);
+                // ToastClass.NotifyMin("created! Hospital", retRef.Id);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
+       
 
-        private void checkPass()
+        public async Task UpdateHospital(string uid, string key, string value)
         {
+            try
+            {
+                hospitalCollection = fireStoreDb.Collection("hospitals");
+                var retRef = await hospitalCollection.Document(uid).UpdateAsync(key, value);
+                // ToastClass.NotifyMin("created! Hospital", retRef.Id);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
-
-        public Hospital getLoggedInHospital()
+        public async Task<Hospital> GetLoggedInHospital(string hospitalUid, CancellationToken cancellationToken)
         {
-            if (_isLoggedIn)
-                return _loggedInHospitlal;
+            try
+            {
+                DocumentSnapshot reportFileDoc =
+                    await hospitalCollection.Document(hospitalUid).GetSnapshotAsync(cancellationToken);
+                if (reportFileDoc != null && reportFileDoc.Exists)
+                {
+                    var hospital = reportFileDoc.ConvertTo<Hospital>();
+                    return hospital;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (FirebaseException exception)
+            {
+                Console.WriteLine(exception);
+                return null;
+            }
+        }
+
+        public async Task<Hospital> GetLoggedInHospitalByEmail(string mEmail, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var hospitalShanpShot = await hospitalCollection.WhereEqualTo("email", mEmail)
+                    .GetSnapshotAsync(cancellationToken);
+                if (hospitalShanpShot != null)
+                {
+                    var documentSnapshots = hospitalShanpShot.Documents;
+                    if (documentSnapshots.Count == 1)
+                    {
+                        foreach (DocumentSnapshot document in documentSnapshots)
+                        {
+                            var hospital = document.ConvertTo<Hospital>();
+                            return hospital;
+                        }
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (FirebaseException exception)
+            {
+                Console.WriteLine(exception);
+                return null;
+            }
+
             return null;
         }
 
@@ -110,20 +202,6 @@ namespace custom_window.HelperClasses
             if (instance != null) return instance;
             instance = new CloudFirestoreService();
             return instance;
-        }
-
-        public async void AddHospital(Hospital hospital)
-        {
-            try
-            {
-                CollectionReference colRef = fireStoreDb.Collection("hospitals");
-                var retRef = await colRef.AddAsync(hospital);
-                // ToastClass.NotifyMin("created! Hospital", retRef.Id);
-            }
-            catch
-            {
-                throw;
-            }
         }
 
         public async Task<List<Patient>> getAllPatients()
@@ -198,16 +276,15 @@ namespace custom_window.HelperClasses
             return x.Id;
         }
 
-        public void ResetPassword(SecureString password)
-        {
-            _loggedInHospitlal.hospital_pass = password.ToString();
-            // TODO passwordHashing will be done later insha'Allah
-        }
-
         public bool LogOut()
         {
-            _loggedInHospitlal = null;
-            _isLoggedIn = false;
+            Properties.Settings.Default.displayName = "";
+            Properties.Settings.Default.isLogedIn = false;
+            Properties.Settings.Default.watchFolder= new StringCollection();
+            Properties.Settings.Default.watchFolderState = new StringCollection();
+            Properties.Settings.Default.Save();
+
+            ApplicationData.Instance.SetLogout();
             return true;
         }
 
@@ -216,23 +293,8 @@ namespace custom_window.HelperClasses
             var ret = new List<ReportFile>();
             if (_isLoggedIn)
             {
-                /*CollectionReference citiesRef = fireStoreDb.Collection("files");
-                Query query = fireStoreDb.Collection("files")
-                    .WhereEqualTo("associated_hospitalId", _loggedInHospitlal.hospital_id);
-
-                FirestoreChangeListener clistener = query.Listen(snapshot =>
-                {
-                    Console.WriteLine("Callback received query snapshot.");
-                    Console.WriteLine("Current cities in California:");
-
-                    foreach (DocumentSnapshot documentSnapshot in snapshot.Documents)
-                    {
-                        Console.WriteLine(documentSnapshot.Id);
-                    }
-                });*/
-
                 var collection = fireStoreDb.Collection("files");
-                Query queryRef = collection.WhereEqualTo("associated_hospitalId", _loggedInHospitlal.hospital_id);
+                Query queryRef = collection.WhereEqualTo("associated_hospitalId", _loggedInHospitlal.uid);
 
 
                 FirestoreChangeListener listener = queryRef.Listen((snap) =>
@@ -262,10 +324,6 @@ namespace custom_window.HelperClasses
             {
                 return null;
             }
-        }
-
-        private void _updateDbFileListeners(QuerySnapshot snapshot)
-        {
         }
     }
 }

@@ -14,8 +14,8 @@
         Deactivated="MainWindow_OnDeactivated"
         Activated="MainWindow_OnActivated"
         MinWidth="{Binding WindowMinimumWidth, FallbackValue=1060}"
-        MinHeight="{Binding WindowMinimumHeight, FallbackValue=700}"
-        Title="E-Med Uploader" Height="700" Width="1060">
+        MinHeight="{Binding WindowMinimumHeight, FallbackValue=730}"
+        Title="E-Med Uploader" Height="730" Width="1060">
 
     <Window.Resources>
         <Style TargetType="{x:Type local:MainWindow}">
@@ -74,12 +74,7 @@
                                             <StackPanel>
                                                 <TextBlock FontWeight="SemiBold"
                                                            FontFamily="{StaticResource DosisExtraLight}"
-                                                           FontSize="{StaticResource FontSizeTwenty}" Margin="0,0,0,-5">
-                                                    <Run Text="E" Foreground="{StaticResource RedDarkOneBrush}" />
-                                                    <Run Text="-" Foreground="{StaticResource RedDarkTwoBrush}" />
-                                                    <Run Text="M" Foreground="{StaticResource RedDarkThreeBrush}" />
-                                                    <Run Text="E" Foreground="{StaticResource RedDarkFourBrush}" />
-                                                    <Run Text="D" Foreground="{StaticResource RedDarkFiveBrush}" />
+                                                           FontSize="{StaticResource FontSizeTwenty}" Margin="0,0,0,-5"><Run Text="E" Foreground="{StaticResource RedDarkOneBrush}" /><Run Text="-" Foreground="{StaticResource RedDarkTwoBrush}" /><Run Text="M" Foreground="{StaticResource RedDarkThreeBrush}" /><Run Text="E" Foreground="{StaticResource RedDarkFourBrush}" /><Run Text="D" Foreground="{StaticResource RedDarkFiveBrush}" />
                                                 </TextBlock>
                                                 <TextBlock FontWeight="ExtraLight" Text="uploader"
                                                            Foreground="{StaticResource ForegroundDarkBrush}"

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Specialized;
+using System.IO;
 using System.Windows.Forms;
 using System.Windows.Input;
 using custom_window.Core;
@@ -19,7 +20,6 @@ namespace custom_window.Pages
         private void AddNewFolderToWatch(object sender, MouseButtonEventArgs mouseButtonEventArgs)
         {
             var toast = new ToastClass();
-//            FolderListVm.Instance.myItem.Add(new FolderItemVm() {path = "hello World"});
 
             using (var fbd = new FolderBrowserDialog())
             {
@@ -29,12 +29,11 @@ namespace custom_window.Pages
 
                 var files = Directory.GetFiles(fbd.SelectedPath);
 
-//                    System.Windows.Forms.MessageBox.Show("Files found: " + files.Length.ToString(), "Message");
                 toast.ShowNotification("Selected Folder", fbd.SelectedPath, 200);
 
-                var tempitems = FolderListVm.Instance.myItem;
+                var alreadyWatchingFolders = FolderListVm.Instance.myItem;
                 bool alreadyAdded = false;
-                foreach (var it in tempitems)
+                foreach (var it in alreadyWatchingFolders)
                 {
                     if (it.path == fbd.SelectedPath)
                     {
@@ -45,38 +44,48 @@ namespace custom_window.Pages
                 }
 
                 if (!alreadyAdded)
-                    FolderListVm.Instance.myItem.Add(new FolderItemVm() {path = fbd.SelectedPath});
+                {
+                    if (Properties.Settings.Default.watchFolder == null) { Properties.Settings.Default.watchFolder = new StringCollection(); }
+                    
+                    Properties.Settings.Default.watchFolder.Add(fbd.SelectedPath);
+                    var indexOf = Properties.Settings.Default.watchFolder.IndexOf(fbd.SelectedPath);
+
+                    if (Properties.Settings.Default.watchFolderState == null) { Properties.Settings.Default.watchFolderState = new StringCollection(); }
+                        
+                    Properties.Settings.Default.watchFolderState.Insert(indexOf, "true");
+                    Properties.Settings.Default.Save();
+
+                    var folderItemVm = new FolderItemVm()
+                    {
+                        path = fbd.SelectedPath,
+                        playBtnEnable = false,
+                        pauseBtnEnable = true
+                    };
+                    folderItemVm.PlayFolderWatching();
+                    FolderListVm.Instance.myItem.Add(folderItemVm);
+                }
+
             }
         }
 
-        private void LogOutButtonClick(object sender, MouseButtonEventArgs e)
+        private async void LogOutButtonClick(object sender, MouseButtonEventArgs e)
         {
-            CloudFirestoreService.GetInstance().LogOut();
-            // FileUploadService.GetInstance().Dispose();
-            // close all devices & stop all services...
-
-            FolderListVm.Instance.myItem.Clear();
-
-            IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Login);
-            IoC.Get<ApplicationViewModel>().SideMenuVisible = false;
+            await IoC.UI.ShowConfirmMessage(new ConfirmDialogViewModel()
+            {
+                Title = "Confirm Logout",
+                Message = "Are your sure you wanna logout ?",
+                yesText = "Yes",
+                noText = "     Nope     ",
+                dialogType = "logout_confirmation"
+            });
         }
 
         private void ResetPassword_Button_Click(object sender, MouseButtonEventArgs e)
         {
-
             IoC.UI.ShowChangePassBlock(new ChangePassViewModel
             {
                 Title = "Reset Password",
             });
-
-            if (CloudFirestoreService.GetInstance()._isLoggedIn)
-            {
-//                CloudFirestoreService.GetInstance().ResetPassword(); TODO
-            }
-            else
-            {
-                ToastClass.NotifyMin("Fatal Error", "something very bad happened..");
-            }
         }
     }
 }

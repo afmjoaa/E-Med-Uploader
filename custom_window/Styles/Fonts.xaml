@@ -29,6 +29,9 @@
     <system:Double x:Key="FontSizeSixteen">16</system:Double>
     <system:Double x:Key="FontSizeFifteen">15</system:Double>
     <system:Double x:Key="FontSizeForteen">14</system:Double>
+    <system:Double x:Key="FontSizeTen">10</system:Double>
+    <system:Double x:Key="FontSizeTwelve">11</system:Double>
+    <system:Double x:Key="FontSizeEleven">12</system:Double>
     <system:Double x:Key="FontSizeThirty">30</system:Double>
 
     <system:String x:Key="FontAwesomeChatIcon">&#xf086;</system:String>

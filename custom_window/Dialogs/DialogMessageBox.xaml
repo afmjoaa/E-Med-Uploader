@@ -6,10 +6,19 @@
                              xmlns:local="clr-namespace:custom_window"
                              mc:Ignorable="d">
     <StackPanel Background="White">
-        <TextBlock Text="{Binding Message}" Padding="0 0 0 10" />
+        <TextBlock Text="{Binding Message}"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   FontSize="{StaticResource FontSizeSeventeen}"
+                   FontWeight="Medium"
+                   FontFamily="{StaticResource DosisExtraLight}"
+                   Foreground="{StaticResource TextDarkBrush}"
+                   Padding="0 0 0 10" />
         <Button Content="{Binding OkText}"
                 HorizontalAlignment="Center"
                 Command="{Binding CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:BaseDialogUserControl}}}"
-                MinWidth="160" />
+                MinWidth="90"
+                Margin="0 0 0 8"
+                MaxWidth="90"/>
     </StackPanel>
 </local:BaseDialogUserControl>

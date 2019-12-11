@@ -1,6 +1,9 @@
 ﻿using System;
+using Firebase.Auth;
 using System.Diagnostics;
+using System.Linq;
 using System.Security;
+using System.Threading;
 using MaterialDesignThemes.Wpf;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,7 +24,6 @@ namespace custom_window.Pages
     {
         #region Init
 
-        private string verificationCodeSent = null;
         private CloudFirestoreService cfService = null;
 
         #endregion
@@ -40,28 +42,18 @@ namespace custom_window.Pages
 
         private async void google_OnClick(object sender, RoutedEventArgs e)
         {
-            //show a custom dialog 
-            /*await IoC.UI.ShowMessage(new DialogViewModel
-            {
-                Title = "Patient Info Check",
-                Message = "This is the testing message",
-                OkText = "Ok"
-            });*/
-
-            /*await IoC.UI.ShowChangePassBlock(new ChangePassViewModel
-            {
-                Title = "Patient Info Check",
-            });*/
-            IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.NewPatientRegistration;
-            IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
+            var Toast = new ToastClass();
+            Toast.ShowNotification("Twitter Authentication", "Twitter authentication is coming soon...", 200);
 
         }
 
         private void fb_OnClick(object sender, RoutedEventArgs e)
         {
             //testing the patient slide in the main application
-            IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
-            IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;
+            /*IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
+            IoC.Get<PatientInfoCheckViewModel>().PatientInfoCheckVisible = true;*/
+            var Toast = new ToastClass();
+            Toast.ShowNotification("Facebook Authentication", "Facebook authentication is coming soon...", 200);
         }
 
         private void twitter_OnClick(object sender, RoutedEventArgs e)
@@ -114,68 +106,171 @@ namespace custom_window.Pages
 
         public SecureString SecurePassword => password.SecurePassword;
 
+
         private async void Login_Button_Click(object sender, RoutedEventArgs e)
         {
-            // await Task.Delay(20); // 50
-            MaterialDesignThemes.Wpf.ButtonProgressAssist.SetIsIndicatorVisible(loginButton, true);
-            var phoneNumber = phone_number.Text;
-            // IMPORTANT: Never store unsecure password in variable like this
+            ButtonProgressAssist.SetIsIndicatorVisible(loginButton, true);
+            loginButton.IsEnabled = false;
+
+            var emailText = phone_number.Text;
             var pass = password.Password;
 
-            if (!validatePhoneAndPass(phoneNumber, pass)) return;
-
-            //check login details.
-            // if no account then go to register page
-            // else go to home page
-            var (hospital, error_code) = await cfService.Login(phoneNumber, pass);
-            if (error_code == Constants.NO_ERROR)
+            //validate the email pass
+            if (string.IsNullOrEmpty(emailText) || string.IsNullOrEmpty(pass))
             {
-                Debug.WriteLine("Login success!");
-                ToastClass.NotifyMin("Login Success!", "Welcome " + hospital.hospital_name + " !!");
-                IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Home);
-            }
-            else if (error_code == Constants.BAD_PASS)
-            {
-                ToastClass.NotifyMin("Login Failed!", "Wrong Username/Password combination.");
-
-                //IoC.Get<ApplicationViewModel>().GoToPage();
+                await IoC.UI.ShowMessage(new DialogViewModel()
+                {
+                    Title = "Error Information",
+                    Message = "Email or Password file is empty !!",
+                    OkText = "Okay"
+                });
+                ButtonProgressAssist.SetIsIndicatorVisible(loginButton, false);
+                loginButton.IsEnabled = true;
                 return;
             }
-            else if (error_code == Constants.BAD_USER)
+
+            //sign in flow
+            try
             {
-                // IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Register);
+                FirebaseAuthLink authLink = await cfService.authProvider.SignInWithEmailAndPasswordAsync(emailText, pass);
+
+                //save to the local cache
+                AuthHelper.SaveUserToSettings(authLink);
+                Properties.Settings.Default.isLogedIn = true;
+                Properties.Settings.Default.Save();
+
+                //TODO check if user Registered or not
+                CancellationToken cancellationToken = new CancellationToken(false);
+                Hospital hospital = await ApplicationData.Instance.GetUserHospital(cancellationToken);
+                ButtonProgressAssist.SetIsIndicatorVisible(loginButton, false);
+                loginButton.IsEnabled = true;
+                if (hospital != null)
+                {
+                    SideMenuVm.Instance.UpdateSideMenu();
+                    IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Home);
+                }
+                else
+                {
+                    IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Register);
+                }
+            }
+            catch (FirebaseAuthException exception)
+            {
+                string reason = exception.Reason.ToString();
+                reason = string.Concat(reason.Select(x => Char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ');
+                await IoC.UI.ShowMessage(new DialogViewModel()
+                {
+                    Title = "Error Information",
+                    Message = reason,
+                    OkText = "Okay"
+                });
+                ButtonProgressAssist.SetIsIndicatorVisible(loginButton, false);
+                loginButton.IsEnabled = true;
             }
         }
 
-        private bool validatePhoneAndPass(string phone, string pass)
+
+        private async void SignUpBtnOnClick(object sender, RoutedEventArgs e)
         {
-            return !string.IsNullOrEmpty(phone) && !string.IsNullOrEmpty(pass);
+            ButtonProgressAssist.SetIsIndicatorVisible(signUpBtn, true);
+            signUpBtn.IsEnabled = false;
+            //get the password and email here
+            var emailText = phone_number.Text;
+            var mPassword = password.Password;
+            var confirmPass = code.Password;
+
+            if (string.IsNullOrEmpty(emailText) || string.IsNullOrEmpty(mPassword) || string.IsNullOrEmpty(confirmPass))
+            {
+                await IoC.UI.ShowMessage(new DialogViewModel()
+                {
+                    Title = "Error Information",
+                    Message = "No Field Can be empty !!",
+                    OkText = "Okay"
+                });
+                ButtonProgressAssist.SetIsIndicatorVisible(signUpBtn, false);
+                signUpBtn.IsEnabled = true;
+                return;
+            }
+            else if (mPassword != confirmPass)
+            {
+                await IoC.UI.ShowMessage(new DialogViewModel()
+                {
+                    Title = "Error Information",
+                    Message = "Passwords doesn't match..",
+                    OkText = "Okay"
+                });
+                ButtonProgressAssist.SetIsIndicatorVisible(signUpBtn, false);
+                signUpBtn.IsEnabled = true;
+                return;
+            }
+
+            //testing my code here 
+            try
+            {
+                FirebaseAuthLink newUser =
+                    await cfService.authProvider.CreateUserWithEmailAndPasswordAsync(emailText, mPassword, "", true);
+
+                
+                AuthHelper.SaveUserToSettings(newUser);
+                Properties.Settings.Default.isLogedIn = true;
+                Properties.Settings.Default.Save();
+
+                ButtonProgressAssist.SetIsIndicatorVisible(signUpBtn, false);
+                signUpBtn.IsEnabled = true;
+                //now send to register page ...
+                //don't need to check as only new user possible
+                IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Register);
+            }
+            catch (FirebaseAuthException exception)
+            {
+                string reason = exception.Reason.ToString();
+                reason = string.Concat(reason.Select(x => Char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ');
+                await IoC.UI.ShowMessage(new DialogViewModel()
+                {
+                    Title = "Error Information",
+                    Message = reason,
+                    OkText = "Okay"
+                });
+                ButtonProgressAssist.SetIsIndicatorVisible(signUpBtn, false);
+                signUpBtn.IsEnabled = true;
+            }
         }
+
+        private async void ForgetPassBtn_OnClick(object sender, RoutedEventArgs e)
+        {
+            //show new dialogBox with email field...
+            await IoC.UI.ShowForgetPassBlock(new ForgetPassViewModel()
+            {
+                Title = "Forget Password",
+                OkText = "Okay",
+                PreRetrievalMessage = "Please Provide your Email address so that we can send reset password mail...",
+                PreRetrievalBtnText = "Send Mail"
+            });
+        }
+
+
+        #region justUIFuncitions
 
         private void New_User_Button_Click(object sender, RoutedEventArgs e)
         {
             /*hidding login items*/
             newUserBtn.Visibility = Visibility.Collapsed;
             loginButton.Visibility = Visibility.Collapsed;
-            passBlock.Visibility = Visibility.Collapsed;
-            registerButton.Visibility = Visibility.Collapsed;
-            resendCodeButton.Visibility = Visibility.Collapsed;
-            codeBlock.Visibility = Visibility.Collapsed;
-
+            forgetPassBtn.Visibility = Visibility.Collapsed;
 
             /*showing register items*/
             haveActBtn.Visibility = Visibility.Visible;
-            sendCodeButton.Visibility = Visibility.Visible;
+            signUpBtn.Visibility = Visibility.Visible;
             emailBlock.Visibility = Visibility.Visible;
+            codeBlock.Visibility = Visibility.Visible;
+            passBlock.Visibility = Visibility.Visible;
         }
 
         private void Have_Account_Button_Click(object sender, RoutedEventArgs e)
         {
             /*hidding register items*/
             haveActBtn.Visibility = Visibility.Collapsed;
-            sendCodeButton.Visibility = Visibility.Collapsed;
-            registerButton.Visibility = Visibility.Collapsed;
-            resendCodeButton.Visibility = Visibility.Collapsed;
+            signUpBtn.Visibility = Visibility.Collapsed;
             codeBlock.Visibility = Visibility.Collapsed;
 
             /*showing login items*/
@@ -183,57 +278,15 @@ namespace custom_window.Pages
             emailBlock.Visibility = Visibility.Visible;
             newUserBtn.Visibility = Visibility.Visible;
             loginButton.Visibility = Visibility.Visible;
+            forgetPassBtn.Visibility = Visibility.Visible;
         }
 
-        private void SendCodeButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            /*hidding login items*/
-            emailBlock.Visibility = Visibility.Collapsed;
-            sendCodeButton.Visibility = Visibility.Collapsed;
-            newUserBtn.Visibility = Visibility.Collapsed;
-            loginButton.Visibility = Visibility.Collapsed;
-            passBlock.Visibility = Visibility.Collapsed;
-
-            /*showing register items*/
-
-            haveActBtn.Visibility = Visibility.Visible;
-            registerButton.Visibility = Visibility.Visible;
-            haveActBtn.Visibility = Visibility.Visible;
-            resendCodeButton.Visibility = Visibility.Visible;
-            codeBlock.Visibility = Visibility.Visible;
-
-
-            /*changing send code btn text*/
-            //sendCodeButtonText.Text = "Resend Code";
-
-
-            RegistrationCodeSender codeHelper = RegistrationCodeSender.GetInstance();
-            var newMail = phone_number.Text;
-            var sentCode = codeHelper.SendCodeToEmail(newMail);
-            verificationCodeSent = sentCode;
-        }
-
-
-        private void Register_Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (code.Text == verificationCodeSent)
-            {
-                ToastClass.NotifyMin("Verification Successful", "You're ready to go :)");
-                IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Register);
-            }
-            else
-            {
-                ToastClass.NotifyMin("Bad verification code", "Please try again");
-            }
-        }
-
-        private void resendCodeButton_Click(object sender, RoutedEventArgs e)
-        {
-            RegistrationCodeSender codeHelper = RegistrationCodeSender.GetInstance();
-            var newMail = phone_number.Text;
-            var sentCode = codeHelper.SendCodeToEmail(newMail);
-            verificationCodeSent = sentCode;
-            code.Clear();
-        }
+        #endregion
     }
 }
+
+//authProvider.Dispose();//removes the app configuration
+//two way from two library admin and authentication
+/*FirebaseAuth one = FirebaseAuth.DefaultInstance;
+one.GetUserAsync()
+authProvider.GetUserAsync()*/

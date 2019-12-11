@@ -1,4 +1,8 @@
-﻿namespace custom_window.Core
+﻿using System.Threading;
+using System.Threading.Tasks;
+using custom_window;
+
+namespace custom_window.Core
 {
     public class ApplicationViewModel : BaseViewModel
     {
@@ -9,10 +13,6 @@
         /// </summary>
         public bool SideMenuVisible { get; set; } = false;
 
-        
-
-        public string pName { get; set; }
-        public string pPhone { get; set; }
 
         /// <summary>
         /// navigate to specified page
@@ -20,11 +20,14 @@
         /// <param name="pageName"></param>
         public void GoToPage(ApplicationPage pageName)
         {
-            CurrentPage = pageName;
+            this.CurrentPage = pageName;
             //show side menu or not
             if (pageName != ApplicationPage.Login && pageName != ApplicationPage.Register)
             {
                 SideMenuVisible = true;
+            }else
+            {
+                SideMenuVisible = false;
             }
         }
     }

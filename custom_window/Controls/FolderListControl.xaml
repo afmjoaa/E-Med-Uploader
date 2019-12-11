@@ -49,27 +49,27 @@
                                            Foreground="{StaticResource WordBlueBrush}"
                                            FontSize="{StaticResource FontSizeEighteen}"
                                            FontWeight="Light"
+                                           x:Name="PathTextBlock"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
                                            Text="{Binding path}" />
 
-
+                                <!-- CommandParameter="{Binding ElementName=container}"-->
                                 <Button Grid.Column="4"
                                         x:Name="Play_btn"
                                         Command="{Binding ItemPlayCommand}"
-                                        CommandParameter="{Binding ElementName=container}" 
                                         Margin="10 0"
-                                        IsEnabled="True"
+                                        IsEnabled="{Binding playBtnEnable}"
                                         DockPanel.Dock="Right"
                                         HorizontalAlignment="Left"
                                         Style="{StaticResource MaterialDesignRaisedButton}"
                                         materialDesign:ButtonProgressAssist.Value="-1"
-                                        materialDesign:ButtonAssist.CornerRadius="16"
+                                        materialDesign:ButtonAssist.CornerRadius="4"
                                         ToolTip="Play"
                                         BorderBrush="Transparent"
                                         materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
                                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                                        materialDesign:ButtonProgressAssist.IsIndeterminate="False">
+                                        materialDesign:ButtonProgressAssist.IsIndeterminate="True">
                                     <StackPanel Orientation="Horizontal" Margin="8,0">
                                         <materialDesign:PackIcon Margin="0 2 6 0" Kind="PlayCircleOutline" />
                                         <TextBlock FontWeight="Regular"
@@ -79,19 +79,20 @@
                                     </StackPanel>
                                 </Button>
 
+                                <!--CommandParameter="{Binding ElementName=container}"-->
                                 <Button Margin="10 0"
                                         x:Name="Pause_btn"
                                         Command="{Binding ItemPauseCommand}"
-                                        CommandParameter="{Binding ElementName=container}" 
                                         Grid.Column="5"
+                                        IsEnabled="{Binding pauseBtnEnable}"
                                         Style="{StaticResource MaterialDesignRaisedButton}"
                                         materialDesign:ButtonProgressAssist.Value="-1"
-                                        materialDesign:ButtonAssist.CornerRadius="16"
+                                        materialDesign:ButtonAssist.CornerRadius="4"
                                         ToolTip="Pause"
                                         BorderBrush="Transparent"
                                         materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
                                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                                        materialDesign:ButtonProgressAssist.IsIndeterminate="False">
+                                        materialDesign:ButtonProgressAssist.IsIndeterminate="True">
                                     <StackPanel Orientation="Horizontal" Margin="4,0">
                                         <materialDesign:PackIcon Margin="0 2 6 0" Kind="PauseCircleOutline" />
                                         <TextBlock FontWeight="Regular"
@@ -107,12 +108,12 @@
                                         Grid.Column="6"
                                         Style="{StaticResource MaterialDesignRaisedButton}"
                                         materialDesign:ButtonProgressAssist.Value="-1"
-                                        materialDesign:ButtonAssist.CornerRadius="16"
+                                        materialDesign:ButtonAssist.CornerRadius="4"
                                         ToolTip="Delete"
                                         BorderBrush="Transparent"
                                         materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
                                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                                        materialDesign:ButtonProgressAssist.IsIndeterminate="False">
+                                        materialDesign:ButtonProgressAssist.IsIndeterminate="True">
                                     <StackPanel Orientation="Horizontal" Margin="4,0">
                                         <materialDesign:PackIcon Margin="0 2 6 0" Kind="DeleteCircleOutline" />
                                         <TextBlock FontWeight="Regular"

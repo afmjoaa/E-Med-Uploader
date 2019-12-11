@@ -12,5 +12,10 @@ namespace custom_window.Core
         Task ShowMessage(DialogViewModel viewModel);
 
         Task ShowChangePassBlock(ChangePassViewModel viewModel);
+
+        Task ShowForgetPassBlock(ForgetPassViewModel viewModel);
+
+
+        Task ShowConfirmMessage(ConfirmDialogViewModel viewModel);
     }
 }

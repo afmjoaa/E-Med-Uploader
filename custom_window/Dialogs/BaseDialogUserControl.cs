@@ -26,7 +26,7 @@ namespace custom_window
         /// <summary>
         /// Closes this dialog
         /// </summary>
-        public ICommand CloseCommand { get; private set; }
+        public ICommand CloseCommand { get; set; }
 
         #endregion
 

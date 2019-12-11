@@ -33,7 +33,7 @@ namespace custom_window
         }
 
         public double WindowMinimumWidth { get; set; } = 1060;
-        public double WindowMinimumHeight { get; set; } = 700;
+        public double WindowMinimumHeight { get; set; } = 730;
 
         public int ResizeBorder
         {

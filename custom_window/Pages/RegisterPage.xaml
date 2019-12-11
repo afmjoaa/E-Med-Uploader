@@ -25,18 +25,46 @@
             <ColumnDefinition Width="120" />
         </Grid.ColumnDefinitions>
 
-        <Viewbox Grid.Row="1" Grid.Column="1" MaxHeight="740" MaxWidth="1100" VerticalAlignment="Top"
+        <Viewbox Grid.Row="1" 
+                 Grid.Column="1" 
+                 MaxHeight="740" 
+                 MaxWidth="1200" 
+                 VerticalAlignment="Top"
                  HorizontalAlignment="Left">
             <StackPanel Orientation="Vertical">
-                <TextBlock Margin="0 0 0 30"
+                <TextBlock Margin="0 0 0 20"
                            Foreground="{StaticResource TextDarkBrush}"
                            FontSize="{StaticResource FontSizeTwenty}"
                            FontWeight="Regular" Text="Please file in your info to complete your profile" />
 
+
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <Ellipse Height="90"
+                             Width="90"
+                             Margin="60 14 4 14">
+                        <Ellipse.Fill>
+                            <ImageBrush x:Name="HospitalImage" ImageSource="../Images/BackGround/add.png" />
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <Button Style="{StaticResource IconGrowButton}"
+                            FontSize="12"
+                            x:Name="GetImageBtn"
+                            Padding="20 7"
+                            Content="Change Image"
+                            Width="120"
+                            Foreground="{StaticResource TextActiveBrush}"
+                            FontWeight="Medium"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Panel.ZIndex="2"
+                            Click="UploadImage" />
+                </StackPanel>
+  
                 <TextBlock Margin="0 0 0 12"
                            Foreground="{StaticResource TextActiveBrush}"
                            FontSize="{StaticResource FontSizeEighteen}"
-                           FontWeight="Light" Text="1. Personal Information" />
+                           FontWeight="Light" Text="1. Hospital Information" />
 
 
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 22">
@@ -67,7 +95,8 @@
                             <ColumnDefinition Width="280" />
                         </Grid.ColumnDefinitions>
 
-                        <materialDesign:PackIcon x:Name="hos_reg_number_icon" Kind="RegisteredTrademark" Grid.Column="0"
+                        <materialDesign:PackIcon x:Name="hos_reg_number_icon" Kind="RegisteredTrademark"
+                                                 Grid.Column="0"
                                                  Foreground="{Binding ElementName=hos_reg_number, Path=BorderBrush}"
                                                  VerticalAlignment="Bottom" Margin=" 0 0 6 6" />
                         <TextBox x:Name="hos_reg_number" Grid.Column="1"
@@ -111,81 +140,24 @@
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  Text="{Binding PhoneNumber}" />
                     </Grid>
-                   
+
                 </StackPanel>
-
-
-                <TextBlock Margin="0 0 0 12"
-                           Foreground="{StaticResource TextActiveBrush}"
-                           FontSize="{StaticResource FontSizeEighteen}"
-                           FontWeight="Light" Text="3. Verification Information" />
 
                 <StackPanel Orientation="Horizontal"
-                            Margin="0 0 0 16">
-                    <Grid HorizontalAlignment="Center"
-                          Margin="0 0 30 0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="280" />
-                        </Grid.ColumnDefinitions>
-
-                        <materialDesign:PackIcon x:Name="CurrentPassIcon" Kind="TextboxPassword" Grid.Column="0"
-                                                 Foreground="{Binding ElementName=CurrentPass, Path=BorderBrush}"
-                                                 VerticalAlignment="Bottom" Margin=" 0 0 6 6" />
-                        <TextBox x:Name="CurrentPass"
-                                 Grid.Column="1"
-                                 materialDesign:ValidationAssist.UsePopup="True"
-                                 materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
-                                 materialDesign:HintAssist.IsFloating="True"
-                                 materialDesign:HintAssist.Hint="Password"
-                                 FontWeight="Regular"
-                                 FontSize="{StaticResource FontSizeSixteen}"
-                                 GotFocus="CurrentPass_OnGotFocus"
-                                 LostFocus="CurrentPass_OnLostFocus"
-                                 HorizontalAlignment="Stretch"
-                                 VerticalAlignment="Center"
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                    </Grid>
-
-                    <Grid Margin="30 0 0 0"
-                          HorizontalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="280" />
-                        </Grid.ColumnDefinitions>
-
-                        <materialDesign:PackIcon x:Name="ConfirmPassIcon" Kind="SelectCompare" Grid.Column="0"
-                                                 Foreground="{Binding ElementName=ConfirmPass, Path=BorderBrush}"
-                                                 VerticalAlignment="Bottom" Margin=" 0 0 6 6" />
-                        <TextBox x:Name="ConfirmPass"
-                                 Grid.Column="1"
-                                 materialDesign:ValidationAssist.UsePopup="True"
-                                 materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
-                                 materialDesign:HintAssist.IsFloating="True"
-                                 materialDesign:HintAssist.Hint="Confirm Password"
-                                 FontWeight="Regular"
-                                 FontSize="{StaticResource FontSizeSixteen}"
-                                 GotFocus="ConfirmPass_OnGotFocus"
-                                 LostFocus="ConfirmPass_OnLostFocus"
-                                 HorizontalAlignment="Stretch"
-                                 VerticalAlignment="Center"
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                    </Grid>
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal" 
                             Width="auto" Height="60"
                             HorizontalAlignment="Right">
 
                     <Button Margin="10 0"
                             Style="{StaticResource MaterialDesignRaisedButton}"
                             materialDesign:ButtonProgressAssist.Value="-1"
-                            materialDesign:ButtonAssist.CornerRadius="16"
+                            materialDesign:ButtonAssist.CornerRadius="4"
                             ToolTip="Proceed with the account registration"
                             BorderBrush="Transparent"
+                            Padding="20 0"
                             materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
                             materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                            materialDesign:ButtonProgressAssist.IsIndeterminate="False" Click="Skip_Button_Click">
+                            materialDesign:ButtonProgressAssist.IsIndeterminate="True"
+                            Click="Skip_Button_Click">
                         <StackPanel Orientation="Horizontal" Margin="8,0">
                             <TextBlock FontWeight="Regular"
                                        FontSize="{StaticResource FontSizeForteen}">
@@ -195,15 +167,18 @@
                         </StackPanel>
                     </Button>
 
+                    <!--Command="{Binding SigninCommand}" CommandParameter="{Binding ElementName=register_page }"-->
                     <Button Margin="10 0 0 0"
-                            Command="{Binding SigninCommand}" CommandParameter="{Binding ElementName=register_page }"
+                            x:Name="PreceedBtn"
                             Style="{StaticResource MaterialDesignRaisedButton}"
                             materialDesign:ButtonProgressAssist.Value="-1"
-                            materialDesign:ButtonAssist.CornerRadius="16"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Padding="20 0"
                             ToolTip="Proceed with the account registration"
                             materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
                             materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                            materialDesign:ButtonProgressAssist.IsIndeterminate="False" Click="Register_Button_Click">
+                            materialDesign:ButtonProgressAssist.IsIndeterminate="True" 
+                            Click="Register_Button_Click">
                         <StackPanel Orientation="Horizontal" Margin="8,0">
                             <TextBlock FontWeight="Regular"
                                        FontSize="{StaticResource FontSizeForteen}">

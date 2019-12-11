@@ -24,5 +24,6 @@ namespace custom_window
         {
             InitializeComponent();
         }
+
     }
 }

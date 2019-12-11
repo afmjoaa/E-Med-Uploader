@@ -4,7 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:custom_window"
+             xmlns:valueConverters="clr-namespace:custom_window.ValueConverters"
              mc:Ignorable="d"
+             
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Template>
@@ -24,7 +26,7 @@
                     </LinearGradientBrush>
                 </Border.BorderBrush>
 
-                <Grid>
+                <Grid DataContext="{x:Static local:SideMenuVm.Instance}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
@@ -37,24 +39,24 @@
 
                             <Ellipse Height="150" Width="150" Margin="34 14 34 10">
                                 <Ellipse.Fill>
-                                    <ImageBrush ImageSource="../Images/BackGround/Hospital.png" />
+                                    <ImageBrush ImageSource="{Binding hospitalImage}" />
                                 </Ellipse.Fill>
                             </Ellipse>
 
                             <TextBlock Margin="0 0 0 4"
                                        Foreground="{StaticResource TextDarkBrush}"
                                        FontSize="{StaticResource FontSizeEighteen}"
-                                       FontWeight="Regular" Text="Hospital Name"
+                                       FontWeight="Regular" 
+                                       Text="{Binding hospitalName, FallbackValue='Hospital Name'}"
                                        HorizontalAlignment="Center" />
                             <TextBlock Margin="0 0 0 4" TextWrapping="WrapWithOverflow"
                                        Foreground="{StaticResource TextLightBrush}"
                                        FontSize="{StaticResource FontSizeSixteen}"
-                                       FontWeight="Light" Text="Hospital Id"
+                                       FontWeight="Light" 
+                                       Text="{Binding hospitalId, FallbackValue='Hospital Id'}"
                                        HorizontalAlignment="Center" />
 
                             <Separator Width="120" Background="DarkGray" />
-
-
                         </StackPanel>
                     </Viewbox>
 

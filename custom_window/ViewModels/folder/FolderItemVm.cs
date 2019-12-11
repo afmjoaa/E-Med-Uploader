@@ -17,6 +17,11 @@ namespace custom_window
     public class FolderItemVm : BaseViewModel
     {
         public string path { get; set; }
+
+        public bool playBtnEnable { get; set; }
+        public bool pauseBtnEnable { get; set; }
+
+
         public static Dictionary<string, WatcherService> _watchers = new Dictionary<string, WatcherService>();
 
 
@@ -29,13 +34,15 @@ namespace custom_window
         public FolderItemVm()
         {
             //create commands
-            ItemPlayCommand = new RelayParameterizedCommand(PlayFolderWatching);
-            ItemPauseCommand = new RelayParameterizedCommand(PauseFolderWatching);
+            ItemPlayCommand = new RelayCommand(PlayFolderWatching);
+            ItemPauseCommand = new RelayCommand(PauseFolderWatching);
             ItemDeleteCommand = new RelayCommand(DeleteFolderWatching);
+
+            //initialize play in from the caller after initialize the path from Mysetting.cs
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        private async void PlayFolderWatching(object parameter)
+        public void PlayFolderWatching()
         {
             // var w = new Watcher(path);
             // new Thread(w.watch).Start(); 
@@ -49,24 +56,52 @@ namespace custom_window
             Debug.WriteLine("started watching: " + path);
             var wt = GetWatcher(path);
             new Thread(wt.watch).Start();
-            var passedGrid = parameter as Grid;
-            var coll = passedGrid?.Children as UIElementCollection;
-            var Playbtn = coll?[2];
-            var Pausebtn = coll?[3];
-            if (Playbtn != null) Playbtn.IsEnabled = false;
-            if (Pausebtn != null) Pausebtn.IsEnabled = true;
+
+            playBtnEnable = false;
+            pauseBtnEnable = true;
+            var itemIndex = 0;
+
+            if (Properties.Settings.Default.watchFolder != null && Properties.Settings.Default.watchFolderState != null)
+            {
+                foreach (var currentItem in Properties.Settings.Default.watchFolder)
+                {
+                    if (currentItem == path)
+                    {
+                        Properties.Settings.Default.watchFolderState.RemoveAt(itemIndex);
+                        Properties.Settings.Default.watchFolderState.Insert(itemIndex, "true");
+                        Properties.Settings.Default.Save();
+                        break;
+                    }
+
+                    itemIndex++;
+                }
+            }
         }
 
-        private void PauseFolderWatching(object parameter)
+        private void PauseFolderWatching()
         {
             GetWatcher(path).Dispose();
             _watchers.Remove(path);
-            var passedGrid = parameter as Grid;
-            var coll = passedGrid?.Children as UIElementCollection;
-            var Playbtn = coll?[2];
-            var Pausebtn = coll?[3];
-            if (Playbtn != null) Playbtn.IsEnabled = true;
-            if (Pausebtn != null) Pausebtn.IsEnabled = false;
+
+            playBtnEnable = true;
+            pauseBtnEnable = false;
+
+            var itemIndex = 0;
+            if (Properties.Settings.Default.watchFolder != null && Properties.Settings.Default.watchFolderState != null)
+            {
+                foreach (var currentItem in Properties.Settings.Default.watchFolder)
+                {
+                    if (currentItem == path)
+                    {
+                        Properties.Settings.Default.watchFolderState.RemoveAt(itemIndex);
+                        Properties.Settings.Default.watchFolderState.Insert(itemIndex, "false");
+                        Properties.Settings.Default.Save();
+                        break;
+                    }
+
+                    itemIndex++;
+                }
+            }
         }
 
         private void DeleteFolderWatching()
@@ -74,20 +109,35 @@ namespace custom_window
             GetWatcher(path).Dispose();
             _watchers.Remove(path);
 
-
             var itemIndex = 0;
-
             foreach (var currentItem in FolderListVm.Instance.myItem)
             {
                 if (currentItem.path == path)
                 {
+                    FolderListVm.Instance.myItem.RemoveAt(itemIndex);
                     break;
                 }
 
                 itemIndex++;
             }
 
-            FolderListVm.Instance.myItem.RemoveAt(itemIndex);
+            //delete from the properties
+            itemIndex = 0;
+            if (Properties.Settings.Default.watchFolder != null && Properties.Settings.Default.watchFolderState != null)
+            {
+                foreach (var currentItem in Properties.Settings.Default.watchFolder)
+                {
+                    if (currentItem == path)
+                    {
+                        Properties.Settings.Default.watchFolder.RemoveAt(itemIndex);
+                        Properties.Settings.Default.watchFolderState.RemoveAt(itemIndex);
+                        Properties.Settings.Default.Save();
+                        break;
+                    }
+
+                    itemIndex++;
+                }
+            }
         }
 
         private WatcherService GetWatcher(string path)

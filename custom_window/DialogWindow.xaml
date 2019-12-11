@@ -74,8 +74,8 @@
                                                    Margin="5" 
                                                    VerticalAlignment="Center"
                                                    HorizontalAlignment="Center"
-                                                   FontSize="{StaticResource FontSizeTwenty}"
-                                                   FontWeight="SemiBold"
+                                                   FontSize="{StaticResource FontSizeFifteen}"
+                                                   FontWeight="Light"
                                                    FontFamily="{StaticResource DosisExtraLight}"
                                                    Foreground="{StaticResource TextActiveBrush}"
                                                    Text="{Binding Title, FallbackValue=Hello World}"/>

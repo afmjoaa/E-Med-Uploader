@@ -65,13 +65,22 @@ namespace custom_window
             Items = new ObservableCollection<HistoryItemVm>();
 
             var allFiles = await _cf.GetUploadedFiles();
-            foreach (ReportFile rf in allFiles)
+            if (allFiles != null)
             {
-                Items.Add(new HistoryItemVm()
+                if (allFiles.Count > 0)
                 {
-                    Name = rf.file_name, Status = "Completed", RecieverID = rf.associated_patientId,
-                    Date = rf.file_creation_date.ToString(), Url = rf.file_url
-                });
+                    foreach (ReportFile rf in allFiles)
+                    {
+                        Items.Add(new HistoryItemVm()
+                        {
+                            Name = rf.file_name,
+                            Status = "Completed",
+                            RecieverID = rf.associated_patientId,
+                            Date = rf.file_creation_date.ToString(),
+                            Url = rf.file_url
+                        });
+                    }
+                }
             }
         }
     }

@@ -33,7 +33,6 @@ namespace custom_window.HelperClasses
 
         // updated on each fingerprints or null
         // needs to be reseted after each upload
-        private readonly Hospital _currentHospital = CloudFirestoreService.GetInstance().getLoggedInHospital();
 
         #endregion
 
@@ -48,7 +47,7 @@ namespace custom_window.HelperClasses
             return _instance;
         }
 
-        public async Task UploadFile(object fileInfo, string path)
+        public async Task<string> UploadFile(string path)
         {
             var stream = File.Open(path, FileMode.Open);
             var task = new FirebaseStorage("emed-4490e.appspot.com")
@@ -58,10 +57,53 @@ namespace custom_window.HelperClasses
             {
                 var downloadUrl = await task;
                 Debug.WriteLine(downloadUrl);
+                return downloadUrl;
             }
             catch (Exception e)
             {
                 Debug.WriteLine("Error uploading:: " + e.ToString());
+                return null;
+            }
+        }
+
+        public async Task<string> UploadFile(string path, string uploadFileName)
+        {
+            var stream = File.Open(path, FileMode.Open);
+            var task = new FirebaseStorage("emed-4490e.appspot.com")
+                .Child(uploadFileName)
+                .PutAsync(stream);
+            try
+            {
+                var downloadUrl = await task;
+                Debug.WriteLine(downloadUrl);
+                return downloadUrl;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error uploading:: " + e.ToString());
+                return null;
+            }
+        }
+
+        public async Task<string> UploadHospitalDisplayPic(Stream stream, string uploadFileName)
+        {
+            var task = new FirebaseStorage("emed-4490e.appspot.com")
+                .Child(uploadFileName)
+                .PutAsync(stream);
+            try
+            {
+                var downloadUrl = await task;
+                Properties.Settings.Default.photoUrl = downloadUrl;
+                Properties.Settings.Default.Save();
+
+                await CloudFirestoreService.GetInstance()
+                    .UpdateHospital(Properties.Settings.Default.localId, "photoUrl", downloadUrl);
+                return downloadUrl;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error uploading:: " + e.ToString());
+                return null;
             }
         }
 
@@ -110,7 +152,7 @@ namespace custom_window.HelperClasses
                 reportFile.file_name = Path.GetFileName(filePath);
                 reportFile.file_url = downloadUrl;
                 reportFile.associated_patientId = CurrentPatient.patient_id;
-                reportFile.associated_hospitalId = _currentHospital.hospital_id;
+                reportFile.associated_hospitalId = Properties.Settings.Default.localId;
                 var res = await _cfService.AddFile(reportFile);
 
                 ToastClass.NotifyMin("Uploaded & saved info to server", res);

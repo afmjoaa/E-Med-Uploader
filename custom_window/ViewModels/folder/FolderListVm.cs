@@ -12,6 +12,13 @@ namespace custom_window
         private static FolderListVm instance = null;
         public ObservableCollection<FolderItemVm> myItem { get; set; }
 
+        #region constructor
+
+        public FolderListVm()
+        {
+            myItem = new ObservableCollection<FolderItemVm>();
+        }
+
         public static FolderListVm Instance
         {
             get
@@ -25,10 +32,7 @@ namespace custom_window
             }
         }
 
-        public FolderListVm()
-        {
-            myItem = new ObservableCollection<FolderItemVm>();
-        }
+        #endregion
 
         public List<FolderItemVm> Items { get; set; }
     }

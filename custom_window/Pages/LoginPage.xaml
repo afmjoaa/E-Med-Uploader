@@ -45,7 +45,7 @@
 
             <!-- login form -->
             <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" Margin="30 24 30 30">
-                <Viewbox HorizontalAlignment="Left" VerticalAlignment="Top" MaxWidth="420" MaxHeight="280">
+                <Viewbox HorizontalAlignment="Left" VerticalAlignment="Top" MaxWidth="420" MaxHeight="360">
                     <StackPanel Orientation="Vertical">
                         <!-- welcome text -->
                         <TextBlock Margin="0,6" Foreground="{StaticResource TextDarkBrush}"
@@ -108,58 +108,28 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <materialDesign:PackIcon x:Name="code_ico" Kind="CodeEqual" Grid.Column="0"
-                                                     Foreground="{Binding ElementName=password, Path=BorderBrush}"
+                            <materialDesign:PackIcon x:Name="code_ico" Kind="SelectCompare" Grid.Column="0"
+                                                     Foreground="{Binding ElementName=code, Path=BorderBrush}"
                                                      VerticalAlignment="Bottom" Margin=" 0 0 6 6" />
-                            <TextBox x:Name="code" Grid.Column="1"
-                                     materialDesign:ValidationAssist.UsePopup="True"
-                                     materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
-                                     materialDesign:HintAssist.IsFloating="True"
-                                     materialDesign:HintAssist.Hint="Verification Code"
-                                     FontWeight="Regular"
-                                     GotFocus="Code_GotFocus"
-                                     LostFocus="Code_LostFocus"
-                                     FontSize="{StaticResource FontSizeSixteen}"
-                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-                            <!--Resend code button-->
-                            <Button
-                                x:Name="resendCodeButton"
-                                Click="resendCodeButton_Click"
-                                Margin="10 0 0 0"
-                                Grid.Column="2"
-                                Visibility="Visible"
-                                CommandParameter="{Binding ElementName=login_page }"
-                                VerticalAlignment="Bottom"
-                                HorizontalAlignment="Right"
-                                FontSize="16"
-                                Panel.ZIndex="2"
-                                Style="{DynamicResource MaterialDesignRaisedLightButton}"
-                                materialDesign:ButtonProgressAssist.Value="-1"
-                                materialDesign:ButtonAssist.CornerRadius="4"
-                                ToolTip="Resend the verification code to given mail"
-                                Padding="26 0"
-                                BorderBrush="Transparent"
-                                materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
-                                materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                                materialDesign:ButtonProgressAssist.IsIndeterminate="True">
-                                <StackPanel Orientation="Horizontal" Margin="8,0">
-                                    <TextBlock FontWeight="Regular"
-                                               x:Name="resendCodeButtonText"
-                                               FontSize="{StaticResource FontSizeForteen}">
-                                        Resend
-                                    </TextBlock>
-                                </StackPanel>
-                            </Button>
+                            <PasswordBox x:Name="code"
+                                         Grid.Column="1"
+                                         materialDesign:ValidationAssist.UsePopup="True"
+                                         materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
+                                         materialDesign:HintAssist.IsFloating="True"
+                                         materialDesign:HintAssist.Hint="Confirm Password"
+                                         FontWeight="Regular"
+                                         GotFocus="Code_GotFocus"
+                                         LostFocus="Code_LostFocus"
+                                         FontSize="{StaticResource FontSizeSixteen}"
+                                         Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
 
                         </Grid>
                     </StackPanel>
                 </Viewbox>
 
-                <Viewbox HorizontalAlignment="Left" VerticalAlignment="Top" MaxWidth="420" MaxHeight="280">
+                <Viewbox HorizontalAlignment="Left" VerticalAlignment="Top" MaxWidth="420" MaxHeight="300">
 
                     <StackPanel>
 
@@ -174,11 +144,25 @@
                                     Content="New User ?"
                                     Width="120"
                                     Foreground="{StaticResource TextActiveBrush}"
-                                    FontWeight="Regular"
+                                    FontWeight="Medium"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Center"
                                     Panel.ZIndex="2"
                                     Click="New_User_Button_Click" />
+
+                            <Button Style="{StaticResource IconGrowButton}"
+                                    FontSize="12"
+                                    x:Name="forgetPassBtn"
+                                    Padding="20 7"
+                                    Margin="0 0 20 0"
+                                    Content="Forget Pass ?"
+                                    Width="120"
+                                    Foreground="{StaticResource TextActiveBrush}"
+                                    FontWeight="Medium"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Panel.ZIndex="2"
+                                    Click="ForgetPassBtn_OnClick" />
 
                             <Button Style="{StaticResource IconGrowButton}"
                                     FontSize="12"
@@ -189,7 +173,7 @@
                                     Width="160"
                                     Visibility="Collapsed"
                                     Foreground="{StaticResource TextActiveBrush}"
-                                    FontWeight="Regular"
+                                    FontWeight="Medium"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Center"
                                     Panel.ZIndex="2"
@@ -222,9 +206,9 @@
                                 </StackPanel>
                             </Button>
 
-                            <!--register new user button-->
+                            <!--sign up button-->
                             <Button
-                                x:Name="registerButton"
+                                x:Name="signUpBtn"
                                 Visibility="Collapsed"
                                 CommandParameter="{Binding ElementName=login_page }"
                                 VerticalAlignment="Center"
@@ -234,48 +218,19 @@
                                 Style="{DynamicResource MaterialDesignRaisedButton}"
                                 materialDesign:ButtonProgressAssist.Value="-1"
                                 materialDesign:ButtonAssist.CornerRadius="4"
-                                ToolTip="Register as a new User"
+                                ToolTip="Haven't register yet... Register now..."
                                 Padding="20 0"
                                 BorderBrush="Transparent"
                                 materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
                                 materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
                                 materialDesign:ButtonProgressAssist.IsIndeterminate="True"
-                                Click="Register_Button_Click">
-                                <StackPanel Orientation="Horizontal" Margin="8,0">
-                                    <materialDesign:PackIcon Margin="0 2 6 0" Kind="VerifiedUser" />
-                                    <TextBlock FontWeight="Regular"
-                                               FontSize="{StaticResource FontSizeForteen}">
-                                        Verify
-                                    </TextBlock>
-                                </StackPanel>
-                            </Button>
-
-
-                            <!--send code button-->
-                            <Button
-                                x:Name="sendCodeButton"
-                                Visibility="Collapsed"
-                                CommandParameter="{Binding ElementName=login_page }"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Right"
-                                FontSize="16"
-                                Panel.ZIndex="2"
-                                Style="{DynamicResource MaterialDesignRaisedButton}"
-                                materialDesign:ButtonProgressAssist.Value="-1"
-                                materialDesign:ButtonAssist.CornerRadius="4"
-                                ToolTip="Send verification code to given mail"
-                                Padding="20 0"
-                                BorderBrush="Transparent"
-                                materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
-                                materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                                materialDesign:ButtonProgressAssist.IsIndeterminate="True"
-                                Click="SendCodeButton_OnClick">
+                                Click="SignUpBtnOnClick">
                                 <StackPanel Orientation="Horizontal" Margin="8,0">
                                     <materialDesign:PackIcon Margin="0 2 6 0" Kind="Send" />
                                     <TextBlock FontWeight="Regular"
                                                x:Name="sendCodeButtonText"
                                                FontSize="{StaticResource FontSizeForteen}">
-                                        Send code
+                                        Sign Up
                                     </TextBlock>
                                 </StackPanel>
                             </Button>
@@ -338,7 +293,9 @@
 
 
             <!-- just image -->
-            <Image HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 14 25  0 " Grid.Column="1"
+            <Image HorizontalAlignment="Right" 
+                   VerticalAlignment="Bottom" 
+                   Margin="0 14 25  0 " Grid.Column="1"
                    Source="/Images/BackGround/SideBG.png" />
 
         </Grid>

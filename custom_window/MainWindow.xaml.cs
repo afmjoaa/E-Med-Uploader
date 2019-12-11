@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using custom_window.Core;
 
 namespace custom_window
 {
@@ -25,8 +26,6 @@ namespace custom_window
             InitializeComponent();
 
             this.DataContext = new WindowViewModel(this);
-
-           
         }
 
         private void MainWindow_OnDeactivated(object sender, EventArgs e)
