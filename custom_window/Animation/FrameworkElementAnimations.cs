@@ -57,7 +57,7 @@ namespace custom_window
                 element.Visibility = Visibility.Visible;
 
             // Wait for it to finish
-            await Task.Delay((int)(seconds * 1000));
+            //await Task.Delay((int)(seconds * 1000));
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace custom_window
                 element.Visibility = Visibility.Visible;
 
             // Wait for it to finish
-            await Task.Delay((int)(seconds * 1000));
+            await Task.Delay((int)(seconds * 10));
 
             // Make element invisible
             element.Visibility = Visibility.Hidden;

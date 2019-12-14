@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Threading;
 using Google.Cloud.Firestore;
 
-namespace custom_window
+namespace custom_window.Core
 {
     [FirestoreData]
     public class Hospital
@@ -39,9 +39,6 @@ namespace custom_window
         [FirestoreProperty] public List<String> fingerprint_templates { get; set; } = new List<string>();
         [FirestoreProperty] public string old_nid { get; set; }
         [FirestoreProperty] public string new_nid { get; set; }
-        [FirestoreProperty] public string firebaseAuthToken { get; set; }
-        [FirestoreProperty] public string firebaseRefreshToken { get; set; }
-        [FirestoreProperty] public string FederatedId { get; set; }
     }
 
     [FirestoreData]

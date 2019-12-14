@@ -124,7 +124,6 @@ namespace custom_window.HelperClasses
             }
         }
 
-       
 
         public async Task UpdateHospital(string uid, string key, string value)
         {
@@ -249,14 +248,15 @@ namespace custom_window.HelperClasses
         }
 
 
-
         public async Task<string> AddFile(ReportFile reportFile)
         {
             try
             {
                 CollectionReference colRef = fireStoreDb.Collection("files");
-                var retRef = await colRef.AddAsync(reportFile);
-                return retRef.Id;
+                DocumentReference documentReference = colRef.Document();
+                reportFile.file_id = documentReference.Id;
+                var retRef = await documentReference.CreateAsync(reportFile);
+                return reportFile.file_name;
             }
             catch
             {
@@ -286,14 +286,16 @@ namespace custom_window.HelperClasses
                     }
                 }
             }
+
             return ret;
         }
 
-        public async Task<Patient> FindPatientBy(string fieldPath, string fieldValue, CancellationToken cancellationToken)
+        public async Task<Patient> FindPatientBy(string fieldPath, string fieldValue,
+            CancellationToken cancellationToken)
         {
             try
             {
-                var patientSnapshot= await patientCollection.WhereEqualTo(fieldPath, fieldValue)
+                var patientSnapshot = await patientCollection.WhereEqualTo(fieldPath, fieldValue)
                     .GetSnapshotAsync(cancellationToken);
                 if (patientSnapshot != null)
                 {
@@ -321,21 +323,45 @@ namespace custom_window.HelperClasses
                 Console.WriteLine(exception);
                 throw;
             }
+
             return null;
         }
 
-        public async Task<string> AddPatient(Patient patient)
+        public async Task<Patient> RetrivePatientByUid(string uid)
         {
-            var coll = fireStoreDb.Collection("patients");
-            var x = await coll.AddAsync(patient);
-            return x.Id;
+            try
+            {
+                var patientSnapshot = await patientCollection.Document(uid).GetSnapshotAsync(default);
+                var patient = patientSnapshot.ConvertTo<Patient>();
+                return patient;
+            }
+            catch (FirebaseException exception)
+            {
+                Console.WriteLine(exception);
+            }
+
+            return null;
+        }
+
+        public async Task AddPatient(Patient patient)
+        {
+            try
+            {
+                var coll = fireStoreDb.Collection("patients");
+                var retRef = await coll.Document(patient.id).CreateAsync(patient);
+                // ToastClass.NotifyMin("created! Hospital", retRef.Id);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public bool LogOut()
         {
             Properties.Settings.Default.displayName = "";
             Properties.Settings.Default.isLogedIn = false;
-            Properties.Settings.Default.watchFolder= new StringCollection();
+            Properties.Settings.Default.watchFolder = new StringCollection();
             Properties.Settings.Default.watchFolderState = new StringCollection();
             Properties.Settings.Default.Save();
 

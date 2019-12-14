@@ -11,6 +11,6 @@
         History = 3,
         Statistics = 4,
         Settings = 5,
-        About = 6,
+        About = 6
     }
 }

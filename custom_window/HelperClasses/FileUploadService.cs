@@ -26,11 +26,11 @@ namespace custom_window.HelperClasses
 
         public delegate void ProgressUpdatedDelegate(int percentage);
 
-        public ProgressUpdatedDelegate OnProgressUpdated = null;
+        public ProgressUpdatedDelegate OnProgressUpdated;
 
         private readonly CloudFirestoreService _cfService = CloudFirestoreService.GetInstance();
 
-        public static Patient CurrentPatient = null;
+        //public static Patient CurrentPatient = null;
 
         // updated on each fingerprints or null
         // needs to be reseted after each upload
@@ -145,7 +145,7 @@ namespace custom_window.HelperClasses
 
         public async Task<string> UploadFileForPatient(string filePath)
         {
-            if (CurrentPatient == null)
+            if (IoC.Get<PatientInfoCheckViewModel>().selectedPatientId == null)
             {
                 ToastClass.NotifyMin("No Patient is identifed But Files ared created!!",
                     "Please scan for fingerprint and then copy the report file to the listening directory");
@@ -156,7 +156,7 @@ namespace custom_window.HelperClasses
             var task = new FirebaseStorage("emed-4490e.appspot.com")
                 .Child(Path.GetFileName(filePath))
                 .PutAsync(stream);
-            task.Progress.ProgressChanged += (s, e) => Debug.WriteLine($"Progress: {e.Percentage} %");
+            
             task.Progress.ProgressChanged += (s, e) =>
             {
                 OnProgressUpdated.Invoke(e.Percentage);
@@ -174,12 +174,15 @@ namespace custom_window.HelperClasses
                 var reportFile = new ReportFile();
                 reportFile.file_name = Path.GetFileName(filePath);
                 reportFile.file_url = downloadUrl;
-                reportFile.associated_patientId = CurrentPatient.id;
+                reportFile.file_type = Path.GetExtension(filePath);
+                reportFile.associated_patientId = IoC.Get<PatientInfoCheckViewModel>().selectedPatientId;
                 reportFile.associated_hospitalId = Properties.Settings.Default.localId;
+                reportFile.file_creation_date = Timestamp.GetCurrentTimestamp();
                 var res = await _cfService.AddFile(reportFile);
 
                 ToastClass.NotifyMin("Uploaded & saved info to server", res);
-                CurrentPatient = null;
+                IoC.Get<PatientInfoCheckViewModel>().selectedPatientId = null;
+                IoC.Get<PatientInfoCheckViewModel>().selectedPatientName = "No patient is selected";
                 return res;
             }
             catch (Exception e)

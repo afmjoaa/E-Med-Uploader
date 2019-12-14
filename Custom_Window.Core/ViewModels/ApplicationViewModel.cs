@@ -8,6 +8,8 @@ namespace custom_window.Core
     {
         public ApplicationPage CurrentPage { get; set; } = ApplicationPage.Login;
 
+        public bool CurrentWindowVisible { get; set; } = true;
+
         /// <summary>
         /// true if the side menu is to be shown
         /// </summary>

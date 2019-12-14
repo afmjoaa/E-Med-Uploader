@@ -8,7 +8,6 @@
              mc:Ignorable="d"
              d:DesignHeight="1000" d:DesignWidth="800">
 
-
     <StackPanel Background="White">
         <TextBlock FontSize="{StaticResource FontSizeTwenty}"
                    Foreground="{StaticResource TextDarkBrush}"
@@ -84,17 +83,17 @@
                                     <Grid.OpacityMask>
                                         <VisualBrush Visual="{Binding ElementName=Mask}" />
                                     </Grid.OpacityMask>
-                                    <Image Source="/Images/BackGround/patientDemo.png" 
-                                           x:Name="patientImage"/>
-                                    
-                                    <TextBlock 
+                                    <Image Source="/Images/BackGround/patientDemo.png"
+                                           x:Name="patientImage" />
+
+                                    <TextBlock
                                         Foreground="{StaticResource TextActiveBrush}"
                                         FontWeight="SemiBold"
                                         FontSize="{StaticResource FontSizeEighteen}"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Top"
                                         Margin="10"
-                                        Text="Change"/>
+                                        Text="Change" />
                                 </Grid>
 
 
@@ -448,6 +447,9 @@
                                               Grid.Column="0"
                                               Grid.Row="0"
                                               x:Name="lt"
+                                              IsChecked="{Binding PatientInfoCheckViewModel.isCheckOne,
+                                    Source={x:Static local:ViewModelLocator.Instance}}"
+                                              Click="Lt_OnClick"
                                               HorizontalAlignment="Left"
                                               VerticalAlignment="Top"
                                               materialDesign:ShadowAssist.ShadowDepth="Depth3" />
@@ -461,7 +463,7 @@
                                            Visibility="{Binding PatientInfoCheckViewModel.visibleStateOne,
                                     Source={x:Static local:ViewModelLocator.Instance},
                                     Converter={local:BooleanToVisiblityConverter}, 
-                                    ConverterParameter=True}" 
+                                    ConverterParameter=True}"
                                            VerticalAlignment="Top"
                                            HorizontalAlignment="Left"
                                            Stroke="Transparent"
@@ -477,6 +479,9 @@
                                               Grid.Column="0"
                                               Grid.Row="0"
                                               x:Name="li"
+                                              IsChecked="{Binding PatientInfoCheckViewModel.isCheckTwo,
+                                    Source={x:Static local:ViewModelLocator.Instance}}"
+                                              Click="Li_OnClick"
                                               HorizontalAlignment="Left"
                                               VerticalAlignment="Top"
                                               materialDesign:ShadowAssist.ShadowDepth="Depth3">
@@ -494,7 +499,7 @@
                                            Visibility="{Binding PatientInfoCheckViewModel.visibleStateTwo,
                                     Source={x:Static local:ViewModelLocator.Instance},
                                     Converter={local:BooleanToVisiblityConverter}, 
-                                    ConverterParameter=True}" 
+                                    ConverterParameter=True}"
                                            VerticalAlignment="Top"
                                            HorizontalAlignment="Left"
                                            Stroke="Transparent"
@@ -511,6 +516,9 @@
                                               Grid.Column="0"
                                               Grid.Row="0"
                                               x:Name="rt"
+                                              IsChecked="{Binding PatientInfoCheckViewModel.isCheckThree,
+                                    Source={x:Static local:ViewModelLocator.Instance}}"
+                                              Click="Rt_OnClick"
                                               HorizontalAlignment="Left"
                                               VerticalAlignment="Bottom"
                                               materialDesign:ShadowAssist.ShadowDepth="Depth3">
@@ -524,7 +532,7 @@
                                            Visibility="{Binding PatientInfoCheckViewModel.visibleStateThree,
                                     Source={x:Static local:ViewModelLocator.Instance},
                                     Converter={local:BooleanToVisiblityConverter}, 
-                                    ConverterParameter=True}" 
+                                    ConverterParameter=True}"
                                            Width="36"
                                            Panel.ZIndex="10"
                                            Grid.Column="0"
@@ -545,6 +553,9 @@
                                               Grid.Column="0"
                                               Grid.Row="0"
                                               x:Name="ri"
+                                              IsChecked="{Binding PatientInfoCheckViewModel.is,
+                                    Source={x:Static local:ViewModelLocator.Instance}}"
+                                              Click="Ri_OnClick"
                                               HorizontalAlignment="Left"
                                               VerticalAlignment="Bottom"
                                               materialDesign:ShadowAssist.ShadowDepth="Depth3">
@@ -558,7 +569,7 @@
                                            Visibility="{Binding PatientInfoCheckViewModel.visibleStateFour,
                                     Source={x:Static local:ViewModelLocator.Instance},
                                     Converter={local:BooleanToVisiblityConverter}, 
-                                    ConverterParameter=True}" 
+                                    ConverterParameter=True}"
                                            Width="36"
                                            Panel.ZIndex="10"
                                            Grid.Column="0"
@@ -718,18 +729,18 @@
                                 Grid.ColumnSpan="2"
                                 HorizontalAlignment="Right">
 
-                                <TextBlock 
-                                        FontSize="12"
-                                        x:Name="errorText"
-                                        Padding="20 7"
-                                        Margin="20 8"
-                                        Visibility="Hidden"
-                                        Text=""
-                                        Foreground="{StaticResource RedDarkFourBrush}"
-                                        FontWeight="SemiBold"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Panel.ZIndex="2" />
+                                <TextBlock
+                                    FontSize="12"
+                                    x:Name="errorText"
+                                    Padding="20 7"
+                                    Margin="20 8"
+                                    Visibility="Hidden"
+                                    Text=""
+                                    Foreground="{StaticResource RedDarkFourBrush}"
+                                    FontWeight="SemiBold"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Panel.ZIndex="2" />
 
                                 <Button Margin="10 0"
                                         Style="{StaticResource MaterialDesignRaisedButton}"
@@ -784,4 +795,5 @@
         </Border>
 
     </StackPanel>
+
 </UserControl>

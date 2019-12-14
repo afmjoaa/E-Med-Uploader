@@ -297,13 +297,13 @@
                                 <Button Margin="10 0"
                                         Style="{StaticResource MaterialDesignRaisedButton}"
                                         materialDesign:ButtonProgressAssist.Value="-1"
-                                        materialDesign:ButtonAssist.CornerRadius="16"
+                                        materialDesign:ButtonAssist.CornerRadius="4"
                                         ToolTip="Discard the selected patient"
                                         BorderBrush="Transparent"
                                         Click="skipBtnClicked"
                                         materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
                                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                                        materialDesign:ButtonProgressAssist.IsIndeterminate="False">
+                                        materialDesign:ButtonProgressAssist.IsIndeterminate="True">
                                     <StackPanel Orientation="Horizontal" Margin="8,0">
                                         <TextBlock FontWeight="Normal"
                                                    FontSize="{StaticResource FontSizeForteen}">
@@ -318,11 +318,12 @@
                                         CommandParameter="{Binding ElementName=register_page }"
                                         Style="{StaticResource MaterialDesignRaisedButton}"
                                         materialDesign:ButtonProgressAssist.Value="-1"
-                                        materialDesign:ButtonAssist.CornerRadius="16"
+                                        materialDesign:ButtonAssist.CornerRadius="4"
+                                        Click="acknowledgeBtnClicked"
                                         ToolTip="Proceed with the account registration"
                                         materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
                                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                                        materialDesign:ButtonProgressAssist.IsIndeterminate="False">
+                                        materialDesign:ButtonProgressAssist.IsIndeterminate="True">
                                     <StackPanel Orientation="Horizontal" Margin="8,0">
                                         <TextBlock FontWeight="Normal"
                                                    FontSize="{StaticResource FontSizeForteen}">

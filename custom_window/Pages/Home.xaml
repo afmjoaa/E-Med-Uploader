@@ -78,23 +78,25 @@
             </TextBlock>
 
 
-            <TextBlock Text="No patient is selected"
+            <TextBlock 
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        Name="current_info"
                        FontSize="26"
+                       Text="{Binding PatientInfoCheckViewModel.selectedPatientName,Source={x:Static customWindow:ViewModelLocator.Instance}, FallbackValue=No patient is selected}"
+
                        Foreground="{StaticResource TextDarkBrush}"
                        Margin="10 10 10 4"
                        FontWeight="Bold" />
 
-            <TextBlock Visibility="Visible" Margin="0 0 0 10"
+            <!--<TextBlock Visibility="Visible" Margin="0 0 0 10"
                        TextWrapping="WrapWithOverflow"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        Foreground="{StaticResource TextLightBrush}"
                        FontSize="{StaticResource FontSizeEighteen}"
                        FontWeight="ExtraLight"
-                       Text="Please scan patient fingerprint or NID barcode to identify patient." />
+                       Text="Please scan patient fingerprint or NID barcode to identify patient." />-->
 
 
             <ProgressBar Minimum="0"
