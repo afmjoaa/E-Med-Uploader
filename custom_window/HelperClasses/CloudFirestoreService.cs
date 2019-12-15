@@ -33,8 +33,7 @@ namespace custom_window.HelperClasses
 
         private FingerprintHelper fpDeviceHelper = FingerprintHelper.GetInstance();
 
-        public bool _isLoggedIn = false;
-        private Hospital _loggedInHospitlal = null;
+       
         private CollectionReference hospitalCollection = null;
         private CollectionReference patientCollection = null;
 
@@ -372,17 +371,16 @@ namespace custom_window.HelperClasses
         public async Task<List<ReportFile>> GetUploadedFiles()
         {
             var ret = new List<ReportFile>();
-            if (_isLoggedIn)
+            if (Properties.Settings.Default.isLogedIn)
             {
                 var collection = fireStoreDb.Collection("files");
-                Query queryRef = collection.WhereEqualTo("associated_hospitalId", _loggedInHospitlal.uid);
+                Query queryRef = collection.WhereEqualTo("associated_hospitalId", Properties.Settings.Default.localId);
 
 
                 FirestoreChangeListener listener = queryRef.Listen((snap) =>
                 {
                     var invokeParam = new List<ReportFile>();
-
-                    ToastClass.NotifyMin("Changes in /files", "lookup");
+                    //ToastClass.NotifyMin("Changes in /files", "lookup");
                     foreach (var _docSnap in snap.Documents)
                     {
                         invokeParam.Add(_docSnap.ConvertTo<ReportFile>());
@@ -390,6 +388,30 @@ namespace custom_window.HelperClasses
 
                     OnDbFileChanged.Invoke(invokeParam);
                 });
+
+                var docSnap = await queryRef.GetSnapshotAsync();
+                foreach (DocumentSnapshot reportFileDoc in docSnap)
+                {
+                    ReportFile currFile = reportFileDoc.ConvertTo<ReportFile>();
+                    ret.Add(currFile);
+                }
+
+                return ret;
+            }
+
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<ReportFile>> GetUploadedFilesForState()
+        {
+            var ret = new List<ReportFile>();
+            if (Properties.Settings.Default.isLogedIn)
+            {
+                var collection = fireStoreDb.Collection("files");
+                Query queryRef = collection.WhereEqualTo("associated_hospitalId", Properties.Settings.Default.localId);
 
                 var docSnap = await queryRef.GetSnapshotAsync();
                 foreach (DocumentSnapshot reportFileDoc in docSnap)

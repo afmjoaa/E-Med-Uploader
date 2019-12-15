@@ -42,7 +42,6 @@ namespace custom_window
                     {
                         ToastClass.NotifyMin("File Not Found!", "File was not uploaded correctly!");
                     }
-
                     break;
             }
         }

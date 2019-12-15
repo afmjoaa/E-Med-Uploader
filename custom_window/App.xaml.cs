@@ -11,6 +11,8 @@ using Firebase.Auth;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
+using Microsoft.Win32;
+using Squirrel;
 using IoC = custom_window.Core.IoC;
 
 namespace custom_window
@@ -33,6 +35,14 @@ namespace custom_window
 
             //setup the main application
             ApplicationSetup();
+
+            /*string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            RegistryKey key = Registry.LocalMachine.OpenSubKey(path, true);
+            key.SetValue("E-Med Uploader", System.Reflection.Assembly.GetExecutingAssembly().Location);*/
+
+
+            checkForUpdates();
+
 
             // show the main window
             Current.MainWindow = new MainWindow();
@@ -96,7 +106,13 @@ namespace custom_window
         }
 
 
-       
+        private async Task checkForUpdates()
+        {
+            using (var manager = new UpdateManager(@"C:\Emed\Releases"))
+            {
+                await manager.UpdateApp();
+            }
+        }
 
     }
 }

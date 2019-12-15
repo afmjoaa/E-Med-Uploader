@@ -34,6 +34,7 @@ namespace custom_window
             }
         }
 
+        #region constructor
 
         private HistoryListDm()
         {
@@ -41,6 +42,9 @@ namespace custom_window
             _cf.OnDbFileChanged += OnDbFileChanged;
             LoadList();
         }
+
+        #endregion
+
 
         private void OnDbFileChanged(List<ReportFile> updatedfiles)
         {
@@ -51,10 +55,49 @@ namespace custom_window
                     Items.Clear();
                     foreach (ReportFile rf in updatedfiles)
                     {
+                        var bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/unknown.png"));
+
+                        if (rf.file_type == ".txt" || rf.file_type == ".doc" || rf.file_type == "docx")
+                        {
+                            bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/text.png"));
+                        }
+                        else if (rf.file_type == ".pptx")
+                        {
+                            bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/pptx.png"));
+                        }
+                        else if (rf.file_type == ".cs" || rf.file_type == ".java" || rf.file_type == ".cpp" || rf.file_type == ".c" || rf.file_type == ".class")
+                        {
+                            bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/code.png"));
+                        }
+                        else if (rf.file_type == ".jpeg" || rf.file_type == ".png" || rf.file_type == ".jpg" || rf.file_type == ".svg" || rf.file_type == ".ico")
+                        {
+                            bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/image.png"));
+                        }
+                        else if (rf.file_type == ".pdf" )
+                        {
+                            bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/pdf.png"));
+                        }
+                        else if (rf.file_type == ".aif" || rf.file_type == ".mp3" || rf.file_type == ".wav" || rf.file_type == ".wma" || rf.file_type == ".mid")
+                        {
+                            bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/mp3.png"));
+                        }
+                        else if (rf.file_type == ".h264" || rf.file_type == ".3gp" || rf.file_type == ".m4v" || rf.file_type == ".mp4" || rf.file_type == ".mkv")
+                        {
+                            bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/mp4.png"));
+                        }
+
+                        var dateTime = rf.file_creation_date.ToDateTime();
+
                         Items.Add(new HistoryItemVm()
                         {
-                            Name = rf.file_name, Status = "Completed", RecieverID = rf.associated_patientId,
-                            Date = rf.file_creation_date.ToString(), Url = rf.file_url
+                            Name = rf.file_name,
+                            Status = "Completed",
+                            ReportType = rf.file_type,
+                            RecieverID = rf.associated_patientId,
+                            Date = dateTime.ToLongDateString() +" Time:- "+ dateTime.ToLongTimeString(),
+                            Url = rf.file_url,
+                            FileTypeImageSource = bitmapImage,
+                            Size = "Unknown"
                         });
                     }
                 }));
@@ -71,13 +114,48 @@ namespace custom_window
                 {
                     foreach (ReportFile rf in allFiles)
                     {
+                        var bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/unknown.png"));
+
+                        if (rf.file_type == ".txt" || rf.file_type == ".doc" || rf.file_type == "docx")
+                        {
+                            bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/text.png"));
+                        }
+                        else if (rf.file_type == ".pptx")
+                        {
+                            bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/pptx.png"));
+                        }
+                        else if (rf.file_type == ".cs" || rf.file_type == ".java" || rf.file_type == ".cpp" || rf.file_type == ".c" || rf.file_type == ".class")
+                        {
+                            bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/code.png"));
+                        }
+                        else if (rf.file_type == ".jpeg" || rf.file_type == ".png" || rf.file_type == ".jpg" || rf.file_type == ".svg" || rf.file_type == ".ico")
+                        {
+                            bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/image.png"));
+                        }
+                        else if (rf.file_type == ".pdf")
+                        {
+                            bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/pdf.png"));
+                        }
+                        else if (rf.file_type == ".aif" || rf.file_type == ".mp3" || rf.file_type == ".wav" || rf.file_type == ".wma" || rf.file_type == ".mid")
+                        {
+                            bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/mp3.png"));
+                        }
+                        else if (rf.file_type == ".h264" || rf.file_type == ".3gp" || rf.file_type == ".m4v" || rf.file_type == ".mp4" || rf.file_type == ".mkv")
+                        {
+                            bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/mp4.png"));
+                        }
+                        var dateTime = rf.file_creation_date.ToDateTime();
+
                         Items.Add(new HistoryItemVm()
                         {
                             Name = rf.file_name,
                             Status = "Completed",
                             RecieverID = rf.associated_patientId,
-                            Date = rf.file_creation_date.ToString(),
-                            Url = rf.file_url
+                            Date = dateTime.ToLongDateString() + " Time:- " + dateTime.ToLongTimeString(),
+                            Url = rf.file_url,
+                            FileTypeImageSource = bitmapImage,
+                            Size = "Unknown",
+                            ReportType = rf.file_type
                         });
                     }
                 }

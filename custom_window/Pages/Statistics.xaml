@@ -58,10 +58,10 @@
 
                         <wpf:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Top" Grid.Column="1" Grid.Row="1">
                             <wpf:CartesianChart.AxisY>
-                                <wpf:Axis Title="Sales" LabelFormatter="{Binding YFormatter}" />
+                                <wpf:Axis Title="Reports" LabelFormatter="{Binding YFormatter}" />
                             </wpf:CartesianChart.AxisY>
                             <wpf:CartesianChart.AxisX>
-                                <wpf:Axis Title="Month" Labels="{Binding Labels}" />
+                                <wpf:Axis Title="" Labels="{Binding Labels}" />
                             </wpf:CartesianChart.AxisX>
                         </wpf:CartesianChart>
 
