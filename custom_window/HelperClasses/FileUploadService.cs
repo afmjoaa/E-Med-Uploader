@@ -170,9 +170,9 @@ namespace custom_window.HelperClasses
 
                 // save file info in database..
                 // cfService.
-
                 var reportFile = new ReportFile();
                 reportFile.file_name = Path.GetFileName(filePath);
+                reportFile.file_size = (new FileInfo(filePath).Length /1024).ToString();
                 reportFile.file_url = downloadUrl;
                 reportFile.file_type = Path.GetExtension(filePath);
                 reportFile.associated_patientId = IoC.Get<PatientInfoCheckViewModel>().selectedPatientId;

@@ -55,9 +55,8 @@ namespace custom_window.Pages
             var beforeYesterdayCreated = 0;
             if (defaultWatchFolder != null && defaultWatchFolder.Count != 0)
             {
-                DateTime today = DateTime.Now.Date;
-                DateTime yesterdayDate = today.AddDays(-1);
-
+                DateTime today = Timestamp.GetCurrentTimestamp().ToDateTime();
+                today = today.AddHours(6);
                 foreach (var folder in defaultWatchFolder)
                 {
                     //getting the today count
@@ -68,9 +67,16 @@ namespace custom_window.Pages
                             x.Refresh();
                             return x;
                         })
-                        .Where(x => (x.CreationTime.Date - today).Hours <= 24)
+                        .Where(x =>
+                        {
+                            DateTime argCreationTime = x.CreationTime;
+                            TimeSpan duration = today - argCreationTime;
+                            //Console.WriteLine("Offline : " + duration.TotalDays  + " " + today + "  " + x.CreationTime);
+                            return duration.TotalDays <= 1;
+                           
+                        })
                         .ToArray();
-                    totalCreated = totalCreated + todaysFiles.Length;
+                    totalCreated += todaysFiles.Length;
 
                     //getting the yesterday files
                     FileInfo[] yesterdaysFiles = new DirectoryInfo(folder)
@@ -80,10 +86,15 @@ namespace custom_window.Pages
                             x.Refresh();
                             return x;
                         })
-                        .Where(x => (x.CreationTime.Date - yesterdayDate).Hours <= 48 &&
-                                    (x.CreationTime.Date - yesterdayDate).Hours > 24)
+                        .Where(x => 
+                        {
+                            DateTime argCreationTime = x.CreationTime;
+                            TimeSpan duration = today - argCreationTime;
+                            return duration.TotalDays <= 2 && duration.TotalDays > 1;
+                        })
                         .ToArray();
-                    yesterdayCreated = yesterdayCreated + yesterdaysFiles.Length;
+
+                    yesterdayCreated += yesterdaysFiles.Length;
 
 
                     int fCount = Directory.GetFiles(folder, "*", SearchOption.TopDirectoryOnly).Length;
@@ -113,8 +124,6 @@ namespace custom_window.Pages
             DataContext = this;
 
             LoadList();
-
-            //this.SeriesCollection[0].Values.RemoveAt(1);
         }
 
         public SeriesCollection SeriesCollection { get; set; }
@@ -128,7 +137,7 @@ namespace custom_window.Pages
             Double todayCount = 0;
             Double yesterdayCount = 0;
             Double beforeYesterdayCount = 0;
-            var today = Timestamp.GetCurrentTimestamp().ToDateTime();
+            DateTime today = Timestamp.GetCurrentTimestamp().ToDateTime();
 
             if (allFiles != null)
             {
@@ -136,12 +145,14 @@ namespace custom_window.Pages
                 {
                     foreach (ReportFile rf in allFiles)
                     {
-                        var totalHours = (today - rf.file_creation_date.ToDateTime()).Hours;
-                        if (totalHours <= 24)
+                        TimeSpan duration = today - rf.file_creation_date.ToDateTime();
+                        var totalDays = duration.TotalDays;
+                        //Console.WriteLine("online :" + totalDays + " " + today + " " + rf.file_creation_date.ToDateTime());
+                        if (totalDays <= 1)
                         {
                             todayCount = todayCount + 1;
                         }
-                        else if (totalHours <= 48 && totalHours > 24)
+                        else if (totalDays <= 2 && totalDays > 1)
                         {
                             yesterdayCount = yesterdayCount + 1;
                         }
@@ -159,14 +170,6 @@ namespace custom_window.Pages
             this.SeriesCollection[0].Values.Remove(0d);
             this.SeriesCollection[0].Values.Remove(0d);
             this.SeriesCollection[0].Values.Remove(0d);
-
-            /*for (int i = 0; i < this.SeriesCollection[0].Values.Count +1; i++)
-            {
-                if (i >= 3)
-                {
-                    this.SeriesCollection[0].Values.Remove(0);
-                }
-            }*/
         }
     }
 }

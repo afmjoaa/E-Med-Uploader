@@ -33,9 +33,6 @@
                 Background="{StaticResource LightRedBrush}"
                 CornerRadius="8"
                 Padding="1 50 1 1">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="1" Opacity="0.3" />
-            </Border.Effect>
 
             <Border Background="White" ClipToBounds="True"
                     CornerRadius="0 0 8 8">
@@ -582,6 +579,20 @@
                                         <TranslateTransform X="-1" Y="1" />
                                     </Rectangle.RenderTransform>
                                 </Rectangle>
+
+                                <Button Style="{StaticResource IconGrowButton}"
+                                        Command="{Binding CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:BaseDialogUserControl}}}"
+                                        FontSize="12"
+                                        x:Name="CancelBtn"
+                                        Padding="20 7"
+                                        Content="   Discard &#10;Fingerprints"
+                                        Width="100"
+                                        Foreground="{StaticResource TextActiveBrush}"
+                                        FontWeight="SemiBold"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Click="DiscardFingerPrintClicked"
+                                        Panel.ZIndex="2" />
 
                                 <Image Grid.Column="2"
                                        Grid.Row="0"

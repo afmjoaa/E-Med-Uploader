@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:custom_window"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
-             d:DesignHeight="500" d:DesignWidth="800">
+             d:DesignHeight="800" d:DesignWidth="800">
     <StackPanel Background="White">
 
         <TextBlock FontSize="{StaticResource FontSizeTwenty}"
@@ -33,9 +33,6 @@
                 Background="{StaticResource LightRedBrush}"
                 CornerRadius="8"
                 Padding="1 50 1 1">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="1" Opacity="0.3" />
-            </Border.Effect>
 
             <Border Background="White" ClipToBounds="True"
                     CornerRadius="0 0 8 8">
@@ -59,13 +56,13 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
 
                             <!-- Profile Picture -->
                             <Grid Margin="10 10 20 10"
                                   Column="0"
-
                                   Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}">
 
                                 <!-- Mask for rounded corners-->
@@ -286,13 +283,415 @@
 
                             </Grid>
 
+                            <!--finger print grabber-->
+                            <Grid Grid.ColumnSpan="2"
+                                  Grid.Column="0"
+                                  Margin="10"
+                                  Visibility="Collapsed"
+                                  x:Name="AddFingerPrintSection"
+                                  Grid.Row="1">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Orientation="Vertical"
+                                            Grid.Column="0"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left"
+                                            Grid.Row="0">
+
+                                    <materialDesign:Chip Content="Left Thumb Fingerprint"
+                                                         Foreground="{StaticResource TextDarkBrush}"
+                                                         Margin="0 0 0 10"
+                                                         ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed."
+                                                         IconBackground="{StaticResource LightRedBrush}"
+                                                         IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                                        <materialDesign:Chip.Icon>
+                                            <materialDesign:PackIcon Kind="Fingerprint" />
+                                        </materialDesign:Chip.Icon>
+                                    </materialDesign:Chip>
+
+                                    <materialDesign:Chip Content="Left Index FingerPrint"
+                                                         Margin="0 0 0 10"
+                                                         ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed."
+                                                         Foreground="{StaticResource TextDarkBrush}"
+                                                         IconBackground="{StaticResource LightRedBrush}"
+                                                         IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                                        <materialDesign:Chip.Icon>
+                                            <materialDesign:PackIcon Kind="Fingerprint" />
+                                        </materialDesign:Chip.Icon>
+                                    </materialDesign:Chip>
+
+                                    <materialDesign:Chip Content="Right Thumb FingerPrint"
+                                                         Margin="0 0 0 10"
+                                                         ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed."
+                                                         Foreground="{StaticResource TextDarkBrush}"
+                                                         IconBackground="{StaticResource LightRedBrush}"
+                                                         IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                                        <materialDesign:Chip.Icon>
+                                            <materialDesign:PackIcon Kind="Fingerprint" />
+                                        </materialDesign:Chip.Icon>
+                                    </materialDesign:Chip>
+
+                                    <materialDesign:Chip Content="Right Index FingerPrint"
+                                                         ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed."
+                                                         Foreground="{StaticResource TextDarkBrush}"
+                                                         IconBackground="{StaticResource LightRedBrush}"
+                                                         IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                                        <materialDesign:Chip.Icon>
+                                            <materialDesign:PackIcon Kind="Fingerprint" />
+                                        </materialDesign:Chip.Icon>
+                                    </materialDesign:Chip>
+
+                                </StackPanel>
+
+                                <ToggleButton Content="LT"
+                                              Style="{StaticResource MaterialDesignActionLightToggleButton}"
+                                              ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed"
+                                              Grid.Column="0"
+                                              Grid.Row="0"
+                                              x:Name="lt"
+                                              IsChecked="{Binding PatientInfoCheckViewModel.isCheckOne,
+                                    Source={x:Static local:ViewModelLocator.Instance}}"
+                                              Click="Lt_OnClick"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Top"
+                                              materialDesign:ShadowAssist.ShadowDepth="Depth3" />
+
+                                <!--Top left Thumb-->
+                                <Rectangle Height="36"
+                                           Width="36"
+                                           Panel.ZIndex="10"
+                                           Grid.Column="0"
+                                           Grid.Row="0"
+                                           Visibility="{Binding PatientInfoCheckViewModel.visibleStateOne,
+                                    Source={x:Static local:ViewModelLocator.Instance},
+                                    Converter={local:BooleanToVisiblityConverter}, 
+                                    ConverterParameter=True}"
+                                           VerticalAlignment="Top"
+                                           HorizontalAlignment="Left"
+                                           Stroke="Transparent"
+                                           Fill="Transparent">
+                                    <Rectangle.RenderTransform>
+                                        <TranslateTransform X="-1" Y="-1" />
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+
+                                <ToggleButton Content="LI"
+                                              Style="{StaticResource MaterialDesignActionLightToggleButton}"
+                                              ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed"
+                                              Grid.Column="0"
+                                              Grid.Row="0"
+                                              x:Name="li"
+                                              IsChecked="{Binding PatientInfoCheckViewModel.isCheckTwo,
+                                    Source={x:Static local:ViewModelLocator.Instance}}"
+                                              Click="Li_OnClick"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Top"
+                                              materialDesign:ShadowAssist.ShadowDepth="Depth3">
+                                    <ToggleButton.RenderTransform>
+                                        <TranslateTransform X="0" Y="42" />
+                                    </ToggleButton.RenderTransform>
+                                </ToggleButton>
+
+                                <!--Middle left Index-->
+                                <Rectangle Height="36"
+                                           Width="36"
+                                           Panel.ZIndex="10"
+                                           Grid.Column="0"
+                                           Grid.Row="0"
+                                           Visibility="{Binding PatientInfoCheckViewModel.visibleStateTwo,
+                                    Source={x:Static local:ViewModelLocator.Instance},
+                                    Converter={local:BooleanToVisiblityConverter}, 
+                                    ConverterParameter=True}"
+                                           VerticalAlignment="Top"
+                                           HorizontalAlignment="Left"
+                                           Stroke="Transparent"
+                                           Fill="Transparent">
+                                    <Rectangle.RenderTransform>
+                                        <TranslateTransform X="-1" Y="40" />
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+
+
+                                <ToggleButton Content="RT"
+                                              Style="{StaticResource MaterialDesignActionLightToggleButton}"
+                                              ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed"
+                                              Grid.Column="0"
+                                              Grid.Row="0"
+                                              x:Name="rt"
+                                              IsChecked="{Binding PatientInfoCheckViewModel.isCheckThree,
+                                    Source={x:Static local:ViewModelLocator.Instance}}"
+                                              Click="Rt_OnClick"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Bottom"
+                                              materialDesign:ShadowAssist.ShadowDepth="Depth3">
+                                    <ToggleButton.RenderTransform>
+                                        <TranslateTransform X="0" Y="-42" />
+                                    </ToggleButton.RenderTransform>
+                                </ToggleButton>
+
+                                <!--middle Right Thumb-->
+                                <Rectangle Height="36"
+                                           Visibility="{Binding PatientInfoCheckViewModel.visibleStateThree,
+                                    Source={x:Static local:ViewModelLocator.Instance},
+                                    Converter={local:BooleanToVisiblityConverter}, 
+                                    ConverterParameter=True}"
+                                           Width="36"
+                                           Panel.ZIndex="10"
+                                           Grid.Column="0"
+                                           Grid.Row="0"
+                                           VerticalAlignment="Top"
+                                           HorizontalAlignment="Left"
+                                           Stroke="Transparent"
+                                           Fill="Transparent" Margin="0,122,0,0">
+
+                                    <Rectangle.RenderTransform>
+                                        <TranslateTransform X="-1" Y="-40" />
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+
+                                <ToggleButton Content="RI"
+                                              Style="{StaticResource MaterialDesignActionLightToggleButton}"
+                                              ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed"
+                                              Grid.Column="0"
+                                              Grid.Row="0"
+                                              x:Name="ri"
+                                              IsChecked="{Binding PatientInfoCheckViewModel.is,
+                                    Source={x:Static local:ViewModelLocator.Instance}}"
+                                              Click="Ri_OnClick"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Bottom"
+                                              materialDesign:ShadowAssist.ShadowDepth="Depth3">
+                                    <ToggleButton.RenderTransform>
+                                        <TranslateTransform X="0" Y="0" />
+                                    </ToggleButton.RenderTransform>
+                                </ToggleButton>
+
+                                <!--bottom Right index-->
+                                <Rectangle Height="36"
+                                           Visibility="{Binding PatientInfoCheckViewModel.visibleStateFour,
+                                    Source={x:Static local:ViewModelLocator.Instance},
+                                    Converter={local:BooleanToVisiblityConverter}, 
+                                    ConverterParameter=True}"
+                                           Width="36"
+                                           Panel.ZIndex="10"
+                                           Grid.Column="0"
+                                           Grid.Row="0"
+                                           VerticalAlignment="Bottom"
+                                           HorizontalAlignment="Left"
+                                           Stroke="Transparent"
+                                           Fill="Transparent">
+                                    <Rectangle.RenderTransform>
+                                        <TranslateTransform X="-1" Y="1" />
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+
+                                <Button Style="{StaticResource IconGrowButton}"
+                                        Command="{Binding CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:BaseDialogUserControl}}}"
+                                        FontSize="12"
+                                        x:Name="CancelBtn"
+                                        Padding="20 7"
+                                        Content="   Discard &#10;Fingerprints"
+                                        Width="100"
+                                        Foreground="{StaticResource TextActiveBrush}"
+                                        FontWeight="SemiBold"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Click="DiscardFingerPrintClicked"
+                                        Panel.ZIndex="2" />
+
+                                <Image Grid.Column="2"
+                                       Grid.Row="0"
+                                       Source="/Images/BackGround/hand.png"
+                                       ToolTip="You can discard fingerprint by clicking the right sign on the fingers"
+                                       Width="260" />
+
+                                <!--///////////////////////////image overlay red //////////////////////////////////////////////////////-->
+                                <!--Right index image top-->
+                                <ToggleButton Style="{StaticResource MaterialDesignActionLightToggleButton}"
+                                              ToolTip="Discard this fingerprint."
+                                              Grid.Column="2"
+                                              Grid.Row="0"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Background="Transparent"
+                                              Foreground="Red"
+                                              materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                                    <materialDesign:PackIcon Kind="Fingerprint" />
+                                    <ToggleButton.RenderTransform>
+                                        <TranslateTransform X="48" Y="-44" />
+                                    </ToggleButton.RenderTransform>
+                                </ToggleButton>
+
+                                <!--Right index rectangle for image-->
+                                <Rectangle Height="36"
+                                           Width="36"
+                                           Panel.ZIndex="10"
+                                           Grid.Column="2"
+                                           Grid.Row="0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Stroke="Transparent"
+                                           Fill="Transparent">
+                                    <Rectangle.RenderTransform>
+                                        <TranslateTransform X="48" Y="-44" />
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+
+                                <!--Right thumb image top-->
+                                <ToggleButton Style="{StaticResource MaterialDesignActionLightToggleButton}"
+                                              ToolTip="Discard this fingerprint."
+                                              Grid.Column="2"
+                                              Grid.Row="0"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Background="Transparent"
+                                              Foreground="Red"
+                                              materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                                    <materialDesign:PackIcon Kind="Fingerprint" />
+                                    <ToggleButton.RenderTransform>
+                                        <TranslateTransform X="14" Y="2" />
+                                    </ToggleButton.RenderTransform>
+                                </ToggleButton>
+
+                                <!--Right thumb rectangle for image-->
+                                <Rectangle Height="36"
+                                           Width="36"
+                                           Panel.ZIndex="10"
+                                           Grid.Column="2"
+                                           Grid.Row="0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Stroke="Transparent"
+                                           Fill="Transparent">
+                                    <Rectangle.RenderTransform>
+                                        <TranslateTransform X="14" Y="2" />
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+
+
+                                <!--Left thumb image top-->
+                                <ToggleButton Style="{StaticResource MaterialDesignActionLightToggleButton}"
+                                              ToolTip="Discard this fingerprint."
+                                              Grid.Column="2"
+                                              Grid.Row="0"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Background="Transparent"
+                                              Foreground="Red"
+                                              materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                                    <materialDesign:PackIcon Kind="Fingerprint" />
+                                    <ToggleButton.RenderTransform>
+                                        <TranslateTransform X="-14" Y="2" />
+                                    </ToggleButton.RenderTransform>
+                                </ToggleButton>
+
+                                <!--Left thumb rectangle for image-->
+                                <Rectangle Height="36"
+                                           Width="36"
+                                           Panel.ZIndex="10"
+                                           Grid.Column="2"
+                                           Grid.Row="0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Stroke="Transparent"
+                                           Fill="Transparent">
+                                    <Rectangle.RenderTransform>
+                                        <TranslateTransform X="-14" Y="2" />
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+
+
+                                <!--Left Index image top-->
+                                <ToggleButton Style="{StaticResource MaterialDesignActionLightToggleButton}"
+                                              ToolTip="Discard this fingerprint."
+                                              Grid.Column="2"
+                                              Grid.Row="0"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Background="Transparent"
+                                              Foreground="Red"
+                                              materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                                    <materialDesign:PackIcon Kind="Fingerprint" />
+                                    <ToggleButton.RenderTransform>
+                                        <TranslateTransform X="-48" Y="-44" />
+                                    </ToggleButton.RenderTransform>
+                                </ToggleButton>
+
+                                <!--Left Index rectangle for image-->
+                                <Rectangle Height="36"
+                                           Width="36"
+                                           Panel.ZIndex="10"
+                                           Grid.Column="2"
+                                           Grid.Row="0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Stroke="Transparent"
+                                           Fill="Transparent">
+                                    <Rectangle.RenderTransform>
+                                        <TranslateTransform X="-48" Y="-44" />
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+
+
+                            </Grid>
+
                             <!--button action-->
                             <StackPanel
-                                Margin="0 8 10 10 "
+                                Margin="0 20 10 10 "
                                 Orientation="Horizontal"
-                                Grid.Row="2"
+                                Grid.Row="3"
                                 Grid.ColumnSpan="2"
                                 HorizontalAlignment="Right">
+
+                                <Button Margin="10 0"
+                                        Style="{StaticResource MaterialDesignRaisedButton}"
+                                        materialDesign:ButtonProgressAssist.Value="-1"
+                                        materialDesign:ButtonAssist.CornerRadius="4"
+                                        ToolTip="Discard the selected patient"
+                                        BorderBrush="Transparent"
+                                        x:Name="UpdateFingerprintBtn"
+                                        Click="UpdateFingerPrintBtnClicked"
+                                        Visibility="Collapsed"
+                                        materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
+                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
+                                        materialDesign:ButtonProgressAssist.IsIndeterminate="True">
+                                    <StackPanel Orientation="Horizontal" Margin="8,0">
+                                        <TextBlock FontWeight="Normal"
+                                                   FontSize="{StaticResource FontSizeForteen}">
+                                            Update Fingerprint
+                                        </TextBlock>
+                                        <materialDesign:PackIcon Margin="6 2 0 0" Kind="CellphoneSystemUpdate" />
+                                    </StackPanel>
+                                </Button>
+
+
+                                <Button Style="{StaticResource IconGrowButton}"
+                                        FontSize="12"
+                                        x:Name="AddFingerprintBtn"
+                                        Padding="20 7"
+                                        Margin="20 8 10 8"
+                                        Content="Add Fingerprint"
+                                        Width="136"
+                                        Visibility="{Binding PatientInfoCheckViewModel.addFinger,
+                                    Source={x:Static local:ViewModelLocator.Instance},
+                                    Converter={local:BooleanToVisiblityConverter}, 
+                                    ConverterParameter=True}"
+                                        Foreground="{StaticResource TextActiveBrush}"
+                                        FontWeight="SemiBold"
+                                        Click="AddFingerPrintBtnClicked"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Panel.ZIndex="2" />
 
                                 <Button Margin="10 0"
                                         Style="{StaticResource MaterialDesignRaisedButton}"
@@ -334,6 +733,21 @@
                                 </Button>
 
                             </StackPanel>
+
+                            <TextBlock
+                                FontSize="12"
+                                x:Name="errorText"
+                                Padding="0 7"
+                                Margin="14 8" 
+                                Grid.Row="2"
+                                Grid.ColumnSpan="2"
+                                HorizontalAlignment="Right"
+                                Visibility="Collapsed"
+                                Text=""
+                                Foreground="Red"
+                                FontWeight="SemiBold"
+                                VerticalAlignment="Center"
+                                Panel.ZIndex="2" />
 
                         </Grid>
 

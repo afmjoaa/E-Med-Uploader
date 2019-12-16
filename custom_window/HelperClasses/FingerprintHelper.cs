@@ -32,8 +32,14 @@ namespace custom_window.HelperClasses
         }
 
         public delegate void OnCaptureCallBack(string strTemplate, byte[] template);
+        public delegate void OnCaptureCallBackNewRegister(string strTemplate, byte[] template);
+        public delegate void OnCaptureCallBackExistingRegister(string strTemplate, byte[] template);
 
         public OnCaptureCallBack onCaptureCallBackEvents;
+
+        public OnCaptureCallBackNewRegister onCaptureCallBackEventsTwo;
+
+        public OnCaptureCallBackExistingRegister onCaptureCallBackEventsThree;
 
         IntPtr mDevHandle = IntPtr.Zero;
         IntPtr mDBHandle = IntPtr.Zero;
@@ -154,14 +160,19 @@ namespace custom_window.HelperClasses
                     bitmap.UriSource = new Uri(path + "\\" + fileName);
 
                     bitmap.EndInit();
-                    bitmap.Freeze();
-*/
+                    bitmap.Freeze();*/
+
                     var templateInBase64 = zkfp2.BlobToBase64(CapTmp, cbCapTmp);
 
-                    onCaptureCallBackEvents.Invoke(templateInBase64, CapTmp);
+                    onCaptureCallBackEvents?.Invoke(templateInBase64, CapTmp);
 
-                    //      Console.WriteLine(templateInBase64);
-//                    Dispatcher?.Invoke(() => { img_view.Source = bitmap; }, DispatcherPriority.Normal);
+                    onCaptureCallBackEventsTwo?.Invoke(templateInBase64, CapTmp);
+
+                    onCaptureCallBackEventsThree?.Invoke(templateInBase64, CapTmp);
+
+
+                    //Console.WriteLine(templateInBase64);
+                    //Dispatcher?.Invoke(() => { img_view.Source = bitmap; }, DispatcherPriority.Normal);
                 }
 
                 Thread.Sleep(200);

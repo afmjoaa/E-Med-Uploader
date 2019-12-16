@@ -49,6 +49,7 @@ namespace custom_window
     {
         [FirestoreProperty] public string file_id { get; set; }
         [FirestoreProperty] public string file_name { get; set; }
+        [FirestoreProperty] public string file_size { get; set; }
         [FirestoreProperty] public string file_url { get; set; }
         [FirestoreProperty] public string file_type { get; set; }
         [FirestoreProperty] public string associated_patientId { get; set; }

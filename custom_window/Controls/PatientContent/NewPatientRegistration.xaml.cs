@@ -29,6 +29,7 @@ namespace custom_window
         private BarcodeHelper _bar;
         private FingerprintHelper _fp;
         private OpenFileDialog op;
+        private FirebaseAuthLink authLink = null;
         public List<string> fingerPrints { get; set; }
 
         public string uploadPatientDisplayPicUrl { get; set; } = null;
@@ -44,8 +45,8 @@ namespace custom_window
             //delegate for display pic and fingerprints
 
             _bar.modifiedModifiedBarcodeEvent += OnModifiedModifiedBarcodeEvent;
-            _fp.onCaptureCallBackEvents += OnCaptureCallBackEvents;
-            fingerPrints = IoC.Get<PatientInfoCheckViewModel>().FingerPrintList;
+            _fp.onCaptureCallBackEventsTwo += OnCaptureCallBackEvents;
+            fingerPrints = new List<string>();
         }
 
         private async Task SetFingerAndDisplayPic(string displypic, List<string> fingerlist)
@@ -90,6 +91,19 @@ namespace custom_window
             }
         }
 
+        private void NullifyAllFinger()
+        {
+            fingerPrints = new List<string>();
+            lt.IsChecked = false;
+            li.IsChecked = false;
+            rt.IsChecked = false;
+            ri.IsChecked = false;
+            IoC.Get<PatientInfoCheckViewModel>().visibleStateOne = true;
+            IoC.Get<PatientInfoCheckViewModel>().visibleStateTwo = true;
+            IoC.Get<PatientInfoCheckViewModel>().visibleStateThree = true;
+            IoC.Get<PatientInfoCheckViewModel>().visibleStateFour = true;
+        }
+
         private void OnCaptureCallBackEvents(string templateString, byte[] template)
         {
             Console.WriteLine("fingerPrint joaa");
@@ -103,7 +117,7 @@ namespace custom_window
                         IoC.Get<PatientInfoCheckViewModel>().visibleStateOne = false;
                     });
             }
-            else if (fingerPrints.Count < 5)
+            else if (fingerPrints.Count < 4)
             {
                 var isMatchedAny = false;
                 foreach (var print in fingerPrints.ToList())
@@ -306,9 +320,19 @@ namespace custom_window
             //sign in email pass
             try
             {
-                FirebaseAuthLink authLink = await CloudFirestoreService.GetInstance().authProvider
-                    .CreateUserWithEmailAndPasswordAsync(vEmail.Text,
-                        "123456");
+                if (authLink != null)
+                {
+                    authLink = await CloudFirestoreService.GetInstance().authProvider
+                        .SignInWithEmailAndPasswordAsync(vEmail.Text,
+                            "123456");
+
+                }
+                else if (authLink == null && !string.IsNullOrEmpty(vEmail.Text))
+                {
+                    authLink = await CloudFirestoreService.GetInstance().authProvider
+                        .CreateUserWithEmailAndPasswordAsync(vEmail.Text,
+                            "123456");
+                }
 
                 //save to database
                 Patient uploadingPatient = new Patient();
@@ -341,8 +365,10 @@ namespace custom_window
                 ToastClass.NotifyMin("Patient registered", "Patient is registered and selected for file upload...");
 
                 IoC.Get<PatientInfoCheckViewModel>().NullWindowData();
+                NullifyAllFinger();
+                authLink = null;
+                patientImage.Source = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/patientDemo.png"));
                 IoC.Get<PatientInfoCheckViewModel>().HidePatientInfo();
-                
             }
             catch (FirebaseAuthException exception)
             {
@@ -363,6 +389,9 @@ namespace custom_window
             IoC.Get<PatientInfoCheckViewModel>().selectedPatientId = null;
             IoC.Get<PatientInfoCheckViewModel>().selectedPatientName = "No patient is selected";
             IoC.Get<PatientInfoCheckViewModel>().NullWindowData();
+            NullifyAllFinger();
+            authLink = null;
+            patientImage.Source = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/patientDemo.png"));
             IoC.Get<PatientInfoCheckViewModel>().HidePatientInfo();
         }
 
@@ -376,9 +405,37 @@ namespace custom_window
 
             if (op.ShowDialog() == true)
             {
+
                 patientImage.Source = new BitmapImage(new Uri(op.FileName));
-                uploadPatientDisplayPicUrl = await FileUploadService.GetInstance()
-                    .UploadPatientDisplayPic(op.OpenFile(), op.FileName);
+                if (authLink != null)
+                {
+                    uploadPatientDisplayPicUrl = await FileUploadService.GetInstance()
+                        .UploadPatientDisplayPic(op.OpenFile(), authLink.User.LocalId);
+
+                }
+                else if (authLink == null && !string.IsNullOrEmpty(vEmail.Text))
+                {
+
+                    try
+                    {
+                        authLink = await CloudFirestoreService.GetInstance().authProvider
+                            .CreateUserWithEmailAndPasswordAsync(vEmail.Text,
+                                "123456");
+
+                        uploadPatientDisplayPicUrl = await FileUploadService.GetInstance()
+                            .UploadPatientDisplayPic(op.OpenFile(), authLink.User.LocalId);
+                    }
+                    catch (FirebaseAuthException exception)
+                    {
+                        string reason = exception.Reason.ToString();
+                        reason = string.Concat(reason.Select(x => Char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ');
+                        errorText.Visibility = Visibility.Visible;
+                        errorText.Text = reason;
+                        Console.WriteLine(exception);
+                    }
+                   
+                }
+               
             }
 
             //upload file by this
@@ -472,60 +529,12 @@ namespace custom_window
                 Console.WriteLine(exception);
             }
         }
+
+        private void DiscardFingerPrintClicked(object sender, RoutedEventArgs e)
+        {
+            NullifyAllFinger();
+            fingerPrints = new List<string>();
+        }
     }
 }
 
-/*Parallel.For(
-0, 4, i =>
-{
-    if (i == 0)
-    {
-        var cancellationToken = new CancellationToken();
-        Patient patientOne = CloudFirestoreService.GetInstance()
-            .FindPatientBy("phone", vPhoneText, cancellationToken).Result;
-        if (patientOne != null)
-        {
-            errorText.Visibility = Visibility.Visible;
-            errorText.Text = "Already one patient is associated with the phone number";
-            return;
-        }
-    }
-    else if (i == 1)
-    {
-        var cancellationToken = new CancellationToken();
-        Patient patientTwo = CloudFirestoreService.GetInstance()
-            .FindPatientBy("email", vEmailText, cancellationToken).Result;
-        if (patientTwo != null)
-        {
-            errorText.Visibility = Visibility.Visible;
-            errorText.Text = "Already one patient is associated with the email address";
-            return;
-        }
-    }
-    else if (i == 2)
-    {
-        var cancellationToken = new CancellationToken();
-        Patient patientThree = CloudFirestoreService.GetInstance()
-            .FindPatientBy("new_nid", vNidText, cancellationToken).Result;
-        if (patientThree != null)
-        {
-            errorText.Visibility = Visibility.Visible;
-            errorText.Text = "Already one patient is associated with the email address";
-            return;
-        }
-    }
-    else if (i == 3)
-    {
-        foreach (var print in fingerPrints.ToList())
-        {
-            Patient PatientFour = (CloudFirestoreService.GetInstance().FindPatientByFingerprint(print))
-                .Result;
-            if (PatientFour != null)
-            {
-                errorText.Visibility = Visibility.Visible;
-                errorText.Text = "One of the fingerprint is associated with a patient...";
-                return;
-            }
-        }
-    }
-});*/

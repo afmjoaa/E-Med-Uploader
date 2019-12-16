@@ -138,7 +138,7 @@ namespace custom_window.HelperClasses
             }
         }
 
-        public async Task UpdatePatient(string uid, string key, string value)
+        public async Task UpdatePatient(string uid, string key, object value)
         {
             try
             {

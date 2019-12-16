@@ -69,7 +69,7 @@ namespace custom_window
                         {
                             bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/code.png"));
                         }
-                        else if (rf.file_type == ".jpeg" || rf.file_type == ".png" || rf.file_type == ".jpg" || rf.file_type == ".svg" || rf.file_type == ".ico")
+                        else if (rf.file_type == ".jpeg" || rf.file_type == ".png" ||rf.file_type == ".PNG" || rf.file_type == ".jpg" || rf.file_type == ".svg" || rf.file_type == ".ico")
                         {
                             bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/image.png"));
                         }
@@ -97,7 +97,7 @@ namespace custom_window
                             Date = dateTime.ToLongDateString() +" Time:- "+ dateTime.ToLongTimeString(),
                             Url = rf.file_url,
                             FileTypeImageSource = bitmapImage,
-                            Size = "Unknown"
+                            Size = rf.file_size
                         });
                     }
                 }));
@@ -154,7 +154,7 @@ namespace custom_window
                             Date = dateTime.ToLongDateString() + " Time:- " + dateTime.ToLongTimeString(),
                             Url = rf.file_url,
                             FileTypeImageSource = bitmapImage,
-                            Size = "Unknown",
+                            Size = rf.file_size,
                             ReportType = rf.file_type
                         });
                     }

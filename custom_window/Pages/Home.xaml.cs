@@ -126,7 +126,7 @@ namespace custom_window.Pages
                     foundPatient.email, foundPatient.birth, foundPatient.permanent_address,
                     foundPatient.present_address, foundPatient.voting_area, foundPatient.issue_date,
                     foundPatient.display_pic,
-                    foundPatient.old_nid, foundPatient.new_nid, foundPatient.fingerprint_templates);
+                    foundPatient.old_nid, foundPatient.new_nid, foundPatient.fingerprint_templates.Count < 4);
 
                 IoC.Get<PatientInfoCheckViewModel>().ShowNewOrOld(ContentType.ExistingPatientInfo);
             }
@@ -138,7 +138,7 @@ namespace custom_window.Pages
                     "", dateofbirth, permanent,
                     present, votingArea, issueDate,
                     "",
-                    oldnid, newnid, new List<string>());
+                    oldnid, newnid, false);
                 //showing the window now
                 IoC.Get<PatientInfoCheckViewModel>().ShowNewOrOld(ContentType.NewPatientRegistration);
             }
@@ -159,11 +159,20 @@ namespace custom_window.Pages
 
                 IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
                 //update view
+                if(foundPatient.fingerprint_templates.Count >= 4)
+                {
+                    var foundFinger = true;
+                }
+                else
+                {
+                    bool foundFinger = false;
+                }
+
                 IoC.Get<PatientInfoCheckViewModel>().SetWindowData(foundPatient.name, foundPatient.phone,
                     foundPatient.email, foundPatient.birth, foundPatient.permanent_address,
                     foundPatient.present_address, foundPatient.voting_area, foundPatient.issue_date,
                     foundPatient.display_pic,
-                    foundPatient.old_nid, foundPatient.new_nid, foundPatient.fingerprint_templates);
+                    foundPatient.old_nid, foundPatient.new_nid, foundPatient.fingerprint_templates.Count < 4);
                 IoC.Get<PatientInfoCheckViewModel>().ShowNewOrOld(ContentType.ExistingPatientInfo);
             }
             else
@@ -189,6 +198,7 @@ namespace custom_window.Pages
                 IoC.Get<PatientInfoCheckViewModel>().selectedPatientName = foundPatient.name + " is selected";
 
                 //notify
+                //Console.WriteLine("Welcome " + foundPatient.name, "We have Identified you!");
                 ToastClass.NotifyMin("Welcome " + foundPatient.name, "We have Identified you!");
 
                 //update info in existing window
@@ -196,7 +206,7 @@ namespace custom_window.Pages
                     foundPatient.email, foundPatient.birth, foundPatient.permanent_address,
                     foundPatient.present_address, foundPatient.voting_area, foundPatient.issue_date,
                     foundPatient.display_pic,
-                    foundPatient.old_nid, foundPatient.new_nid, foundPatient.fingerprint_templates);
+                    foundPatient.old_nid, foundPatient.new_nid, foundPatient.fingerprint_templates.Count < 4);
 
                 IoC.Get<PatientInfoCheckViewModel>().ShowNewOrOld(ContentType.ExistingPatientInfo);
             }
@@ -204,8 +214,12 @@ namespace custom_window.Pages
             {
                 //Not Found
                 ToastClass.NotifyMin("Not identifiable", "No patient found associated with the fingerPrint ");
+                IoC.Get<PatientInfoCheckViewModel>().SetWindowData("", "",
+                    "", "", "",
+                    "", "", "",
+                    "",
+                    "", "", false);
                 IoC.Get<PatientInfoCheckViewModel>().ShowNewOrOld(ContentType.NewPatientRegistration);
-
             }
         }
 
@@ -257,12 +271,13 @@ namespace custom_window.Pages
                     IoC.Get<PatientInfoCheckViewModel>().selectedPatientName = foundPatient.name + " is selected";
 
                     IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
+
                     //update view
                     IoC.Get<PatientInfoCheckViewModel>().SetWindowData(foundPatient.name, foundPatient.phone,
                         foundPatient.email, foundPatient.birth, foundPatient.permanent_address,
                         foundPatient.present_address, foundPatient.voting_area, foundPatient.issue_date,
                         foundPatient.display_pic,
-                        foundPatient.old_nid, foundPatient.new_nid, foundPatient.fingerprint_templates);
+                        foundPatient.old_nid, foundPatient.new_nid, foundPatient.fingerprint_templates.Count < 4);
 
 
                     IoC.Get<PatientInfoCheckViewModel>().ShowNewOrOld(ContentType.ExistingPatientInfo);
@@ -270,6 +285,11 @@ namespace custom_window.Pages
                 else
                 {
                     ToastClass.NotifyMin("Not identifiable", "Sorry no patient found associated with the phone number");
+                    IoC.Get<PatientInfoCheckViewModel>().SetWindowData("", "",
+                        "", "", "",
+                        "", "", "",
+                        "",
+                        "", "", false);
                     IoC.Get<PatientInfoCheckViewModel>().ShowNewOrOld(ContentType.NewPatientRegistration);
                 }
 
@@ -294,13 +314,18 @@ namespace custom_window.Pages
                         foundPatient.email, foundPatient.birth, foundPatient.permanent_address,
                         foundPatient.present_address, foundPatient.voting_area, foundPatient.issue_date,
                         foundPatient.display_pic,
-                        foundPatient.old_nid, foundPatient.new_nid, foundPatient.fingerprint_templates);
+                        foundPatient.old_nid, foundPatient.new_nid, foundPatient.fingerprint_templates.Count < 4);
 
                     IoC.Get<PatientInfoCheckViewModel>().ShowNewOrOld(ContentType.ExistingPatientInfo);
                 }
                 else
                 {
                     ToastClass.NotifyMin("Not identifiable", "Sorry no patient found associated with the email");
+                    IoC.Get<PatientInfoCheckViewModel>().SetWindowData("", "",
+                        "", "", "",
+                        "", "", "",
+                        "",
+                        "", "", false);
                     IoC.Get<PatientInfoCheckViewModel>().ShowNewOrOld(ContentType.NewPatientRegistration);
                 }
 
@@ -325,13 +350,18 @@ namespace custom_window.Pages
                         foundPatient.email, foundPatient.birth, foundPatient.permanent_address,
                         foundPatient.present_address, foundPatient.voting_area, foundPatient.issue_date,
                         foundPatient.display_pic,
-                        foundPatient.old_nid, foundPatient.new_nid, foundPatient.fingerprint_templates);
+                        foundPatient.old_nid, foundPatient.new_nid, foundPatient.fingerprint_templates.Count < 4);
 
                     IoC.Get<PatientInfoCheckViewModel>().ShowNewOrOld(ContentType.ExistingPatientInfo);
                 }
                 else
                 {
                     ToastClass.NotifyMin("Not identifiable", "Sorry no patient found associated with the nid no");
+                    IoC.Get<PatientInfoCheckViewModel>().SetWindowData("", "",
+                        "", "", "",
+                        "", "", "",
+                        "",
+                        "", "", false);
                     IoC.Get<PatientInfoCheckViewModel>().ShowNewOrOld(ContentType.NewPatientRegistration);
                 }
 
