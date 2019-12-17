@@ -16,6 +16,7 @@ namespace custom_window.Controls.PatientContent
     {
         public List<string> fingerPrints { get; set; }
         private FingerprintHelper _fp;
+
         public ExistingPatientInfo()
         {
             InitializeComponent();
@@ -27,7 +28,10 @@ namespace custom_window.Controls.PatientContent
 
         private void OnCaptureCallBackEvents(string templateString, byte[] template)
         {
-            Console.WriteLine("existing window joaa");
+            if (AddFingerPrintSection.Visibility != Visibility.Visible) return;
+            
+
+            Console.WriteLine("existing window Joaa");
             if (fingerPrints.Count == 0)
             {
                 fingerPrints.Add(templateString);
@@ -224,7 +228,7 @@ namespace custom_window.Controls.PatientContent
             errorText.Visibility = Visibility.Collapsed;
 
             //validate finger print 
-            if ( fingerPrints.Count < 4) //four finger print data
+            if (fingerPrints.Count < 4) //four finger print data
             {
                 errorText.Visibility = Visibility.Visible;
                 errorText.Text = "Please add all four fingerPrints...";
@@ -233,7 +237,7 @@ namespace custom_window.Controls.PatientContent
                 return;
             }
 
-        
+
             try
             {
                 foreach (var print in fingerPrints.ToList())
@@ -261,10 +265,12 @@ namespace custom_window.Controls.PatientContent
             try
             {
                 await CloudFirestoreService.GetInstance()
-                    .UpdatePatient(IoC.Get<PatientInfoCheckViewModel>().selectedPatientId, "fingerprint_templates", fingerPrints);
+                    .UpdatePatient(IoC.Get<PatientInfoCheckViewModel>().selectedPatientId, "fingerprint_templates",
+                        fingerPrints);
 
                 //show toast 
-                ToastClass.NotifyMin( "Updated", "Dear " + IoC.Get<PatientInfoCheckViewModel>().name + "your fingerprint have been updated..");
+                ToastClass.NotifyMin("Updated",
+                    "Dear " + IoC.Get<PatientInfoCheckViewModel>().name + "your fingerprint have been updated..");
 
                 //hide update section
                 errorText.Visibility = Visibility.Collapsed;
@@ -281,7 +287,6 @@ namespace custom_window.Controls.PatientContent
                 UpdateFingerprintBtn.IsEnabled = true;
                 Console.WriteLine(exception);
             }
-
         }
 
         private void AddFingerPrintBtnClicked(object sender, RoutedEventArgs e)

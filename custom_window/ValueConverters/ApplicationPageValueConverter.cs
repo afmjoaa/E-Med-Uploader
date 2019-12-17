@@ -42,6 +42,7 @@ namespace custom_window.ValueConverters
                     return null;
             }
         }
+        
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {

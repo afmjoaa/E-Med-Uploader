@@ -97,7 +97,7 @@
                         FontSize="12"
                         x:Name="DiscardSelectedPatientBtn"
                         Padding="20 7"
-                        Margin="20 8 10 0"
+                        Margin="0 8 0 0"
                         Content="-> Discard"
                         Width="120"
                         Visibility="{Binding PatientInfoCheckViewModel.DiscardSelectedPatientVisible,
