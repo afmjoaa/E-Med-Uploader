@@ -13,6 +13,7 @@ using Google.Cloud.Firestore;
 using LiveCharts;
 using LiveCharts.Wpf;
 using DataFormats = System.Windows.Forms.DataFormats;
+using ReportFile = custom_window.HelperClasses.DataModels.ReportFile;
 
 namespace custom_window.Pages
 {

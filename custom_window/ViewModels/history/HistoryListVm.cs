@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Media;
+﻿using System.Collections.ObjectModel;
 using custom_window.Core;
 
-namespace custom_window
+namespace custom_window.ViewModels.history
 {
     public class HistoryListVm : BaseViewModel
     {

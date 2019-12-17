@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Media;
 using custom_window.Core;
 
-namespace custom_window
+namespace custom_window.ViewModels.side
 {
     public class SideListVm :BaseViewModel
     {

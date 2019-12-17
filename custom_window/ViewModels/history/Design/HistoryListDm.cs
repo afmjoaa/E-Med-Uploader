@@ -1,21 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Forms.VisualStyles;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using custom_window.HelperClasses;
 using custom_window.HelperClasses.DataModels;
 
-namespace custom_window
+namespace custom_window.ViewModels.history.Design
 {
     public sealed class HistoryListDm : HistoryListVm
     {

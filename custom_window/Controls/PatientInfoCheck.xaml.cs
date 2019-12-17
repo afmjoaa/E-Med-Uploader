@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using custom_window.Core;
 
-namespace custom_window
+namespace custom_window.Controls
 {
     /// <summary>
     /// Interaction logic for PatientInfoCheck.xaml

@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using custom_window.Core;
-using System.Windows;
+using custom_window.ViewModels;
 
-namespace custom_window
+namespace custom_window.Dialogs
 {
     /// <summary>
     /// The base class for any content that is being used inside of a <see cref="DialogWindow"/>

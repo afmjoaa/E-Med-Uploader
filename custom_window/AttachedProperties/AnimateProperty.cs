@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
+using custom_window.Animation;
 
-namespace custom_window
+namespace custom_window.AttachedProperties
 {
     /// <summary>
     /// A base class to run any animation method when a boolean is set to true

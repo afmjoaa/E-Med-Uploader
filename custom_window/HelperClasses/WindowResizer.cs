@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 
-namespace custom_window
+namespace custom_window.HelperClasses
 {
     /// <summary>
     /// The dock position of the window

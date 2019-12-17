@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 
-namespace custom_window
+namespace custom_window.AttachedProperties
 {
     /// <summary>
     /// Scroll an items control to the bottom when the data context changes

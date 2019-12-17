@@ -8,6 +8,7 @@ using System.Windows.Media;
 using custom_window.Core;
 using custom_window.HelperClasses;
 using custom_window.HelperClasses.DataModels;
+using custom_window.HelperClasses.ZebraDeviceHelper;
 using MaterialDesignThemes.Wpf;
 
 namespace custom_window.Pages
@@ -26,12 +27,6 @@ namespace custom_window.Pages
 
         //fp width 288, height:375
         private CloudFirestoreService _cfService = null;
-
-        #endregion
-
-        #region tempPatient
-
-        private Patient temporaryPatient = null;
 
         #endregion
 
@@ -117,8 +112,7 @@ namespace custom_window.Pages
             {
                 ToastClass.NotifyMin("Welcome " + foundPatient.name, "We have Identified you!");
                 //associate with fileUploader
-                IoC.Get<PatientInfoCheckViewModel>().selectedPatientId = foundPatient.id;
-                IoC.Get<PatientInfoCheckViewModel>().selectedPatientName = foundPatient.name + " is selected";
+                IoC.Get<PatientInfoCheckViewModel>().selectPatient(foundPatient.id, foundPatient.name);
 
                 IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
                 //update view
@@ -154,8 +148,7 @@ namespace custom_window.Pages
             {
                 ToastClass.NotifyMin("Welcome " + foundPatient.name, "We have Identified you!");
                 //associate with fileUploader
-                IoC.Get<PatientInfoCheckViewModel>().selectedPatientId = foundPatient.id;
-                IoC.Get<PatientInfoCheckViewModel>().selectedPatientName = foundPatient.name + " is selected";
+                IoC.Get<PatientInfoCheckViewModel>().selectPatient(foundPatient.id, foundPatient.name);
 
                 IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
                 //update view
@@ -194,8 +187,7 @@ namespace custom_window.Pages
                 IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
 
                 //associate with fileUploader
-                IoC.Get<PatientInfoCheckViewModel>().selectedPatientId = foundPatient.id;
-                IoC.Get<PatientInfoCheckViewModel>().selectedPatientName = foundPatient.name + " is selected";
+                IoC.Get<PatientInfoCheckViewModel>().selectPatient(foundPatient.id, foundPatient.name);
 
                 //notify
                 //Console.WriteLine("Welcome " + foundPatient.name, "We have Identified you!");
@@ -267,8 +259,7 @@ namespace custom_window.Pages
                 {
                     ToastClass.NotifyMin("Welcome " + foundPatient.name, "We have Identified you!");
                     //associate with fileUploader
-                    IoC.Get<PatientInfoCheckViewModel>().selectedPatientId = foundPatient.id;
-                    IoC.Get<PatientInfoCheckViewModel>().selectedPatientName = foundPatient.name + " is selected";
+                    IoC.Get<PatientInfoCheckViewModel>().selectPatient(foundPatient.id, foundPatient.name);
 
                     IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
 
@@ -305,8 +296,7 @@ namespace custom_window.Pages
                 {
                     ToastClass.NotifyMin("Welcome " + foundPatient.name, "We have Identified you!");
                     //associate with fileUploader
-                    IoC.Get<PatientInfoCheckViewModel>().selectedPatientId = foundPatient.id;
-                    IoC.Get<PatientInfoCheckViewModel>().selectedPatientName = foundPatient.name + " is selected";
+                    IoC.Get<PatientInfoCheckViewModel>().selectPatient(foundPatient.id, foundPatient.name);
 
                     IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
                     //update view
@@ -341,8 +331,7 @@ namespace custom_window.Pages
                 {
                     ToastClass.NotifyMin("Welcome " + foundPatient.name, "We have Identified you!");
                     //associate with fileUploader
-                    IoC.Get<PatientInfoCheckViewModel>().selectedPatientId = foundPatient.id;
-                    IoC.Get<PatientInfoCheckViewModel>().selectedPatientName = foundPatient.name + " is selected";
+                    IoC.Get<PatientInfoCheckViewModel>().selectPatient(foundPatient.id, foundPatient.name);
 
                     IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
                     //update view
@@ -385,6 +374,10 @@ namespace custom_window.Pages
 
         #endregion
 
+        private void DiscardSelectedPatientBtnClicked(object sender, RoutedEventArgs e)
+        {
+            IoC.Get<PatientInfoCheckViewModel>().selectPatient(null, null);
+        }
     }
 }
 /*fp_textblock.Dispatcher?.Invoke(() =>

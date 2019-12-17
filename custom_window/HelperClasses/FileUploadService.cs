@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using custom_window.Core;
 using custom_window.HelperClasses.DataModels;
 using custom_window.Pages;
+using custom_window.ViewModels.folder;
 using Firebase.Auth;
 using Firebase.Storage;
 using FirebaseAdmin;
@@ -15,6 +16,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
 using Google.Cloud.Firestore.V1;
 using File = System.IO.File;
+using ReportFile = custom_window.HelperClasses.DataModels.ReportFile;
 
 namespace custom_window.HelperClasses
 {
@@ -181,8 +183,8 @@ namespace custom_window.HelperClasses
                 var res = await _cfService.AddFile(reportFile);
 
                 ToastClass.NotifyMin("Uploaded & saved info to server", res);
-                IoC.Get<PatientInfoCheckViewModel>().selectedPatientId = null;
-                IoC.Get<PatientInfoCheckViewModel>().selectedPatientName = "No patient is selected";
+
+                IoC.Get<PatientInfoCheckViewModel>().selectPatient(null, null);
                 return res;
             }
             catch (Exception e)

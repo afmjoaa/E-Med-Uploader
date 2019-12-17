@@ -24,20 +24,23 @@ namespace custom_window.HelperClasses.MailAuthService
         public string SendCodeToEmail(string email)
         {
             string codeToSend = "123456";
-
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+            SmtpServer.EnableSsl = true;
             try
             {
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress("emed.uploader@gmail.com");
                 mail.To.Add(email);
                 mail.Subject = "E-Med patient account registration";
-                mail.Body = "Your default password for E-Med Presenter is: " + codeToSend +
-                            "\nPlease use it in appropriate place.\nThanks for being with us.";
+                mail.Body = "Thank you for registering with E-Med services .." +
+                            "\nYou can find more of our services from the E-Med Patient Mobile app.. " +
+                    "\n Download it from Play store or Apple app store..." +
+                    "\n And register with your associated mobile number and your are good to go ..";
 
-                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+               
                 SmtpServer.Port = 587;
                 SmtpServer.Credentials = new System.Net.NetworkCredential("emed.uploader@gmail.com", "emed123456");
-                SmtpServer.EnableSsl = true;
+               
                 SmtpServer.Send(mail);
             }
             catch (Exception ex)

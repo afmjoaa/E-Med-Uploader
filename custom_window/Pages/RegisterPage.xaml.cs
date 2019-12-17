@@ -13,10 +13,12 @@ using ControlzEx.Standard;
 using custom_window.Core;
 using custom_window.HelperClasses;
 using custom_window.HelperClasses.DataModels;
+using custom_window.ViewModels.side;
 using Firebase.Database;
 using Google.Cloud.Firestore;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
+using Hospital = custom_window.HelperClasses.DataModels.Hospital;
 
 namespace custom_window.Pages
 {

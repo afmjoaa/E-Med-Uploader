@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
-using custom_window.HelperClasses.DataModels;
-using custom_window.Pages;
-using Interop.CoreScanner; // this is from 32bit installation location
+using Interop.CoreScanner;
 
-namespace custom_window.HelperClasses
+// this is from 32bit installation location
+
+namespace custom_window.HelperClasses.ZebraDeviceHelper
 {
     public class BarcodeHelper
     {

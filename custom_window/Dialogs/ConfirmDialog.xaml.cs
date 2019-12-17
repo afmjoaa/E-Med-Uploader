@@ -1,9 +1,9 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using custom_window.Core;
 using custom_window.HelperClasses;
+using custom_window.ViewModels.folder;
 
-namespace custom_window
+namespace custom_window.Dialogs
 {
     /// <summary>
     /// Interaction logic for DialogMessageBox.xaml

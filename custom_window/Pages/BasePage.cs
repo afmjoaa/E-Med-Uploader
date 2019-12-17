@@ -1,11 +1,10 @@
-﻿using System.Windows.Controls;
+﻿using System.Threading.Tasks;
 using System.Windows;
-using System.Threading.Tasks;
-using System.Windows.Media.Animation;
-using System;
+using System.Windows.Controls;
+using custom_window.Animation;
 using custom_window.Core;
 
-namespace custom_window
+namespace custom_window.Pages
 {
     /// <summary>
     /// The base page for all pages to gain base functionality

@@ -7,7 +7,7 @@ using custom_window.Core;
 using custom_window.HelperClasses;
 using MaterialDesignThemes.Wpf;
 
-namespace custom_window
+namespace custom_window.Controls.PatientContent
 {
     /// <summary>
     /// Interaction logic for PhoneSearch.xaml
@@ -103,8 +103,7 @@ namespace custom_window
         private void skipBtnClicked(object sender, RoutedEventArgs e)
         {
             errorText.Visibility = Visibility.Collapsed;
-            IoC.Get<PatientInfoCheckViewModel>().selectedPatientId = null;
-            IoC.Get<PatientInfoCheckViewModel>().selectedPatientName = "No patient is selected";
+            IoC.Get<PatientInfoCheckViewModel>().selectPatient(null, null);
 
             if (IoC.Get<PatientInfoCheckViewModel>().addFinger)
             {

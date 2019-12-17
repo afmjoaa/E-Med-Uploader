@@ -1,4 +1,4 @@
-﻿namespace custom_window
+﻿namespace custom_window.Animation
 {
     /// <summary>
     /// The direction an animation slides in (the slide out direction is reversed)

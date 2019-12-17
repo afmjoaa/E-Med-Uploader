@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using custom_window.HelperClasses;
 using Firebase.Auth;
 using MaterialDesignThemes.Wpf;
 
-namespace custom_window
+namespace custom_window.Dialogs
 {
     /// <summary>
     /// Interaction logic for ChangePassMessageBox.xaml

@@ -1,7 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
-namespace custom_window
+namespace custom_window.Controls
 {
     /// <summary>
     /// Interaction logic for ActionListControl.xaml

@@ -1,10 +1,10 @@
-﻿using custom_window.Pages;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Globalization;
+using custom_window.Controls.PatientContent;
 using custom_window.Core;
 
-namespace custom_window
+namespace custom_window.ValueConverters
 {
     /// <summary>
     /// converts the content to control for patientInfoCheck control

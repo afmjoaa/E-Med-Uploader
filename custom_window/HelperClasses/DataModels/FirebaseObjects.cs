@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
 using Google.Cloud.Firestore;
 
-namespace custom_window
+namespace custom_window.HelperClasses.DataModels
 {
     [FirestoreData]
     public class Hospital

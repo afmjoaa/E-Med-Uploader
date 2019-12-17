@@ -1,10 +1,10 @@
-﻿using custom_window.Pages;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Globalization;
 using custom_window.Core;
+using custom_window.Pages;
 
-namespace custom_window
+namespace custom_window.ValueConverters
 {
     /// <summary>
     /// converts the Application to an actual view/page

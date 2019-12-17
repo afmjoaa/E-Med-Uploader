@@ -1,9 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using custom_window;
-using custom_window.HelperClasses;
+using custom_window.HelperClasses.DataModels;
 
-namespace custom_window
+namespace custom_window.HelperClasses.ApplicationScope
 {
     public sealed class ApplicationData
     {

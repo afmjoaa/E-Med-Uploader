@@ -1,4 +1,4 @@
-﻿namespace custom_window
+﻿namespace custom_window.Animation
 {
     /// <summary>
     /// 

@@ -12,8 +12,12 @@ using custom_window.Core;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using custom_window.HelperClasses;
+using custom_window.HelperClasses.ApplicationScope;
+using custom_window.HelperClasses.AuthHelper;
 using custom_window.HelperClasses.DataModels;
 using custom_window.HelperClasses.MailAuthService;
+using custom_window.ViewModels.side;
+using Hospital = custom_window.HelperClasses.DataModels.Hospital;
 
 namespace custom_window.Pages
 {

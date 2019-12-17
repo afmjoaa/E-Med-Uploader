@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-
-namespace custom_window
+﻿namespace custom_window.Dialogs
 {
     /// <summary>
     /// Interaction logic for DialogMessageBox.xaml

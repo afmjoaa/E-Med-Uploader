@@ -1,12 +1,9 @@
-﻿using System;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
+﻿using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using custom_window.Core;
 using custom_window.HelperClasses;
 
-namespace custom_window
+namespace custom_window.ViewModels.history
 {
     public class HistoryItemVm : BaseViewModel
     {

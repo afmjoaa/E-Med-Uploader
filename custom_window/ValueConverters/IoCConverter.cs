@@ -1,11 +1,9 @@
-﻿using custom_window.Pages;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Globalization;
 using custom_window.Core;
-using Ninject;
 
-namespace custom_window
+namespace custom_window.ValueConverters
 {
     /// <summary>
     /// Converts a string name to a service pulled from IoC container

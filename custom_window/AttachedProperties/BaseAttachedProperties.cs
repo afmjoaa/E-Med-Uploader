@@ -1,8 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
 
-namespace custom_window
+namespace custom_window.AttachedProperties
 {
     /// <summary>
     /// A base attached property to replace the vanilla WPF attached property

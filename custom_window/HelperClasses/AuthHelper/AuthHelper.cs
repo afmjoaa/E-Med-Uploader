@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using custom_window.Core;
+﻿using custom_window.Core;
 using Firebase.Auth;
 
-namespace custom_window
+namespace custom_window.HelperClasses.AuthHelper
 {
     public static class AuthHelper
     {

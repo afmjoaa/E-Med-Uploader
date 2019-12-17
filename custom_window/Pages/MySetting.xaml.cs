@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using custom_window.Core;
 using custom_window.HelperClasses;
+using custom_window.ViewModels.folder;
 
 namespace custom_window.Pages
 {

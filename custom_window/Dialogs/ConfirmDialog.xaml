@@ -1,9 +1,10 @@
-﻿<local:BaseDialogUserControl x:Class="custom_window.ConfirmDialog"
+﻿<dialogs:BaseDialogUserControl x:Class="custom_window.Dialogs.ConfirmDialog"
                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                              xmlns:local="clr-namespace:custom_window"
+                             xmlns:dialogs="clr-namespace:custom_window.Dialogs"
                              mc:Ignorable="d">
     <StackPanel Background="White"
                 Orientation="Vertical">
@@ -20,13 +21,13 @@
 
             <Button Content="{Binding yesText}"
                     HorizontalAlignment="Center"
-                    Command="{Binding CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:BaseDialogUserControl}}}"
+                    Command="{Binding CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:BaseDialogUserControl}}}"
                     Width="120"
                     Click="YesBtnClicked"
                     Margin="20 8 10 8"/>
 
             <Button Style="{StaticResource IconGrowButton}"
-                    Command="{Binding CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:BaseDialogUserControl}}}"
+                    Command="{Binding CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:BaseDialogUserControl}}}"
                     FontSize="12"
                     x:Name="CancelBtn"
                     Padding="20 7"
@@ -41,4 +42,4 @@
 
         </StackPanel>
     </StackPanel>
-</local:BaseDialogUserControl>
+</dialogs:BaseDialogUserControl>

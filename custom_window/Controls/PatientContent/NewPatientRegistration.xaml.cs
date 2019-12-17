@@ -7,19 +7,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using custom_window.Core;
 using custom_window.HelperClasses;
 using custom_window.HelperClasses.MailAuthService;
+using custom_window.HelperClasses.ZebraDeviceHelper;
 using Firebase.Auth;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using Console = System.Console;
 using Exception = System.Exception;
+using Patient = custom_window.HelperClasses.DataModels.Patient;
 
-namespace custom_window
+namespace custom_window.Controls.PatientContent
 {
     /// <summary>
     /// Interaction logic for NoAcc.xaml
@@ -240,7 +241,7 @@ namespace custom_window
                 if (patientOne != null)
                 {
                     errorText.Visibility = Visibility.Visible;
-                    errorText.Text = "Already one patient is associated with the phone number";
+                    errorText.Text = "Already " + patientOne.name + " is associated with the phone number";
                     ButtonProgressAssist.SetIsIndicatorVisible(RegisterAndSelectBtn, false);
                     RegisterAndSelectBtn.IsEnabled = true;
                     return;
@@ -260,7 +261,7 @@ namespace custom_window
                 if (patientTwo != null)
                 {
                     errorText.Visibility = Visibility.Visible;
-                    errorText.Text = "Already one patient is associated with the email address";
+                    errorText.Text = "Already " + patientTwo.name + " is associated with the email address";
                     ButtonProgressAssist.SetIsIndicatorVisible(RegisterAndSelectBtn, false);
                     RegisterAndSelectBtn.IsEnabled = true;
                     return;
@@ -282,7 +283,7 @@ namespace custom_window
                 if (patientThree != null)
                 {
                     errorText.Visibility = Visibility.Visible;
-                    errorText.Text = "Already one patient is associated with the email address";
+                    errorText.Text = "Already "+ patientThree.name +" is associated with the Nid number";
                     ButtonProgressAssist.SetIsIndicatorVisible(RegisterAndSelectBtn, false);
                     RegisterAndSelectBtn.IsEnabled = true;
                     return;
@@ -334,6 +335,13 @@ namespace custom_window
                             "123456");
                 }
 
+                if (authLink == null)
+                {
+                    errorText.Visibility = Visibility.Visible;
+                    errorText.Text = "Fetal Auth-link is null..";
+                    return;
+                }
+
                 //save to database
                 Patient uploadingPatient = new Patient();
 
@@ -359,15 +367,22 @@ namespace custom_window
 
                 await CloudFirestoreService.GetInstance().AddPatient(uploadingPatient);
 
-                ButtonProgressAssist.SetIsIndicatorVisible(RegisterAndSelectBtn, false);
-                RegisterAndSelectBtn.IsEnabled = true;
                 RegistrationCodeSender.GetInstance().SendCodeToEmail(vEmail.Text);
                 ToastClass.NotifyMin("Patient registered", "Patient is registered and selected for file upload...");
+
+                ButtonProgressAssist.SetIsIndicatorVisible(RegisterAndSelectBtn, false);
+                RegisterAndSelectBtn.IsEnabled = true;
+
+                IoC.Get<PatientInfoCheckViewModel>().selectPatient(authLink.User.LocalId, vName.Text);
 
                 IoC.Get<PatientInfoCheckViewModel>().NullWindowData();
                 NullifyAllFinger();
                 authLink = null;
+                errorText.Text = "";
+                errorText.Visibility = Visibility.Collapsed;
                 patientImage.Source = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/patientDemo.png"));
+
+               
                 IoC.Get<PatientInfoCheckViewModel>().HidePatientInfo();
             }
             catch (FirebaseAuthException exception)
@@ -380,17 +395,18 @@ namespace custom_window
                 RegisterAndSelectBtn.IsEnabled = true;
             }
 
-
             //wait for patient...
         }
 
         private void Skip_Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            IoC.Get<PatientInfoCheckViewModel>().selectedPatientId = null;
-            IoC.Get<PatientInfoCheckViewModel>().selectedPatientName = "No patient is selected";
+            IoC.Get<PatientInfoCheckViewModel>().selectPatient(null, null);
+
             IoC.Get<PatientInfoCheckViewModel>().NullWindowData();
             NullifyAllFinger();
             authLink = null;
+            errorText.Text = "";
+            errorText.Visibility = Visibility.Collapsed;
             patientImage.Source = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/patientDemo.png"));
             IoC.Get<PatientInfoCheckViewModel>().HidePatientInfo();
         }

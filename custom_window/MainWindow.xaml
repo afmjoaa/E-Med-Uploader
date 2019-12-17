@@ -5,6 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:custom_window"
+        xmlns:attachedProperties="clr-namespace:custom_window.AttachedProperties"
+        xmlns:controls="clr-namespace:custom_window.Controls"
+        xmlns:viewModels="clr-namespace:custom_window.ViewModels"
+        xmlns:valueConverters="clr-namespace:custom_window.ValueConverters"
         WindowStyle="None"
         AllowsTransparency="True"
         x:Name="AppWindow"
@@ -155,27 +159,27 @@
                 Opacity="0.3"
                 Panel.ZIndex="10">
             <Border Background="Gray"
-                    local:AnimateFadeInProperty.Value="{Binding DimableOverlayVisible}" />
+                    attachedProperties:AnimateFadeInProperty.Value="{Binding DimableOverlayVisible}" />
         </Border>
 
-        <local:PatientInfoCheck Grid.ColumnSpan="2"
+        <controls:PatientInfoCheck Grid.ColumnSpan="2"
                                 Panel.ZIndex="9"
-                                local:AnimateSlideInFromBottomMarginProperty.Value="{Binding PatientInfoCheckViewModel.PatientInfoCheckVisible, Source={x:Static local:ViewModelLocator.Instance}}" />
+                                attachedProperties:AnimateSlideInFromBottomMarginProperty.Value="{Binding PatientInfoCheckViewModel.PatientInfoCheckVisible, Source={x:Static viewModels:ViewModelLocator.Instance}}" />
 
-        <local:SideMenuControl Width="280" Grid.Column="0"
-                               local:AnimateSlideInFromLeftProperty.Value="{Binding ApplicationViewModel.SideMenuVisible, Source={x:Static local:ViewModelLocator.Instance}}">
-            <local:ActionListView />
-        </local:SideMenuControl>
+        <controls:SideMenuControl Width="280" Grid.Column="0"
+                               attachedProperties:AnimateSlideInFromLeftProperty.Value="{Binding ApplicationViewModel.SideMenuVisible, Source={x:Static viewModels:ViewModelLocator.Instance}}">
+            <controls:ActionListView />
+        </controls:SideMenuControl>
 
-        <local:PageHost Grid.Column="1"
+        <controls:PageHost Grid.Column="1"
                         ClipToBounds="True"
                         Visibility="{Binding ApplicationViewModel.CurrentWindowVisible,
-                                    Source={x:Static local:ViewModelLocator.Instance},
-                                    Converter={local:BooleanToVisiblityConverter}, 
+                                    Source={x:Static viewModels:ViewModelLocator.Instance},
+                                    Converter={valueConverters:BooleanToVisiblityConverter}, 
                                     ConverterParameter=True}"
                         DataContext="{Binding ApplicationViewModel.CurrentPage, 
-                        Source={x:Static local:ViewModelLocator.Instance}, 
-                        Converter={local:ApplicationPageValueConverter}}"
+                        Source={x:Static viewModels:ViewModelLocator.Instance}, 
+                        Converter={valueConverters:ApplicationPageValueConverter}}"
                         CurrentPage="{Binding}" />
 
         <!--Frame Grid.Column="1" x:Name="MainFrame"Content="{Binding CurrentPage, Converter={local:ApplicationPageValueConverter}}" />

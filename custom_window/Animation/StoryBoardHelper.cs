@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media.Animation;
 
-namespace custom_window
+namespace custom_window.Animation
 {
     /// <summary>
     /// Animation helpers for <see cref="StoryBoard"/>

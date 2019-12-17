@@ -1,12 +1,10 @@
-﻿using System;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
+﻿using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using custom_window.Core;
 using custom_window.HelperClasses;
+using custom_window.ViewModels.side.Design;
 
-namespace custom_window
+namespace custom_window.ViewModels.side
 {
     public class SideItemVm : BaseViewModel
     {

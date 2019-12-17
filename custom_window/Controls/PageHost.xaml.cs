@@ -1,9 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using custom_window.Pages;
 
-namespace custom_window
+namespace custom_window.Controls
 {
     /// <summary>
     /// Interaction logic for PageHost.xaml

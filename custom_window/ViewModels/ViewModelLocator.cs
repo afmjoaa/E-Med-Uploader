@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using custom_window.Core;
+﻿using custom_window.Core;
 
-namespace custom_window
+namespace custom_window.ViewModels
 {
     /// <summary>
     /// locates viewModels from ioc to bind in xaml files

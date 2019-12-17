@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Net;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using custom_window.Core;
+using custom_window.HelperClasses.ApplicationScope;
+using Hospital = custom_window.HelperClasses.DataModels.Hospital;
 
-namespace custom_window
+namespace custom_window.ViewModels.side
 {
     public class SideMenuVm : BaseViewModel
     {

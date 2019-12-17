@@ -8,6 +8,7 @@ using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using ControlzEx.Standard;
+using custom_window.HelperClasses.ApplicationScope;
 using custom_window.HelperClasses.DataModels;
 using Firebase.Auth;
 using FirebaseAdmin;

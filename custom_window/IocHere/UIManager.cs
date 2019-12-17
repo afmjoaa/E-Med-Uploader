@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
-using System.Windows;
 using custom_window.Core;
-using MaterialDesignThemes.Wpf;
+using custom_window.Dialogs;
 
-namespace custom_window
+namespace custom_window.IocHere
 {
     /// <summary>
     /// showing a dialog message

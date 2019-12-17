@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using custom_window.Core;
+using custom_window.ViewModels;
 
 namespace custom_window
 {
