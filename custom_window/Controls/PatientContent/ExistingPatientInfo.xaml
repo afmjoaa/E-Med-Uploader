@@ -83,7 +83,7 @@
                                         <VisualBrush Visual="{Binding ElementName=Mask}" />
                                     </Grid.OpacityMask>
 
-                                    <Image Source="/Images/BackGround/patientDemo.png" Stretch="UniformToFill" />
+                                    <Image x:Name="patientImage" Source="{Binding PatientInfoCheckViewModel.PatiemtImage,Source={x:Static viewModels:ViewModelLocator.Instance}}" />
                                 </Grid>
 
 

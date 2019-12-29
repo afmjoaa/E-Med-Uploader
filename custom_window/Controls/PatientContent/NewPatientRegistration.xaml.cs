@@ -50,6 +50,10 @@ namespace custom_window.Controls.PatientContent
             fingerPrints = new List<string>();
         }
 
+
+
+
+
         private async Task SetFingerAndDisplayPic(string displypic, List<string> fingerlist)
         {
             //set the display pic 

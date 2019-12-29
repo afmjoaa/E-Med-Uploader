@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using custom_window.Core;
 using custom_window.HelperClasses;
 using MaterialDesignThemes.Wpf;
@@ -295,5 +299,28 @@ namespace custom_window.Controls.PatientContent
             UpdateFingerprintBtn.Visibility = Visibility.Visible;
             AddFingerPrintSection.Visibility = Visibility.Visible;
         }
+
+
+        private async Task SetDisplayPic(string displypic)
+        {
+            //set the display pic 
+            if (string.IsNullOrEmpty(displypic))
+            {
+                patientImage.Source =
+                    new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/patientDemo.png"));
+            }
+            else
+            {
+                var imgUrl = new Uri(displypic);
+                // or you can download it Async won't block your UI
+                var imageData = await new WebClient().DownloadDataTaskAsync(imgUrl);
+
+                var bitmapImage = new BitmapImage {CacheOption = BitmapCacheOption.OnLoad};
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = new MemoryStream(imageData);
+                bitmapImage.EndInit();
+                patientImage.Source = bitmapImage;
+            }
+        }
     }
-}
+    }

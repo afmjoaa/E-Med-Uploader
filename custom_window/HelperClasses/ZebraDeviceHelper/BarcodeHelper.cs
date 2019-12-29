@@ -88,9 +88,14 @@ namespace custom_window.HelperClasses.ZebraDeviceHelper
             var rawHex = GetRawInnerValue(doc.ToString());
             var refinedString = HexToAsciiString(rawHex);
 
-            if (refinedString.Length <= 28)
+           
+
+            if (refinedString.Length <= 30)
             {
-                mobileModifiedBarcodeEvent.Invoke(refinedString);
+                var retrivedString = refinedString.Substring(1, 28);
+                //Console.WriteLine("joaa joaa joaa " + retrivedString + " " + refinedString);
+
+                mobileModifiedBarcodeEvent.Invoke(retrivedString);
             }
             else
             {
