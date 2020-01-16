@@ -150,17 +150,10 @@ namespace custom_window.Pages
                 //associate with fileUploader
                 IoC.Get<PatientInfoCheckViewModel>().selectPatient(foundPatient.id, foundPatient.name);
 
-                IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
-                //update view
-                if(foundPatient.fingerprint_templates.Count >= 4)
-                {
-                    var foundFinger = true;
-                }
-                else
-                {
-                    bool foundFinger = false;
-                }
+                //IoC.Get<PatientInfoCheckViewModel>().CurrentContent = ContentType.ExistingPatientInfo;
 
+
+                //update view
                 IoC.Get<PatientInfoCheckViewModel>().SetWindowData(foundPatient.name, foundPatient.phone,
                     foundPatient.email, foundPatient.birth, foundPatient.permanent_address,
                     foundPatient.present_address, foundPatient.voting_area, foundPatient.issue_date,

@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace custom_window.Core
 {
@@ -27,16 +31,33 @@ namespace custom_window.Core
 
         public string selectedPatientName { get; set; } = "No patient is selected";
 
+        public bool DiscardSelectedPatientVisible { get; set; } = false;
+
         #endregion
 
+        public void selectPatient(string patientId, string patientName)
+        {
+            if (string.IsNullOrEmpty(patientId))
+            {
+                selectedPatientName = "No patient is selected";
+                selectedPatientId = null;
+                DiscardSelectedPatientVisible = false;
+            }
+            else
+            {
+                selectedPatientName = patientName + " is selected";
+                selectedPatientId = patientId;
+                DiscardSelectedPatientVisible = true;
 
+            }
+        }
 
         /// <summary>
         /// content will be served  based on the patient account type
         /// three values can be possible acc == account
         /// 1. noAcc 2. existingAccWithNID 3. existingAccWithoutNID
         /// </summary>
-        public ContentType CurrentContent { get; set; } = ContentType.ExistingPatientInfo;
+        public ContentType CurrentContent { get; set; } = ContentType.NewPatientRegistration;
 
         #region PatientInfoRegion
 
@@ -61,9 +82,12 @@ namespace custom_window.Core
         public String issue_date { get; set; }
         public String old_nid { get; set; }
         public String new_nid { get; set; }
+        public bool addFinger { get; set; }
 
         //last two are not useful
         public String display_pic { get; set; }
+
+        public BitmapImage PatiemtImage { get; set; } =new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/patientDemo.png"));
         public List<string> FingerPrintList { get; set; } = new List<string>();
 
         #endregion
@@ -82,7 +106,7 @@ namespace custom_window.Core
         public void SetWindowData(string mName, string mPhone, string mEmail, string mBirth, string mPermanent_address,
             string mPresent_address,
             string mVoting_area, string mIssue_date, string mDisplay_pic, string mOld_nid, string mNew_nid,
-            List<String> mFingerPrintsList)
+            bool mAddFinger)
         {
             name = mName;
             phone = mPhone;
@@ -94,10 +118,47 @@ namespace custom_window.Core
             issue_date = mIssue_date;
             old_nid = mOld_nid;
             new_nid = mNew_nid;
-            FingerPrintList = mFingerPrintsList;
+            addFinger = mAddFinger;
             display_pic = mDisplay_pic;
+            if (!string.IsNullOrEmpty(display_pic))
+            {
+                try
+                {
+                    SetDisplayPic(mDisplay_pic);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
             nullFingerPrints();
         }
+
+
+        private async Task SetDisplayPic(string displypic)
+        {
+            //set the display pic 
+            if (string.IsNullOrEmpty(displypic))
+            {
+                PatiemtImage = new BitmapImage(new Uri("pack://application:,,,/Images/BackGround/patientDemo.png"));
+            }
+            else
+            {
+                var imgUrl = new Uri(displypic);
+                // or you can download it Async won't block your UI
+                var imageData = await new WebClient().DownloadDataTaskAsync(imgUrl);
+
+                var bitmapImage = new BitmapImage { CacheOption = BitmapCacheOption.OnLoad };
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = new MemoryStream(imageData);
+                bitmapImage.EndInit();
+                bitmapImage.Freeze();
+
+                Dispatcher.CurrentDispatcher.Invoke(() => PatiemtImage = bitmapImage);
+                
+            }
+        }
+
 
         public void NullWindowData()
         {
@@ -112,7 +173,16 @@ namespace custom_window.Core
             old_nid = "";
             new_nid = "";
             display_pic = "";
-            FingerPrintList = new List<string>();
+            addFinger = false;
+            try
+            {
+                SetDisplayPic(null);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+           
             nullFingerPrints();
         }
 
