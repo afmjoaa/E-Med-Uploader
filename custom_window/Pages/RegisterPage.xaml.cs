@@ -43,7 +43,7 @@ namespace custom_window.Pages
         private void Hospital_name_OnGotFocus(object sender, RoutedEventArgs e)
         {
             var hosNameIcon = (PackIcon)this.FindName("hospital_name_icon");
-            hosNameIcon.Foreground = Brushes.OrangeRed;
+            hosNameIcon.Foreground = Brushes.DodgerBlue;
         }
 
         private void Hospital_name_OnLostFocus(object sender, RoutedEventArgs e)
@@ -55,7 +55,7 @@ namespace custom_window.Pages
         private void Contact_number_OnGotFocus(object sender, RoutedEventArgs e)
         {
             var contactNameIcon = (PackIcon)this.FindName("contact_number_icon");
-            contactNameIcon.Foreground = Brushes.OrangeRed;
+            contactNameIcon.Foreground = Brushes.DodgerBlue;
         }
 
         private void Contact_number_OnLostFocus(object sender, RoutedEventArgs e)
@@ -68,7 +68,7 @@ namespace custom_window.Pages
         private void Hos_reg_number_OnGotFocus(object sender, RoutedEventArgs e)
         {
             var hosRegNumIcon = (PackIcon)this.FindName("hos_reg_number_icon");
-            hosRegNumIcon.Foreground = Brushes.OrangeRed;
+            hosRegNumIcon.Foreground = Brushes.DodgerBlue;
         }
 
         private void Hos_reg_number_OnLostFocus(object sender, RoutedEventArgs e)

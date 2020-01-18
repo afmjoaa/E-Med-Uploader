@@ -23,24 +23,24 @@
 
             <Run FontFamily="{StaticResource FontAwesome}"
                  Text="{StaticResource PatientId}"
-                 Foreground="{StaticResource WhiteBrush}" />
+                 Foreground="{StaticResource TextDarkBrush}" />
 
             <Run Text=" Identified Patient Info"
                  FontWeight="Regular"
-                 Foreground="{StaticResource WhiteBrush}"
+                 Foreground="{StaticResource TextDarkBrush}"
                  FontFamily="{StaticResource DosisExtraLight}" />
         </TextBlock>
 
         <!--manual patient registration-->
         <Border Margin="20 0 20 10"
-                Background="{StaticResource LightRedBrush}"
+                Background="{StaticResource LightBlueBrush}"
                 CornerRadius="8"
                 Padding="1 50 1 1">
 
             <Border Background="White" ClipToBounds="True"
                     CornerRadius="0 0 8 8">
 
-                <StackPanel Orientation="Vertical" Margin="20 10 20 20">
+                <StackPanel Orientation="Vertical" Margin="20 10 20 0">
 
                     <!-- Main Content -->
                     <Viewbox Grid.Row="1"
@@ -56,6 +56,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -83,7 +84,8 @@
                                         <VisualBrush Visual="{Binding ElementName=Mask}" />
                                     </Grid.OpacityMask>
 
-                                    <Image x:Name="patientImage" Source="{Binding PatientInfoCheckViewModel.PatiemtImage,Source={x:Static viewModels:ViewModelLocator.Instance}}" />
+                                    <Image x:Name="patientImage"
+                                           Source="{Binding PatientInfoCheckViewModel.PatiemtImage,Source={x:Static viewModels:ViewModelLocator.Instance}}" />
                                 </Grid>
 
 
@@ -230,6 +232,7 @@
                                     Text="{Binding PatientInfoCheckViewModel.name,Source={x:Static viewModels:ViewModelLocator.Instance}}"
                                     Grid.Column="2"
                                     Grid.Row="0"
+                                    x:Name="patientName"
                                     FontWeight="Regular"
                                     FontSize="{StaticResource FontSizeSixteen}"
                                     HorizontalAlignment="Stretch"
@@ -315,7 +318,7 @@
                                                          Foreground="{StaticResource TextDarkBrush}"
                                                          Margin="0 0 0 10"
                                                          ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed."
-                                                         IconBackground="{StaticResource LightRedBrush}"
+                                                         IconBackground="{StaticResource LightBlueBrush}"
                                                          IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                                         <materialDesign:Chip.Icon>
                                             <materialDesign:PackIcon Kind="Fingerprint" />
@@ -326,7 +329,7 @@
                                                          Margin="0 0 0 10"
                                                          ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed."
                                                          Foreground="{StaticResource TextDarkBrush}"
-                                                         IconBackground="{StaticResource LightRedBrush}"
+                                                         IconBackground="{StaticResource LightBlueBrush}"
                                                          IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                                         <materialDesign:Chip.Icon>
                                             <materialDesign:PackIcon Kind="Fingerprint" />
@@ -337,7 +340,7 @@
                                                          Margin="0 0 0 10"
                                                          ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed."
                                                          Foreground="{StaticResource TextDarkBrush}"
-                                                         IconBackground="{StaticResource LightRedBrush}"
+                                                         IconBackground="{StaticResource LightBlueBrush}"
                                                          IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                                         <materialDesign:Chip.Icon>
                                             <materialDesign:PackIcon Kind="Fingerprint" />
@@ -347,7 +350,7 @@
                                     <materialDesign:Chip Content="Right Index FingerPrint"
                                                          ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed."
                                                          Foreground="{StaticResource TextDarkBrush}"
-                                                         IconBackground="{StaticResource LightRedBrush}"
+                                                         IconBackground="{StaticResource LightBlueBrush}"
                                                          IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                                         <materialDesign:Chip.Icon>
                                             <materialDesign:PackIcon Kind="Fingerprint" />
@@ -648,9 +651,245 @@
 
                             </Grid>
 
+
+                            <!--Simulation block-->
+
+                            <Grid Grid.ColumnSpan="2"
+                                  Grid.Column="0"
+                                  Visibility="Visible"
+                                  x:Name="simulateSection"
+                                  Grid.Row="2">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="260" />
+                                    <ColumnDefinition Width="400" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <!--voucher part-->
+                                <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" Margin="0 16">
+
+                                    <Grid Margin="0 0 0 20"
+                                          HorizontalAlignment="Center">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="206" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <materialDesign:PackIcon x:Name="voucherIcon" Kind="Voucher"
+                                                                 Grid.Column="0"
+                                                                 Foreground="{Binding ElementName=voucherID, Path=BorderBrush}"
+                                                                 VerticalAlignment="Bottom" Margin=" 0 0 6 6" />
+                                        <TextBox x:Name="voucherID"
+                                                 Grid.Column="1"
+                                                 materialDesign:ValidationAssist.UsePopup="True"
+                                                 materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
+                                                 materialDesign:HintAssist.IsFloating="True"
+                                                 materialDesign:HintAssist.Hint="Voucher ID"
+                                                 FontWeight="Regular"
+                                                 FontSize="{StaticResource FontSizeSixteen}"
+                                                 GotFocus="voucher_OnGotFocus"
+                                                 LostFocus="voucher_OnLostFocus"
+                                                 HorizontalAlignment="Stretch"
+                                                 VerticalAlignment="Center"
+                                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                                    </Grid>
+
+                                    <Button Margin="10 0"
+                                            Style="{StaticResource MaterialDesignRaisedButton}"
+                                            materialDesign:ButtonProgressAssist.Value="-1"
+                                            materialDesign:ButtonAssist.CornerRadius="4"
+                                            ToolTip="Generate Voucher for this patient"
+                                            BorderBrush="Transparent"
+                                            Click="generateVoucherBtnClicked"
+                                            materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
+                                            materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
+                                            materialDesign:ButtonProgressAssist.IsIndeterminate="True">
+                                        <StackPanel Orientation="Horizontal" Margin="8,0">
+                                            <TextBlock FontWeight="Normal"
+                                                       FontSize="{StaticResource FontSizeForteen}">
+                                                Generate Voucher
+                                            </TextBlock>
+                                            <materialDesign:PackIcon Margin="6 2 0 0" Kind="Create" />
+                                        </StackPanel>
+                                    </Button>
+
+                                </StackPanel>
+
+                                <!--select report part-->
+                                <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Margin="30 16 16 0">
+
+                                    <TextBlock Text="Select Test type..."
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               Name="upload_progress_text"
+                                               FontSize="18"
+                                               Margin="0 16 0 16"
+                                               FontWeight="Normal" />
+
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <ToggleButton Style="{StaticResource MaterialDesignActionLightToggleButton}"
+                                                      ToolTip="Select this Report"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Top"
+                                                      x:Name="toggleBili"
+                                                      IsChecked="False"
+                                                      Background="{StaticResource LightBlueBrush}"
+                                                      Foreground="MidnightBlue"
+                                                      Panel.ZIndex="4"
+                                                      materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                                            <materialDesign:PackIcon Kind="Receipt" />
+                                        </ToggleButton>
+
+                                        <materialDesign:Chip Content="Serum Bilirubin Test"
+                                                             Foreground="{StaticResource TextDarkBrush}"
+                                                             Margin="0 0 0 10"
+                                                             x:Name="serumBili"
+                                                             ToolTip="This will request Serum bilirubin test"
+                                                             IconBackground="{StaticResource LightBlueBrush}"
+                                                             IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                                            <materialDesign:Chip.RenderTransform>
+                                                <TranslateTransform X="-32" Y="0" />
+                                            </materialDesign:Chip.RenderTransform>
+                                            <materialDesign:Chip.Icon>
+                                                <materialDesign:PackIcon Kind="Receipt" Foreground="Gray" />
+                                            </materialDesign:Chip.Icon>
+                                        </materialDesign:Chip>
+
+                                       
+                                    </StackPanel>
+
+
+
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <ToggleButton Style="{StaticResource MaterialDesignActionLightToggleButton}"
+                                                      ToolTip="Select this Report"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Top"
+                                                      Background="{StaticResource LightBlueBrush}"
+                                                      Foreground="MidnightBlue"
+                                                      Panel.ZIndex="4"
+                                                      x:Name="toggleTsh"
+                                                      IsChecked="False"
+                                                      materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                                            <materialDesign:PackIcon Kind="Receipt" />
+                                        </ToggleButton>
+
+                                        <materialDesign:Chip Content="TSH Test"
+                                                             Foreground="{StaticResource TextDarkBrush}"
+                                                             Margin="0 0 0 10"
+                                                             x:Name="tsh"
+                                                             ToolTip="This will request Serum bilirubin test"
+                                                             IconBackground="{StaticResource LightBlueBrush}"
+                                                             IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                                            <materialDesign:Chip.RenderTransform>
+                                                <TranslateTransform X="-32" Y="0" />
+                                            </materialDesign:Chip.RenderTransform>
+                                            <materialDesign:Chip.Icon>
+                                                <materialDesign:PackIcon Kind="Receipt" Foreground="Gray" />
+                                            </materialDesign:Chip.Icon>
+                                        </materialDesign:Chip>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <ToggleButton Style="{StaticResource MaterialDesignActionLightToggleButton}"
+                                                      ToolTip="Select this Report"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Top"
+                                                      Background="{StaticResource LightBlueBrush}"
+                                                      Foreground="MidnightBlue"
+                                                      Panel.ZIndex="4"
+                                                      IsChecked="False"
+                                                      x:Name="toggleCbc"
+                                                      materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                                            <materialDesign:PackIcon Kind="Receipt" />
+                                        </ToggleButton>
+
+                                        <materialDesign:Chip Content="CBC Test"
+                                                             Foreground="{StaticResource TextDarkBrush}"
+                                                             Margin="0 0 0 10"
+                                                             x:Name="cbc"
+                                                             ToolTip="This will request Serum bilirubin test"
+                                                             IconBackground="{StaticResource LightBlueBrush}"
+                                                             IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                                            <materialDesign:Chip.RenderTransform>
+                                                <TranslateTransform X="-32" Y="0" />
+                                            </materialDesign:Chip.RenderTransform>
+                                            <materialDesign:Chip.Icon>
+                                                <materialDesign:PackIcon Kind="Receipt" Foreground="Gray" />
+                                            </materialDesign:Chip.Icon>
+                                        </materialDesign:Chip>
+                                    </StackPanel>
+                                    
+
+                                    
+
+                                </StackPanel>
+
+
+                                <!--simulate report data entry-->
+                                <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2"
+                                            HorizontalAlignment="Right"
+                                            Margin="0 10 0 0"
+                                            Grid.Column="0" Grid.Row="1">
+
+                                    <Button Margin="10 0"
+                                            x:Name="simulateReportCreation"
+                                            Style="{StaticResource MaterialDesignRaisedButton}"
+                                            materialDesign:ButtonProgressAssist.Value="-1"
+                                            materialDesign:ButtonAssist.CornerRadius="4"
+                                            ToolTip="This will simulate dummy report creation"
+                                            BorderBrush="Transparent"
+                                            Click="SimulateReportCreation_OnClick"
+                                            materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
+                                            materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
+                                            materialDesign:ButtonProgressAssist.IsIndeterminate="True">
+                                        <StackPanel Orientation="Horizontal" Margin="8,0">
+                                            <TextBlock FontWeight="Normal"
+                                                       FontSize="{StaticResource FontSizeForteen}">
+                                                Simulate Report Creation
+                                            </TextBlock>
+                                            <materialDesign:PackIcon Margin="6 2 0 0" Kind="Report" />
+                                        </StackPanel>
+                                    </Button>
+
+                                    <Button Margin="10 0"
+                                            x:Name="simulateReportRequest"
+                                            Style="{StaticResource MaterialDesignRaisedButton}"
+                                            materialDesign:ButtonProgressAssist.Value="-1"
+                                            materialDesign:ButtonAssist.CornerRadius="4"
+                                            ToolTip="This will simulate dummy report creation"
+                                            BorderBrush="Transparent"
+                                            Padding="22 0"
+                                            Click="SimulateReportRequest_OnClick"
+                                            materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
+                                            materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
+                                            materialDesign:ButtonProgressAssist.IsIndeterminate="True">
+                                        <StackPanel Orientation="Horizontal" Margin="8,0">
+                                            <TextBlock FontWeight="Normal"
+                                                       FontSize="{StaticResource FontSizeForteen}">
+                                                Simulate Patient Entry
+                                            </TextBlock>
+                                            <materialDesign:PackIcon Margin="6 2 0 0" Kind="Report" />
+                                        </StackPanel>
+                                    </Button>
+
+                                    
+
+                                </StackPanel>
+                            </Grid>
+
+
                             <!--button action-->
                             <StackPanel
-                                Margin="0 20 10 10 "
+                                Margin="0 12 10 10 "
                                 Orientation="Horizontal"
                                 Grid.Row="3"
                                 Grid.ColumnSpan="2"
@@ -703,6 +942,7 @@
                                         ToolTip="Discard the selected patient"
                                         BorderBrush="Transparent"
                                         Click="skipBtnClicked"
+                                        Padding="63 0"
                                         materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
                                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
                                         materialDesign:ButtonProgressAssist.IsIndeterminate="True">
@@ -741,11 +981,11 @@
                                 FontSize="12"
                                 x:Name="errorText"
                                 Padding="0 7"
-                                Margin="14 8" 
-                                Grid.Row="2"
+                                Margin="14 8"
+                                Grid.Row="4"
                                 Grid.ColumnSpan="2"
                                 HorizontalAlignment="Right"
-                                Visibility="Collapsed"
+                                Visibility="Hidden"
                                 Text=""
                                 Foreground="Red"
                                 FontWeight="SemiBold"

@@ -29,7 +29,7 @@
                                     CornerRadius="{Binding WindowCornerRadius, FallbackValue=8}" />
                             <!-- window dropshadow and corner radius -->
                             <Border CornerRadius="{Binding WindowCornerRadius, FallbackValue=8}"
-                                    Background="{Binding WhiteBrush, FallbackValue=White}" BorderBrush="LightPink" BorderThickness="1"  />
+                                    Background="{Binding WhiteBrush, FallbackValue=White}" BorderBrush="LightSkyBlue" BorderThickness="1"  />
 
                             <!-- the main window content-->
                             <Grid Margin="1">

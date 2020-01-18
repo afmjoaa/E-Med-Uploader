@@ -38,7 +38,7 @@ namespace custom_window.HelperClasses
             _notifyIcon.BalloonTipClosed += (s, e) => _notifyIcon.Visible = false;
             _notifyIcon.Visible = true;
 
-            _notifyIcon.ShowBalloonTip(0, title, message, ToolTipIcon.Info);
+            _notifyIcon.ShowBalloonTip(2000, title, message, ToolTipIcon.Info);
         }
     }
 }

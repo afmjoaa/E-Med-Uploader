@@ -26,7 +26,7 @@
                             FontWeight="Regular"
                             Margin="26 0"
                             Panel.ZIndex="9"
-                            Foreground="{StaticResource WhiteBrush}"
+                            Foreground="{StaticResource TextDarkBrush}"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             Command="{Binding closePatientInfoCommand}" >

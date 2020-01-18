@@ -16,14 +16,14 @@
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" Opacity="0.8">
                         <GradientStop Color="{StaticResource White}" Offset="0.0" />
-                        <GradientStop Color="{StaticResource SideBarColor}" Offset="1.0" />
+                        <GradientStop Color="{StaticResource LightBlue}" Offset="1.0" />
                     </LinearGradientBrush>
                 </Border.Background>
 
                 <Border.BorderBrush>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" Opacity="0.5">
                         <GradientStop Color="{StaticResource White}" Offset="0.0" />
-                        <GradientStop Color="{StaticResource SideBarDarkColor}" Offset="1.0" />
+                        <GradientStop Color="{StaticResource RedDarkTwo}" Offset="1.0" />
                     </LinearGradientBrush>
                 </Border.BorderBrush>
 

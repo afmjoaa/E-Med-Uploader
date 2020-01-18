@@ -25,7 +25,7 @@
                 <!-- Cog icon -->
                 <Run FontFamily="{StaticResource FontAwesome}"
                      Text="{StaticResource FontAwesomeCogIcon}"
-                     Foreground="{StaticResource WordOrangeBrush}" />
+                     Foreground="{StaticResource TwitterColorBrush}" />
                 <!-- Settings text -->
                 <Run Text="Initial Setup"
                      FontFamily="{StaticResource FontAwesome}" />
@@ -73,7 +73,7 @@
                 <!-- Cog icon -->
                 <Run FontFamily="{StaticResource FontAwesome}"
                      Text="{StaticResource CurrentTask}"
-                     Foreground="{StaticResource WordOrangeBrush}" />
+                     Foreground="{StaticResource TwitterColorBrush}" />
                 <!-- Settings text -->
                 <Run Text="Current Task"
                      FontFamily="{StaticResource FontAwesome}" />
@@ -113,18 +113,6 @@
 
             </StackPanel>
 
-          
-
-            <!--<TextBlock Visibility="Visible" Margin="0 0 0 10"
-                       TextWrapping="WrapWithOverflow"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
-                       Foreground="{StaticResource TextLightBrush}"
-                       FontSize="{StaticResource FontSizeEighteen}"
-                       FontWeight="ExtraLight"
-                       Text="Please scan patient fingerprint or NID barcode to identify patient." />-->
-
-
             <ProgressBar Minimum="0"
                          Maximum="100"
                          Style="{StaticResource MaterialDesignLinearProgressBar}"
@@ -138,7 +126,36 @@
                        FontSize="16"
                        FontWeight="Light" />
 
-            <RichTextBox x:Name="fp_textblock" Visibility="Hidden" />
+            <Button x:Name="requestReport"
+                    Click="requestReportClicked"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    FontSize="16"
+                    Visibility="{Binding PatientInfoCheckViewModel.DiscardSelectedPatientVisible,
+                                    Source={x:Static viewModels:ViewModelLocator.Instance},
+                                    Converter={valueConverters:BooleanToVisiblityConverter}, 
+                                    ConverterParameter=True}"
+                    Panel.ZIndex="2"
+                    Style="{DynamicResource MaterialDesignRaisedButton}"
+                    materialDesign:ButtonProgressAssist.Value="-1"
+                    materialDesign:ButtonAssist.CornerRadius="4"
+                    ToolTip="This will open request report dialog"
+                    Padding="30 0"
+                    Margin="0 16 0 16"
+                    BorderBrush="Transparent"
+                    materialDesign:ButtonProgressAssist.IndicatorBackground="Transparent"
+                    materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
+                    materialDesign:ButtonProgressAssist.IsIndeterminate="True">
+                <StackPanel Orientation="Horizontal" Margin="8,0">
+                    <materialDesign:PackIcon Margin="0 2 6 0" Kind="Report" />
+                    <TextBlock FontWeight="Regular"
+                               FontSize="{StaticResource FontSizeForteen}">
+                        Request Report for this Patient
+                    </TextBlock>
+                </StackPanel>
+            </Button>
+
+            <RichTextBox x:Name="fp_textblock" Visibility="Collapsed" />
 
 
             <Rectangle HorizontalAlignment="Stretch"
@@ -149,7 +166,7 @@
 
 
             <TextBlock FontSize="{StaticResource FontSizeSixteen}"
-                       Foreground="{StaticResource WhiteBrush}"
+                       Foreground="{StaticResource TextDarkBrush}"
                        FontWeight="Normal"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
@@ -167,7 +184,7 @@
 
             <!--manual patient registration-->
             <Border Margin="30 6 "
-                    Background="{StaticResource LightRedBrush}"
+                    Background="{StaticResource LightBlueBrush}"
                     CornerRadius="8"
                     Padding="1 30 1 1">
 
@@ -217,7 +234,7 @@
 
             <!--,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,-->
             <TextBlock FontSize="{StaticResource FontSizeSixteen}"
-                       Foreground="{StaticResource WhiteBrush}"
+                       Foreground="{StaticResource TextDarkBrush}"
                        FontWeight="Normal"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
@@ -235,7 +252,7 @@
 
             <!--manual patient registration-->
             <Border Margin="30 6 "
-                    Background="{StaticResource LightRedBrush}"
+                    Background="{StaticResource LightBlueBrush}"
                     CornerRadius="8"
                     Padding="1 30 1 1">
 
@@ -264,7 +281,7 @@
                             </Grid.ColumnDefinitions>
 
                             <materialDesign:PackIcon x:Name="identification_icon" Kind="Category" Grid.Column="0"
-                                                     Foreground="{Binding ElementName=identification_name, Path=BorderBrush}"
+                                                     Foreground="{Binding ElementName=SearchField, Path=BorderBrush}"
                                                      VerticalAlignment="Bottom" Margin=" 0 0 6 6" />
                             <TextBox x:Name="SearchField"
                                      Grid.Column="1"
@@ -290,7 +307,7 @@
 
                             <materialDesign:PackIcon x:Name="Combo_icon" Kind="FormatListBulletedType"
                                                      Grid.Column="0"
-                                                     Foreground="{Binding ElementName=ComboBox1, Path=BorderBrush}"
+                                                     Foreground="{Binding ElementName=SearchCriteria, Path=BorderBrush}"
                                                      VerticalAlignment="Bottom" Margin=" 0 0 6 10" />
 
                             <ComboBox FontSize="{StaticResource FontSizeSixteen}"
@@ -344,7 +361,7 @@
 
 
             <TextBlock FontSize="{StaticResource FontSizeSixteen}"
-                       Foreground="{StaticResource WhiteBrush}"
+                       Foreground="{StaticResource TextDarkBrush}"
                        FontWeight="Normal"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
@@ -362,7 +379,7 @@
 
             <!--Auto patient registration helper-->
             <Border Margin="30 6 "
-                    Background="{StaticResource LightRedBrush}"
+                    Background="{StaticResource LightBlueBrush}"
                     CornerRadius="8"
                     Padding="1 30 1 1">
                 
@@ -389,10 +406,10 @@
                                              Grid.Column="0"
                                              Grid.Row="0"
                                              materialDesign:HintAssist.Hint="Scan patient fingerprint to identify (Auto detection)"
-                                             IconBackground="{StaticResource LightRedBrush}"
+                                             IconBackground="{StaticResource LightBlueBrush}"
                                              IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                             <materialDesign:Chip.Icon>
-                                <materialDesign:PackIcon Kind="Fingerprint" />
+                                <materialDesign:PackIcon Kind="Fingerprint" Foreground="Black" />
                             </materialDesign:Chip.Icon>
                         </materialDesign:Chip>
 
@@ -415,10 +432,10 @@
                                              Grid.Column="0"
                                              Grid.Row="2"
                                              materialDesign:HintAssist.Hint="Scan patient fingerprint to identify (Auto detection)"
-                                             IconBackground="{StaticResource LightRedBrush}"
+                                             IconBackground="{StaticResource LightBlueBrush}"
                                              IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                             <materialDesign:Chip.Icon>
-                                <materialDesign:PackIcon Kind="QrcodeScan" />
+                                <materialDesign:PackIcon Kind="QrcodeScan" Foreground="Black"/>
                             </materialDesign:Chip.Icon>
                         </materialDesign:Chip>
 
@@ -440,10 +457,10 @@
                                              Grid.Column="0"
                                              Grid.Row="4"
                                              materialDesign:HintAssist.Hint="Scan patient fingerprint to identify (Auto detection)"
-                                             IconBackground="{StaticResource LightRedBrush}"
+                                             IconBackground="{StaticResource LightBlueBrush}"
                                              IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                             <materialDesign:Chip.Icon>
-                                <materialDesign:PackIcon Kind="QrcodeEdit" />
+                                <materialDesign:PackIcon Kind="QrcodeEdit" Foreground="Black" />
                             </materialDesign:Chip.Icon>
                         </materialDesign:Chip>
 

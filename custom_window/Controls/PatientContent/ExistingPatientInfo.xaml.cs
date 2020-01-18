@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using custom_window.Core;
 using custom_window.HelperClasses;
+using custom_window.HelperClasses.ApplicationScope;
 using MaterialDesignThemes.Wpf;
+using Oracle.ManagedDataAccess.Client;
+using Hospital = custom_window.HelperClasses.DataModels.Hospital;
 
 namespace custom_window.Controls.PatientContent
 {
@@ -30,112 +35,18 @@ namespace custom_window.Controls.PatientContent
             fingerPrints = new List<string>();
         }
 
-        private void OnCaptureCallBackEvents(string templateString, byte[] template)
+        #region garbage
+
+        private void voucher_OnGotFocus(object sender, RoutedEventArgs e)
         {
-            if (AddFingerPrintSection.Visibility != Visibility.Visible) return;
-            
-
-            Console.WriteLine("existing window Joaa");
-            if (fingerPrints.Count == 0)
-            {
-                fingerPrints.Add(templateString);
-                if (Dispatcher != null)
-                    Dispatcher.Invoke(() =>
-                    {
-                        lt.IsChecked = true;
-                        IoC.Get<PatientInfoCheckViewModel>().visibleStateOne = false;
-                    });
-            }
-            else if (fingerPrints.Count < 4)
-            {
-                var isMatchedAny = false;
-                foreach (var print in fingerPrints.ToList())
-                {
-                    var isFingerPrintMatch = FingerprintHelper.GetInstance().isFingerPrintMatch(print, templateString);
-                    if (isFingerPrintMatch)
-                    {
-                        isMatchedAny = true;
-                    }
-                }
-
-                if (!isMatchedAny)
-                {
-                    fingerPrints.Add(templateString);
-                    if (fingerPrints.Count == 2)
-                    {
-                        Dispatcher.Invoke(() =>
-                        {
-                            li.IsChecked = true;
-                            IoC.Get<PatientInfoCheckViewModel>().visibleStateTwo = false;
-                        });
-                    }
-                    else if (fingerPrints.Count == 3)
-                    {
-                        Dispatcher.Invoke(() =>
-                        {
-                            rt.IsChecked = true;
-                            IoC.Get<PatientInfoCheckViewModel>().visibleStateThree = false;
-                        });
-                    }
-                    else
-                    {
-                        Dispatcher.Invoke(() =>
-                        {
-                            ri.IsChecked = true;
-                            IoC.Get<PatientInfoCheckViewModel>().visibleStateFour = false;
-                        });
-                    }
-                }
-                else
-                {
-                    if (Dispatcher != null)
-                        Dispatcher.Invoke(() =>
-                        {
-                            errorText.Visibility = Visibility.Visible;
-                            errorText.Text = "Same fingerprint given twice";
-                        });
-                    Console.WriteLine("Same fingerprint given twice");
-                }
-            }
-            else
-            {
-                if (Dispatcher != null)
-                    Dispatcher.Invoke(() =>
-                    {
-                        errorText.Visibility = Visibility.Visible;
-                        errorText.Text = "Already 4 fingerprint is taken...";
-                    });
-            }
+            var hosNameIcon = (PackIcon) this.FindName("voucherIcon");
+            hosNameIcon.Foreground = Brushes.DodgerBlue;
         }
 
-        private void skipBtnClicked(object sender, RoutedEventArgs e)
+        private void voucher_OnLostFocus(object sender, RoutedEventArgs e)
         {
-            errorText.Visibility = Visibility.Collapsed;
-            IoC.Get<PatientInfoCheckViewModel>().selectPatient(null, null);
-
-            if (IoC.Get<PatientInfoCheckViewModel>().addFinger)
-            {
-                AddFingerprintBtn.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                AddFingerprintBtn.Visibility = Visibility.Collapsed;
-            }
-
-            IoC.Get<PatientInfoCheckViewModel>().NullWindowData();
-            NullifyAllFinger();
-
-            AddFingerPrintSection.Visibility = Visibility.Collapsed;
-            UpdateFingerprintBtn.Visibility = Visibility.Collapsed;
-
-            IoC.Get<PatientInfoCheckViewModel>().HidePatientInfo();
-        }
-
-        private void acknowledgeBtnClicked(object sender, RoutedEventArgs e)
-        {
-            errorText.Visibility = Visibility.Collapsed;
-            IoC.Get<PatientInfoCheckViewModel>().NullWindowData();
-            IoC.Get<PatientInfoCheckViewModel>().HidePatientInfo();
+            var hosNameIcon = (PackIcon) this.FindName("voucherIcon");
+            hosNameIcon.Foreground = Brushes.Gray;
         }
 
         private void Lt_OnClick(object sender, RoutedEventArgs e)
@@ -206,6 +117,121 @@ namespace custom_window.Controls.PatientContent
             }
         }
 
+        #endregion
+
+        private void OnCaptureCallBackEvents(string templateString, byte[] template)
+        {
+            if (AddFingerPrintSection.Visibility != Visibility.Visible) return;
+
+
+            Console.WriteLine("existing window Joaa");
+            if (fingerPrints.Count == 0)
+            {
+                fingerPrints.Add(templateString);
+                if (Dispatcher != null)
+                    Dispatcher.Invoke(() =>
+                    {
+                        lt.IsChecked = true;
+                        IoC.Get<PatientInfoCheckViewModel>().visibleStateOne = false;
+                    });
+            }
+            else if (fingerPrints.Count < 4)
+            {
+                var isMatchedAny = false;
+                foreach (var print in fingerPrints.ToList())
+                {
+                    var isFingerPrintMatch = FingerprintHelper.GetInstance().isFingerPrintMatch(print, templateString);
+                    if (isFingerPrintMatch)
+                    {
+                        isMatchedAny = true;
+                    }
+                }
+
+                if (!isMatchedAny)
+                {
+                    fingerPrints.Add(templateString);
+                    if (fingerPrints.Count == 2)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            li.IsChecked = true;
+                            IoC.Get<PatientInfoCheckViewModel>().visibleStateTwo = false;
+                        });
+                    }
+                    else if (fingerPrints.Count == 3)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            rt.IsChecked = true;
+                            IoC.Get<PatientInfoCheckViewModel>().visibleStateThree = false;
+                        });
+                    }
+                    else
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            ri.IsChecked = true;
+                            IoC.Get<PatientInfoCheckViewModel>().visibleStateFour = false;
+                        });
+                    }
+                }
+                else
+                {
+                    if (Dispatcher != null)
+                        Dispatcher.Invoke(() =>
+                        {
+                            errorText.Foreground = new SolidColorBrush(Colors.Red);
+                            errorText.Visibility = Visibility.Visible;
+                            errorText.Text = "Same fingerprint given twice";
+                        });
+                    Console.WriteLine("Same fingerprint given twice");
+                }
+            }
+            else
+            {
+                if (Dispatcher != null)
+                    Dispatcher.Invoke(() =>
+                    {
+                        errorText.Foreground = new SolidColorBrush(Colors.Red);
+                        errorText.Visibility = Visibility.Visible;
+                        errorText.Text = "Already 4 fingerprint is taken...";
+                    });
+            }
+        }
+
+        private void skipBtnClicked(object sender, RoutedEventArgs e)
+        {
+            errorText.Text = "";
+            errorText.Visibility = Visibility.Hidden;
+            IoC.Get<PatientInfoCheckViewModel>().selectPatient(null, null);
+
+            if (IoC.Get<PatientInfoCheckViewModel>().addFinger)
+            {
+                AddFingerprintBtn.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                AddFingerprintBtn.Visibility = Visibility.Collapsed;
+            }
+
+            IoC.Get<PatientInfoCheckViewModel>().NullWindowData();
+            NullifyAllFinger();
+
+            AddFingerPrintSection.Visibility = Visibility.Collapsed;
+            UpdateFingerprintBtn.Visibility = Visibility.Collapsed;
+
+            IoC.Get<PatientInfoCheckViewModel>().HidePatientInfo();
+        }
+
+        private void acknowledgeBtnClicked(object sender, RoutedEventArgs e)
+        {
+            errorText.Text = "";
+            errorText.Visibility = Visibility.Hidden;
+            //IoC.Get<PatientInfoCheckViewModel>().NullWindowData();
+            IoC.Get<PatientInfoCheckViewModel>().HidePatientInfo();
+        }
+
+
         private void DiscardFingerPrintClicked(object sender, RoutedEventArgs e)
         {
             NullifyAllFinger();
@@ -229,11 +255,13 @@ namespace custom_window.Controls.PatientContent
         {
             UpdateFingerprintBtn.IsEnabled = false;
             ButtonProgressAssist.SetIsIndicatorVisible(UpdateFingerprintBtn, true);
-            errorText.Visibility = Visibility.Collapsed;
+            errorText.Text = "";
+            errorText.Visibility = Visibility.Hidden;
 
             //validate finger print 
             if (fingerPrints.Count < 4) //four finger print data
             {
+                errorText.Foreground = new SolidColorBrush(Colors.Red);
                 errorText.Visibility = Visibility.Visible;
                 errorText.Text = "Please add all four fingerPrints...";
                 ButtonProgressAssist.SetIsIndicatorVisible(UpdateFingerprintBtn, false);
@@ -249,6 +277,7 @@ namespace custom_window.Controls.PatientContent
                     var PatientFour = await CloudFirestoreService.GetInstance().FindPatientByFingerprint(print);
                     if (PatientFour != null)
                     {
+                        errorText.Foreground = new SolidColorBrush(Colors.Red);
                         errorText.Visibility = Visibility.Visible;
                         errorText.Text = "One of the fingerprint is associated with a patient...";
                         ButtonProgressAssist.SetIsIndicatorVisible(UpdateFingerprintBtn, false);
@@ -259,6 +288,7 @@ namespace custom_window.Controls.PatientContent
             }
             catch (Exception exception)
             {
+                errorText.Foreground = new SolidColorBrush(Colors.Red);
                 errorText.Visibility = Visibility.Visible;
                 errorText.Text = exception.Message;
                 Console.WriteLine(exception);
@@ -277,7 +307,8 @@ namespace custom_window.Controls.PatientContent
                     "Dear " + IoC.Get<PatientInfoCheckViewModel>().name + "your fingerprint have been updated..");
 
                 //hide update section
-                errorText.Visibility = Visibility.Collapsed;
+                errorText.Text = "";
+                errorText.Visibility = Visibility.Hidden;
                 ButtonProgressAssist.SetIsIndicatorVisible(UpdateFingerprintBtn, false);
                 UpdateFingerprintBtn.IsEnabled = true;
                 UpdateFingerprintBtn.Visibility = Visibility.Collapsed;
@@ -285,6 +316,7 @@ namespace custom_window.Controls.PatientContent
             }
             catch (Exception exception)
             {
+                errorText.Foreground = new SolidColorBrush(Colors.Red);
                 errorText.Visibility = Visibility.Visible;
                 errorText.Text = exception.Message;
                 ButtonProgressAssist.SetIsIndicatorVisible(UpdateFingerprintBtn, false);
@@ -322,5 +354,227 @@ namespace custom_window.Controls.PatientContent
                 patientImage.Source = bitmapImage;
             }
         }
+
+
+        private void generateVoucherBtnClicked(object sender, RoutedEventArgs e)
+        {
+            var random = new Random();
+            var voucher = "v" + random.Next(1000000, 9999999).ToString();
+            voucherID.Text = voucher;
+        }
+
+        public Boolean validateSimulation()
+        {
+            var patientInfoCheckViewModel = IoC.Get<PatientInfoCheckViewModel>();
+
+            if (toggleBili.IsChecked != null && toggleTsh.IsChecked != null && toggleCbc.IsChecked != null)
+            {
+                bool toggleBiliIsChecked = (bool) toggleBili.IsChecked;
+                bool toggleTshIsChecked = (bool) toggleTsh.IsChecked;
+                bool toggleCbcIsChecked = (bool) toggleCbc.IsChecked;
+
+                if (string.IsNullOrEmpty(patientName.Text) ||
+                    string.IsNullOrEmpty(voucherID.Text) ||
+                    (!toggleBiliIsChecked && !toggleTshIsChecked && !toggleCbcIsChecked))
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private async void SimulateReportRequest_OnClick(object sender, RoutedEventArgs e)
+        {
+            ButtonProgressAssist.SetIsIndicatorVisible(simulateReportRequest, true);
+
+            if (validateSimulation())
+            {
+                errorText.Visibility = Visibility.Hidden;
+                errorText.Text = "";
+                //TODO sumon vai database ae voucher vhorbe
+                var pat = IoC.Get<PatientInfoCheckViewModel>();
+
+
+                CancellationToken cancellationToken = new CancellationToken(false);
+                Hospital hospital = await ApplicationData.Instance.GetUserHospital(cancellationToken);
+                var hospitalName = hospital.hospitalName;
+                var hospitalId = hospital.registrationNumber;
+
+                var birthYear = pat.birth.Substring(0, 4);
+                var today = DateTime.Today;
+                var age = 24;
+                var testType = "sb";
+                try
+                {
+                    age = today.Year - Int32.Parse(birthYear);
+                }
+                catch (Exception err)
+                {
+                    age = 24;
+                }
+                // Go back to the year the person was born in case of a leap year
+                //if (birthdate.Date > today.AddYears(-age)) age--;
+
+                if (toggleBili.IsChecked != null && toggleTsh.IsChecked != null && toggleCbc.IsChecked != null)
+                {
+                    bool toggleBiliIsChecked = (bool) toggleBili.IsChecked;
+                    bool toggleTshIsChecked = (bool) toggleTsh.IsChecked;
+                    bool toggleCbcIsChecked = (bool) toggleCbc.IsChecked;
+
+                    if (toggleBiliIsChecked && toggleTshIsChecked && toggleCbcIsChecked)
+                        testType = "sb,tsh,cbc";
+                    else if (toggleBiliIsChecked && toggleTshIsChecked)
+                        testType = "sb,tsh";
+                    else if (toggleTshIsChecked && toggleCbcIsChecked)
+                        testType = "tsh,cbc";
+                    else if (toggleBiliIsChecked && toggleCbcIsChecked)
+                        testType = "sb,cbc";
+                    else if (toggleBiliIsChecked)
+                        testType = "sb";
+                    else if (toggleTshIsChecked)
+                        testType = "tsh";
+                    else if (toggleCbcIsChecked)
+                        testType = "cbc";
+                    else
+                        testType = "";
+                }
+
+                /*'{testType}'*/
+                /*specimen null*/
+                string sql =
+                    $"INSERT INTO AFIP.PATIENT_INFO VALUES('{voucherID.Text}','{hospitalName}','{pat.name}','{pat.phone}','Male',{age},'Self',null,null, null,'bm123', null,'{pat.email}')";
+
+
+                OracleConnection con = new OracleConnection();
+                // create connection string using builder
+                OracleConnectionStringBuilder ocsb = new OracleConnectionStringBuilder();
+
+                ocsb.UserID = "afip";
+                ocsb.Password = "pass";
+                ocsb.DataSource = "192.168.1.101:1521/orcl";
+
+                // connect
+                con.ConnectionString = ocsb.ConnectionString;
+                con.Open();
+                Console.WriteLine("Connection established (" + con.ServerVersion + ")");
+                OracleCommand cmd = con.CreateCommand();
+                cmd.CommandText = sql;
+                var executeNonQuery = cmd.ExecuteNonQuery();
+
+                Console.WriteLine("Connection executed (" + executeNonQuery + ")");
+
+                // Close and Dispose OracleConnection
+                con.Close();
+                con.Dispose();
+
+                errorText.Foreground = new SolidColorBrush(Colors.Green);
+                errorText.Visibility = Visibility.Visible;
+                errorText.Text = voucherID.Text + " is added to Local Database";
+            }
+            else
+            {
+                errorText.Foreground = new SolidColorBrush(Colors.Red);
+                errorText.Visibility = Visibility.Visible;
+                errorText.Text = "Either Patient, voucher or report type isn't selected...";
+            }
+
+            ButtonProgressAssist.SetIsIndicatorVisible(simulateReportRequest, false);
+        }
+
+        private void SimulateReportCreation_OnClick(object sender, RoutedEventArgs e)
+        {
+            ButtonProgressAssist.SetIsIndicatorVisible(simulateReportCreation, true);
+            //TODO sumon vai database ae report vhorbe
+
+
+            string reportSQL =
+                $"insert into tsh values('r123456','{voucherID.Text}','3.00,2.00,4.00')";
+
+
+            OracleConnection con = new OracleConnection();
+            // create connection string using builder
+            OracleConnectionStringBuilder ocsb = new OracleConnectionStringBuilder();
+
+            ocsb.UserID = "afip";
+            ocsb.Password = "pass";
+            ocsb.DataSource = "192.168.1.101:1521/orcl";
+
+            // connect
+            con.ConnectionString = ocsb.ConnectionString;
+            con.Open();
+            OracleCommand cmd = con.CreateCommand();
+            cmd.CommandText = reportSQL;
+            var executeNonQuery = cmd.ExecuteNonQuery();
+
+            Console.WriteLine("Connection executed (" + executeNonQuery + ")");
+
+            // Close and Dispose OracleConnection
+            con.Close();
+            con.Dispose();
+
+            if (toggleBili.IsChecked != null && toggleTsh.IsChecked != null && toggleCbc.IsChecked != null)
+            {
+                bool toggleBiliIsChecked = (bool) toggleBili.IsChecked;
+                bool toggleTshIsChecked = (bool) toggleTsh.IsChecked;
+                bool toggleCbcIsChecked = (bool) toggleCbc.IsChecked;
+
+                if (toggleBiliIsChecked && toggleTshIsChecked && toggleCbcIsChecked)
+                {
+                    errorText.Foreground = new SolidColorBrush(Colors.Green);
+                    errorText.Visibility = Visibility.Visible;
+                    errorText.Text = "Bilirubin, TSH & CBC report is added to Local Database";
+                }
+                else if (toggleBiliIsChecked && toggleTshIsChecked)
+                {
+                    errorText.Foreground = new SolidColorBrush(Colors.Green);
+                    errorText.Visibility = Visibility.Visible;
+                    errorText.Text = "Bilirubin & TSH report is added to Local Database";
+                }
+                else if (toggleTshIsChecked && toggleCbcIsChecked)
+                {
+                    errorText.Foreground = new SolidColorBrush(Colors.Green);
+                    errorText.Visibility = Visibility.Visible;
+                    errorText.Text = "Bilirubin & CBC report is added to Local Database";
+                }
+                else if (toggleBiliIsChecked && toggleCbcIsChecked)
+                {
+                    errorText.Foreground = new SolidColorBrush(Colors.Green);
+                    errorText.Visibility = Visibility.Visible;
+                    errorText.Text = "TSH & CBC report is added to Local Database";
+                }
+                else if (toggleBiliIsChecked)
+                {
+                    errorText.Foreground = new SolidColorBrush(Colors.Green);
+                    errorText.Visibility = Visibility.Visible;
+                    errorText.Text = "Bilirubin report is added to Local Database";
+                }
+                else if (toggleTshIsChecked)
+                {
+                    errorText.Foreground = new SolidColorBrush(Colors.Green);
+                    errorText.Visibility = Visibility.Visible;
+                    errorText.Text = "TSH report is added to Local Database";
+                }
+                else if (toggleCbcIsChecked)
+                {
+                    errorText.Foreground = new SolidColorBrush(Colors.Green);
+                    errorText.Visibility = Visibility.Visible;
+                    errorText.Text = "CBC report is added to Local Database";
+                }
+                else
+                {
+                    errorText.Foreground = new SolidColorBrush(Colors.Green);
+                    errorText.Visibility = Visibility.Visible;
+                    errorText.Text = "No report is selected";
+                }
+            }
+            ButtonProgressAssist.SetIsIndicatorVisible(simulateReportCreation, false);
+        }
     }
-    }
+}

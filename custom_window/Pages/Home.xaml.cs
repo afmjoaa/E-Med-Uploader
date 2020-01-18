@@ -71,7 +71,7 @@ namespace custom_window.Pages
         private void Combo_OnGotFocus(object sender, RoutedEventArgs e)
         {
             var hosNameIcon = (PackIcon) this.FindName("Combo_icon");
-            hosNameIcon.Foreground = Brushes.OrangeRed;
+            hosNameIcon.Foreground = Brushes.DodgerBlue;
         }
 
         private void Combo_OnLostFocus(object sender, RoutedEventArgs e)
@@ -83,7 +83,7 @@ namespace custom_window.Pages
         private void identification_OnGotFocus(object sender, RoutedEventArgs e)
         {
             var hosNameIcon = (PackIcon) this.FindName("identification_icon");
-            hosNameIcon.Foreground = Brushes.OrangeRed;
+            hosNameIcon.Foreground = Brushes.DodgerBlue;
         }
 
         private void identification_OnLostFocus(object sender, RoutedEventArgs e)
@@ -369,16 +369,13 @@ namespace custom_window.Pages
 
         private void DiscardSelectedPatientBtnClicked(object sender, RoutedEventArgs e)
         {
+            IoC.Get<PatientInfoCheckViewModel>().NullWindowData();
             IoC.Get<PatientInfoCheckViewModel>().selectPatient(null, null);
+        }
+
+        private void requestReportClicked(object sender, RoutedEventArgs e)
+        {
+            IoC.Get<PatientInfoCheckViewModel>().ShowNewOrOld(ContentType.ExistingPatientInfo);
         }
     }
 }
-/*fp_textblock.Dispatcher?.Invoke(() =>
-{
-    fp_textblock.Height = 500;
-    fp_textblock.Width = 400;
-    fp_textblock.Selection.Text = "\ntemplate: " + templateString;
-    Clipboard.SetText(templateString);
-});
-//this code save fingerPrint in the clipboard
-*/

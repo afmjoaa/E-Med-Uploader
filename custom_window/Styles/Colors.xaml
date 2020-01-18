@@ -17,8 +17,8 @@
     <Color x:Key="White">#ffffff</Color>
     <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}"/>
 
-    <Color x:Key="LightRed">#ff8a80</Color>
-    <SolidColorBrush x:Key="LightRedBrush" Color="{StaticResource LightRed}"/>
+    <Color x:Key="LightBlue">#bbdefb</Color>
+    <SolidColorBrush x:Key="LightBlueBrush" Color="{StaticResource LightBlue}"/>
 
     <Color x:Key="HeaderGray">#F1F1F1</Color>
     <SolidColorBrush x:Key="HeaderGrayBrush" Color="{StaticResource HeaderGray}"/>
@@ -39,19 +39,19 @@
     <SolidColorBrush x:Key="WordGreenBrush" Color="{StaticResource WordGreen}" /> 
 
     <!-- this is icon color gradient -->
-    <Color x:Key="RedDarkOne">#880e4f</Color>
+    <Color x:Key="RedDarkOne">#01579b</Color>
     <SolidColorBrush x:Key="RedDarkOneBrush" Color="{StaticResource RedDarkOne}" />
 
-    <Color x:Key="RedDarkTwo">#b71c1c</Color>
+    <Color x:Key="RedDarkTwo">#0277bd</Color>
     <SolidColorBrush x:Key="RedDarkTwoBrush" Color="{StaticResource RedDarkTwo}" />
 
-    <Color x:Key="RedDarkThree">#d32f2f</Color>
+    <Color x:Key="RedDarkThree">#0288d1</Color>
     <SolidColorBrush x:Key="RedDarkThreeBrush" Color="{StaticResource RedDarkThree}" />
 
-    <Color x:Key="RedDarkFour">#f44336</Color>
+    <Color x:Key="RedDarkFour">#039be5</Color>
     <SolidColorBrush x:Key="RedDarkFourBrush" Color="{StaticResource RedDarkFour}" />
 
-    <Color x:Key="RedDarkFive">#e57373</Color>
+    <Color x:Key="RedDarkFive">#03a9f4</Color>
     <SolidColorBrush x:Key="RedDarkFiveBrush" Color="{StaticResource RedDarkFive}" />
 
     <!-- this is text color -->
@@ -61,7 +61,7 @@
     <Color x:Key="TextLight">#777777</Color>
     <SolidColorBrush x:Key="TextLightBrush" Color="{StaticResource TextLight}" />
 
-    <Color x:Key="TextActive">#FF6347</Color>
+    <Color x:Key="TextActive">#1e88e5</Color>
     <SolidColorBrush x:Key="TextActiveBrush" Color="{StaticResource TextActive}" />
     
     <!-- auth color -->
@@ -88,5 +88,8 @@
 
     <Color x:Key="WordTransparent">#003099c5</Color>
     <SolidColorBrush x:Key="WordTransparentBrush" Color="{StaticResource WordTransparent}" />
+
+    <Color x:Key="WordLightBlue">#29b6f6</Color>
+    <SolidColorBrush x:Key="WordLightBlueBrush" Color="{StaticResource WordLightBlue}" />
 
 </ResourceDictionary>

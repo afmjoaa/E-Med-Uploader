@@ -30,7 +30,7 @@
                                     <ColumnDefinition Width="130" />
                                 </Grid.ColumnDefinitions>
 
-                                <Border Background="OrangeRed"
+                                <Border Background="DodgerBlue"
                                         Width="4"
                                         HorizontalAlignment="Left"
                                         Visibility="{Binding IsSelected, Converter={valueConverters:BooleanToVisiblityConverter}, ConverterParameter=True}" />
@@ -66,7 +66,7 @@
                                 <DataTrigger.EnterActions>
                                     <BeginStoryboard>
                                         <Storyboard>
-                                            <ColorAnimation To="OrangeRed"
+                                            <ColorAnimation To="RoyalBlue"
                                                             Duration="0:0:0.1"
                                                             Storyboard.TargetName="background"
                                                             Storyboard.TargetProperty="Background.Color" />

@@ -73,7 +73,7 @@ namespace custom_window.Pages
         private void Phone_number_GotFocus(object sender, RoutedEventArgs e)
         {
             var phoneNumberIcon = (PackIcon) this.FindName("phone_Num_ico");
-            phoneNumberIcon.Foreground = Brushes.OrangeRed;
+            phoneNumberIcon.Foreground = Brushes.DodgerBlue;
         }
 
         private void Phone_number_LostFocus(object sender, RoutedEventArgs e)
@@ -85,7 +85,7 @@ namespace custom_window.Pages
         private void Password_GotFocus(object sender, RoutedEventArgs e)
         {
             var phoneNumberIcon = (PackIcon) this.FindName("password_ico");
-            phoneNumberIcon.Foreground = Brushes.OrangeRed;
+            phoneNumberIcon.Foreground = Brushes.DodgerBlue;
         }
 
         private void Password_LostFocus(object sender, RoutedEventArgs e)
@@ -97,7 +97,7 @@ namespace custom_window.Pages
         private void Code_GotFocus(object sender, RoutedEventArgs e)
         {
             var phoneNumberIcon = (PackIcon) this.FindName("code_ico");
-            phoneNumberIcon.Foreground = Brushes.OrangeRed;
+            phoneNumberIcon.Foreground = Brushes.DodgerBlue;
         }
 
         private void Code_LostFocus(object sender, RoutedEventArgs e)

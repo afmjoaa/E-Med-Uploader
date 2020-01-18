@@ -23,17 +23,17 @@
 
             <Run FontFamily="{StaticResource FontAwesome}"
                  Text="{StaticResource NewPatient}"
-                 Foreground="{StaticResource WhiteBrush}" />
+                 Foreground="{StaticResource TextDarkBrush}" />
 
             <Run Text=" New Patient Registration"
                  FontWeight="Regular"
-                 Foreground="{StaticResource WhiteBrush}"
+                 Foreground="{StaticResource TextDarkBrush}"
                  FontFamily="{StaticResource DosisExtraLight}" />
         </TextBlock>
 
         <!--manual patient registration-->
         <Border Margin="20 0 20 10"
-                Background="{StaticResource LightRedBrush}"
+                Background="{StaticResource LightBlueBrush}"
                 CornerRadius="8"
                 Padding="1 50 1 1">
 
@@ -400,7 +400,7 @@
                                                          Foreground="{StaticResource TextDarkBrush}"
                                                          Margin="0 0 0 10"
                                                          ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed."
-                                                         IconBackground="{StaticResource LightRedBrush}"
+                                                         IconBackground="{StaticResource LightBlueBrush}"
                                                          IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                                         <materialDesign:Chip.Icon>
                                             <materialDesign:PackIcon Kind="Fingerprint" />
@@ -411,7 +411,7 @@
                                                          Margin="0 0 0 10"
                                                          ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed."
                                                          Foreground="{StaticResource TextDarkBrush}"
-                                                         IconBackground="{StaticResource LightRedBrush}"
+                                                         IconBackground="{StaticResource LightBlueBrush}"
                                                          IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                                         <materialDesign:Chip.Icon>
                                             <materialDesign:PackIcon Kind="Fingerprint" />
@@ -422,7 +422,7 @@
                                                          Margin="0 0 0 10"
                                                          ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed."
                                                          Foreground="{StaticResource TextDarkBrush}"
-                                                         IconBackground="{StaticResource LightRedBrush}"
+                                                         IconBackground="{StaticResource LightBlueBrush}"
                                                          IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                                         <materialDesign:Chip.Icon>
                                             <materialDesign:PackIcon Kind="Fingerprint" />
@@ -432,7 +432,7 @@
                                     <materialDesign:Chip Content="Right Index FingerPrint"
                                                          ToolTip="The Order of fingerPrint doesn't matter, just four different fingerPrint is needed."
                                                          Foreground="{StaticResource TextDarkBrush}"
-                                                         IconBackground="{StaticResource LightRedBrush}"
+                                                         IconBackground="{StaticResource LightBlueBrush}"
                                                          IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                                         <materialDesign:Chip.Icon>
                                             <materialDesign:PackIcon Kind="Fingerprint" />
@@ -590,7 +590,7 @@
                                         Content="   Discard &#10;Fingerprints"
                                         Width="100"
                                         Foreground="{StaticResource TextActiveBrush}"
-                                        FontWeight="SemiBold"
+                                        FontWeight="Bold"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
                                         Click="DiscardFingerPrintClicked"

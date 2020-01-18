@@ -55,7 +55,7 @@
     <Style TargetType="{x:Type Button}" x:Key="WindowCloseBtn" BasedOn="{StaticResource WindowControlBtn}">
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource LightRedBrush}" />
+                <Setter Property="Background" Value="{StaticResource LightBlueBrush}" />
                 <Setter Property="Foreground" Value="White" />
             </Trigger>
         </Style.Triggers>
