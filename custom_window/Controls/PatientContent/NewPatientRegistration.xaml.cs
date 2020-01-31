@@ -379,7 +379,7 @@ namespace custom_window.Controls.PatientContent
 
                 IoC.Get<PatientInfoCheckViewModel>().selectPatient(authLink.User.LocalId, vName.Text);
 
-                IoC.Get<PatientInfoCheckViewModel>().NullWindowData();
+                //IoC.Get<PatientInfoCheckViewModel>().NullWindowData();
                 NullifyAllFinger();
                 authLink = null;
                 errorText.Text = "";

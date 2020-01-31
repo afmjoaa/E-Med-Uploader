@@ -449,16 +449,16 @@ namespace custom_window.Controls.PatientContent
                 /*'{testType}'*/
                 /*specimen null*/
                 string sql =
-                    $"INSERT INTO AFIP.PATIENT_INFO VALUES('{voucherID.Text}','{hospitalName}','{pat.name}','{pat.phone}','Male',{age},'Self',null,null, null,'bm123', null,'{pat.email}')";
+                    $"INSERT INTO PATIENT_INFO VALUES('{voucherID.Text}','{hospitalName}','{pat.name}','{pat.phone}','Male',{age.ToString()},'Self','Blood',null, null,'bm123', null,'{pat.email}')";
 
 
                 OracleConnection con = new OracleConnection();
                 // create connection string using builder
                 OracleConnectionStringBuilder ocsb = new OracleConnectionStringBuilder();
 
-                ocsb.UserID = "afip";
+                ocsb.UserID = "appdev";
                 ocsb.Password = "pass";
-                ocsb.DataSource = "192.168.1.101:1521/orcl";
+                ocsb.DataSource = "localhost:1521/orcl";
 
                 // connect
                 con.ConnectionString = ocsb.ConnectionString;
@@ -491,89 +491,144 @@ namespace custom_window.Controls.PatientContent
         private void SimulateReportCreation_OnClick(object sender, RoutedEventArgs e)
         {
             ButtonProgressAssist.SetIsIndicatorVisible(simulateReportCreation, true);
-            //TODO sumon vai database ae report vhorbe
 
-
-            string reportSQL =
-                $"insert into tsh values('r123456','{voucherID.Text}','3.00,2.00,4.00')";
-
+            string reportSQL = $"insert into tsh values('r123456','{voucherID.Text}','3.00,2.00,4.00')";
 
             OracleConnection con = new OracleConnection();
-            // create connection string using builder
             OracleConnectionStringBuilder ocsb = new OracleConnectionStringBuilder();
-
-            ocsb.UserID = "afip";
+            ocsb.UserID = "appdev";
             ocsb.Password = "pass";
-            ocsb.DataSource = "192.168.1.101:1521/orcl";
-
-            // connect
+            ocsb.DataSource = "localhost:1521/orcl";
             con.ConnectionString = ocsb.ConnectionString;
             con.Open();
             OracleCommand cmd = con.CreateCommand();
-            cmd.CommandText = reportSQL;
-            var executeNonQuery = cmd.ExecuteNonQuery();
-
-            Console.WriteLine("Connection executed (" + executeNonQuery + ")");
-
-            // Close and Dispose OracleConnection
-            con.Close();
-            con.Dispose();
+           
 
             if (toggleBili.IsChecked != null && toggleTsh.IsChecked != null && toggleCbc.IsChecked != null)
             {
-                bool toggleBiliIsChecked = (bool) toggleBili.IsChecked;
-                bool toggleTshIsChecked = (bool) toggleTsh.IsChecked;
-                bool toggleCbcIsChecked = (bool) toggleCbc.IsChecked;
+                bool toggleBiliIsChecked = (bool)toggleBili.IsChecked;
+                bool toggleTshIsChecked = (bool)toggleTsh.IsChecked;
+                bool toggleCbcIsChecked = (bool)toggleCbc.IsChecked;
 
                 if (toggleBiliIsChecked && toggleTshIsChecked && toggleCbcIsChecked)
                 {
+                    //tsh
+                    reportSQL = $"INSERT INTO tsh VALUES('r123456','{voucherID.Text}','3.00,2.00,1.00')"; 
+                    cmd.CommandText = reportSQL;
+                    cmd.ExecuteNonQuery();
+
+                    //bilirubin
+                    reportSQL = $"INSERT INTO bilirubin VALUES('r123456','{voucherID.Text}','1.00')";
+                    cmd.CommandText = reportSQL;
+                    cmd.ExecuteNonQuery();
+
+                    //cbc
+                    reportSQL = $"INSERT INTO cbc VALUES('r123456','{voucherID.Text}','10.00,9.00,8.00,7.00,6.00,5.00,4.00,3.00,2.00,1.00')";
+                    cmd.CommandText = reportSQL;
+                    cmd.ExecuteNonQuery();
+
+
                     errorText.Foreground = new SolidColorBrush(Colors.Green);
                     errorText.Visibility = Visibility.Visible;
                     errorText.Text = "Bilirubin, TSH & CBC report is added to Local Database";
                 }
                 else if (toggleBiliIsChecked && toggleTshIsChecked)
                 {
+                    //tsh
+                    reportSQL = $"INSERT INTO tsh VALUES('r123456','{voucherID.Text}','3.00,2.00,1.00')";
+                    cmd.CommandText = reportSQL;
+                    cmd.ExecuteNonQuery();
+
+                    //bilirubin
+                    reportSQL = $"INSERT INTO bilirubin VALUES('r123456','{voucherID.Text}','1.00')";
+                    cmd.CommandText = reportSQL;
+                    cmd.ExecuteNonQuery();
+
+
                     errorText.Foreground = new SolidColorBrush(Colors.Green);
                     errorText.Visibility = Visibility.Visible;
                     errorText.Text = "Bilirubin & TSH report is added to Local Database";
                 }
                 else if (toggleTshIsChecked && toggleCbcIsChecked)
                 {
+                    //tsh
+                    reportSQL = $"INSERT INTO tsh VALUES('r123456','{voucherID.Text}','3.00,2.00,1.00')";
+                    cmd.CommandText = reportSQL;
+                    cmd.ExecuteNonQuery();
+
+
+                    //cbc
+                    reportSQL = $"INSERT INTO cbc VALUES('r123456','{voucherID.Text}','10.00,9.00,8.00,7.00,6.00,5.00,4.00,3.00,2.00,1.00')";
+                    cmd.CommandText = reportSQL;
+                    cmd.ExecuteNonQuery();
+
                     errorText.Foreground = new SolidColorBrush(Colors.Green);
                     errorText.Visibility = Visibility.Visible;
                     errorText.Text = "Bilirubin & CBC report is added to Local Database";
                 }
                 else if (toggleBiliIsChecked && toggleCbcIsChecked)
                 {
+                    //bilirubin
+                    reportSQL = $"INSERT INTO bilirubin VALUES('r123456','{voucherID.Text}','1.00')";
+                    cmd.CommandText = reportSQL;
+                    cmd.ExecuteNonQuery();
+
+                    //cbc
+                    reportSQL = $"INSERT INTO cbc VALUES('r123456','{voucherID.Text}','10.00,9.00,8.00,7.00,6.00,5.00,4.00,3.00,2.00,1.00')";
+                    cmd.CommandText = reportSQL;
+                    cmd.ExecuteNonQuery();
+
                     errorText.Foreground = new SolidColorBrush(Colors.Green);
                     errorText.Visibility = Visibility.Visible;
                     errorText.Text = "TSH & CBC report is added to Local Database";
                 }
                 else if (toggleBiliIsChecked)
                 {
+                    //bilirubin
+                    reportSQL = $"INSERT INTO bilirubin VALUES('r123456','{voucherID.Text}','1.00')";
+                    cmd.CommandText = reportSQL;
+                    cmd.ExecuteNonQuery();
+
                     errorText.Foreground = new SolidColorBrush(Colors.Green);
                     errorText.Visibility = Visibility.Visible;
                     errorText.Text = "Bilirubin report is added to Local Database";
                 }
                 else if (toggleTshIsChecked)
                 {
+                    //tsh
+                    reportSQL = $"INSERT INTO tsh VALUES('r123456','{voucherID.Text}','3.00,2.00,1.00')";
+                    cmd.CommandText = reportSQL;
+                    cmd.ExecuteNonQuery();
+
                     errorText.Foreground = new SolidColorBrush(Colors.Green);
                     errorText.Visibility = Visibility.Visible;
                     errorText.Text = "TSH report is added to Local Database";
                 }
                 else if (toggleCbcIsChecked)
                 {
+                    //cbc
+                    reportSQL = $"INSERT INTO cbc VALUES('r123456','{voucherID.Text}','10.00,9.00,8.00,7.00,6.00,5.00,4.00,3.00,2.00,1.00')";
+                    cmd.CommandText = reportSQL;
+                    cmd.ExecuteNonQuery();
+
                     errorText.Foreground = new SolidColorBrush(Colors.Green);
                     errorText.Visibility = Visibility.Visible;
                     errorText.Text = "CBC report is added to Local Database";
                 }
                 else
                 {
-                    errorText.Foreground = new SolidColorBrush(Colors.Green);
+                    errorText.Foreground = new SolidColorBrush(Colors.Red);
                     errorText.Visibility = Visibility.Visible;
                     errorText.Text = "No report is selected";
                 }
             }
+
+            //cmd.CommandText = reportSQL;
+            //cmd.ExecuteNonQuery();
+            //Console.WriteLine("Connection executed (" + executeNonQuery + ")");
+
+            con.Close();
+            con.Dispose();
             ButtonProgressAssist.SetIsIndicatorVisible(simulateReportCreation, false);
         }
     }

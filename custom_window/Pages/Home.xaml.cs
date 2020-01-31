@@ -85,7 +85,7 @@ namespace custom_window.Pages
             var hosNameIcon = (PackIcon) this.FindName("identification_icon");
             hosNameIcon.Foreground = Brushes.DodgerBlue;
         }
-
+        
         private void identification_OnLostFocus(object sender, RoutedEventArgs e)
         {
             var hosNameIcon = (PackIcon) this.FindName("identification_icon");
